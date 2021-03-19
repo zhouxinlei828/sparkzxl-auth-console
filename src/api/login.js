@@ -17,7 +17,6 @@ const userApi = {
 export function login(parameter) {
   const data = { ...parameter }
   data.grantType = 'password'
-  data.scope = 'all'
   return request({
     url: userApi.Login,
     method: 'post',
