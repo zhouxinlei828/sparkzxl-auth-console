@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/auth/oauth/token',
+  Login: '/auth/sso/token',
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
@@ -18,15 +18,10 @@ export function login(parameter) {
   const data = { ...parameter }
   data.grantType = 'password'
   data.scope = 'all'
-  delete data.tenant
   return request({
     url: userApi.Login,
     method: 'post',
     data: data,
-    headers: {
-      Authorization: 'Basic c3Bhcmt6eGw6MTIzNDU2',
-      'Content-Type': 'application/json',
-    },
   })
 }
 

@@ -8,8 +8,8 @@ import {
   removeTokenType,
   setAccessToken,
   setTokenType,
-  setTenant,
-  getTenant,
+  setRealm,
+  getRealm,
   getTokenType,
 } from '@/utils/accessToken'
 import { resetRouter } from '@/router'
@@ -19,7 +19,7 @@ import { timeFix } from '@/utils/util'
 const state = () => ({
   tokenType: getTokenType(),
   accessToken: getAccessToken(),
-  tenant: getTenant(),
+  realm: getRealm(),
   username: '',
   avatar: '',
   roles: [],
@@ -28,7 +28,7 @@ const state = () => ({
 const getters = {
   tokenType: (state) => state.tokenType,
   accessToken: (state) => state.accessToken,
-  tenant: (state) => state.tenant,
+  realm: (state) => state.realm,
   username: (state) => state.username,
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
@@ -43,9 +43,9 @@ const mutations = {
     state.tokenType = tokenType
     setTokenType(tokenType)
   },
-  setTenant(state, tenant) {
-    state.tenant = tenant
-    setTenant(tenant)
+  setRealm(state, realm) {
+    state.realm = realm
+    setRealm(realm)
   },
   setUsername(state, username) {
     state.username = username
@@ -66,31 +66,37 @@ const mutations = {
 const actions = {
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo)
-    const accessToken = data['access_token']
-    const refreshToken = data['refresh_token']
-    const tokenType = data['token_type']
-    const tenant = data['tenant']
+    const accessToken = data['accessToken']
+    const refreshToken = data['refreshToken']
+    const tokenType = data['tokenType']
+    const realm = data['realm']
+    const realmStatus = data['realmStatus']
     if (accessToken) {
       commit('setAccessToken', accessToken)
       setRefreshToken(refreshToken)
       commit('setTokenType', tokenType)
-      commit('setTenant', tenant)
-      const thisTime = timeFix()
-      Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
+      commit('setRealm', realm)
+      return {
+        loginStatus: true,
+        realmStatus: realmStatus,
+      }
     } else {
       Vue.prototype.$baseMessage(`登录接口异常，未正确返回token...`, 'error')
+      return {
+        loginStatus: false,
+      }
     }
   },
   async authLogin({ commit }, tokenData) {
     const accessToken = tokenData['accessToken']
     const refreshToken = tokenData['refreshToken']
     const tokenType = tokenData['tokenType']
-    const tenant = tokenData['tenant']
+    const realm = tokenData['realm']
     if (accessToken) {
       commit('setAccessToken', accessToken)
       setRefreshToken(refreshToken)
       commit('setTokenType', tokenType)
-      commit('setTenant', tenant)
+      commit('setRealm', realm)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return true
@@ -147,12 +153,12 @@ const actions = {
     const accessToken = responseData['access_token']
     const refreshToken = responseData['refresh_token']
     const tokenType = responseData['token_type']
-    const tenant = responseData['tenant']
+    const realm = responseData['realm']
     if (accessToken) {
       commit('setAccessToken', accessToken)
       setRefreshToken(refreshToken)
       commit('setTokenType', tokenType)
-      commit('setTenant', tenant)
+      commit('setRealm', realm)
       return true
     }
     return false

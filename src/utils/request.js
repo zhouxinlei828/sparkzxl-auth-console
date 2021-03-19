@@ -13,7 +13,7 @@ import {
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
-import { getTenant, getTokenType, getAccessToken } from '@/utils/accessToken'
+import { getRealm, getTokenType, getAccessToken } from '@/utils/accessToken'
 import { isArray } from '@/utils/validate'
 
 let loadingInstance
@@ -63,11 +63,11 @@ instance.interceptors.request.use(
         config.headers[tokenHeaderKey] = token
       }
     }
-    const tenantHeader = config.headers['tenant']
-    if (tenantHeader === undefined || tenantHeader === '') {
-      const tenant = getTenant()
-      if (tenant !== undefined && tenant !== null) {
-        config.headers['tenant'] = tenant
+    const realmHeader = config.headers['realm']
+    if (realmHeader === undefined || realmHeader === '') {
+      const realm = getRealm()
+      if (realm !== undefined && realm !== null) {
+        config.headers['realm'] = realm
       }
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

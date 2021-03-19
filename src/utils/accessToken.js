@@ -84,31 +84,31 @@ export function removeTokenType() {
   }
 }
 
-export function setTenant(tenant) {
+export function setRealm(realm) {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('realm', realm)
     } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('realm', realm)
     } else {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('realm', realm)
     }
   } else {
-    return localStorage.setItem('tenant', tenant)
+    return localStorage.setItem('realm', realm)
   }
 }
 
-export function getTenant() {
+export function getRealm() {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.getItem('tenant')
+      return localStorage.getItem('realm')
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem('tenant')
+      return sessionStorage.getItem('realm')
     } else {
-      return localStorage.getItem('tenant')
+      return localStorage.getItem('realm')
     }
   } else {
-    return localStorage.getItem('tenant')
+    return localStorage.getItem('realm')
   }
 }
 

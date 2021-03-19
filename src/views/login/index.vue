@@ -39,21 +39,21 @@
       </el-form>
     </div>
     <div class="form-container sign-in-container">
-      <el-form ref="ruleForm" :model="form" size="medium">
+      <el-form ref="ruleForm" :model="form" :rules="rules" size="medium">
         <div style="line-height: 40px">
           <img style="width: 40px; height: 40px" src="@/assets/logo.png" />
           <span style="font-size: 20px; font-weight: bold">Spark Auth</span>
           <br />
           <span>使用帐号登录</span>
         </div>
-        <el-form-item prop="label" required>
+        <el-form-item prop="username" required>
           <el-input
             v-model="form.username"
             placeholder="请输入账户或者手机号"
             class="edit-form-item"
           />
         </el-form-item>
-        <el-form-item required>
+        <el-form-item prop="password" required>
           <el-input
             v-model="form.password"
             type="password"
@@ -62,7 +62,9 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary">登 录</el-button>
+          <el-button size="small" type="primary" @click="handleLogin">
+            登 录
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -84,6 +86,10 @@
 </template>
 
 <script>
+  import { timeFix } from '@/utils/util'
+  import Vue from 'vue'
+  import { title } from '@/config/setting.config'
+
   export default {
     data() {
       return {
@@ -92,6 +98,14 @@
           password: null,
         },
         activeLogin: true,
+        rules: {
+          username: [
+            { required: true, message: '账户不能为空', trigger: 'blur' },
+          ],
+          password: [
+            { required: true, message: '密码不能为空', trigger: 'blur' },
+          ],
+        },
       }
     },
     methods: {
@@ -100,6 +114,40 @@
       },
       changeLogin() {
         this.activeLogin = true
+      },
+      handleLogin() {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            this.loading = true
+            this.$store
+              .dispatch('user/login', this.form)
+              .then((result) => {
+                if (result.loginStatus) {
+                  let routerPath
+                  if (result.realmStatus) {
+                    const thisTime = timeFix()
+                    Vue.prototype.$baseNotify(
+                      `欢迎登录${title}`,
+                      `${thisTime}！`
+                    )
+                    routerPath = '/console/pool'
+                  } else {
+                    routerPath =
+                      this.redirect === '/404' || this.redirect === '/401'
+                        ? '/'
+                        : this.redirect
+                  }
+                  this.$router.push(routerPath).catch(() => {})
+                  this.loading = false
+                }
+              })
+              .catch(() => {
+                this.loading = false
+              })
+          } else {
+            return false
+          }
+        })
       },
     },
   }
