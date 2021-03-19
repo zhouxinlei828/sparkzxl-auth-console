@@ -27,6 +27,9 @@ router.beforeResolve(async (to, from, next) => {
     if (to.path === '/login') {
       await store.dispatch('user/logout', to.path)
       if (progressBar) VabProgress.done()
+    }
+    if (routesWhiteList.indexOf(to.path) !== -1) {
+      next()
     } else {
       const hasRoles = store.getters['user/roles']
       if (hasRoles.length > 0) {

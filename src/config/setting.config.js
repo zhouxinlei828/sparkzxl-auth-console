@@ -31,7 +31,14 @@ const setting = {
   // 路由模式，可选值为 history 或 hash
   routerMode: 'history',
   //不经过token校验的路由
-  routesWhiteList: ['/login', '/register', '/404', '/401', '/jump'],
+  routesWhiteList: [
+    '/login',
+    '/register',
+    '/404',
+    '/401',
+    '/jump',
+    '/console/pool',
+  ],
   //加载时显示文字
   loadingText: '正在加载中...',
   //token名称
