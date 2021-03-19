@@ -57,7 +57,7 @@ instance.interceptors.request.use(
       accessToken !== ''
     ) {
       const token = getTokenType().concat(' ').concat(accessToken)
-      if (config.url === '/authorization/customLogout') {
+      if (config.url === '/auth/customLogout') {
         config.headers['token'] = token
       } else {
         config.headers[tokenHeaderKey] = token

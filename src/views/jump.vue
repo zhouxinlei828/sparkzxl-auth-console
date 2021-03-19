@@ -70,12 +70,11 @@
           await store.dispatch('user/logout')
         } else {
           console.log(responseData)
-          let result = await store.dispatch(
-            'user/authorizationLogin',
-            responseData
-          )
+          let result = await store.dispatch('user/authLogin', responseData)
           if (result) {
-            await this.$router.push('/index')
+            setTimeout(() => {
+              this.$router.push('/index')
+            }, 1000)
           }
         }
       },

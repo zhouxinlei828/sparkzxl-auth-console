@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
 const api = {
-  menuTree: '/authorization/menu/tree',
-  menuList: '/authorization/menu/list',
-  menuResource: '/authorization/resource/list',
-  saveMenu: '/authorization/menu/save',
-  updateMenu: '/authorization/menu/update',
-  deleteMenu: '/authorization/menu/delete',
-  saveResource: '/authorization/resource/save',
-  updateResource: '/authorization/resource/update',
-  deleteResource: '/authorization/resource/delete',
+  menuTree: '/auth/menu/tree',
+  menuList: '/auth/menu/list',
+  menuResource: '/auth/resource/list',
+  saveMenu: '/auth/menu/save',
+  updateMenu: '/auth/menu/update',
+  deleteMenu: '/auth/menu/delete',
+  saveResource: '/auth/resource/save',
+  updateResource: '/auth/resource/update',
+  deleteResource: '/auth/resource/delete',
 }
 
 export default api
@@ -58,7 +58,7 @@ export function deleteMenu(parameter) {
   return request({
     url: api.deleteMenu,
     method: 'delete',
-    params: parameter,
+    data: parameter,
   })
 }
 

@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
 const api = {
-  stationList: '/authorization/station/list',
-  stationPageList: '/authorization/station/page',
-  saveStation: '/authorization/station/save',
-  updateStation: '/authorization/station/update',
-  deleteStation: '/authorization/station/delete',
-  importStationData: '/authorization/station/import',
-  exportStationData: '/authorization/station/export',
+  stationList: '/auth/station/list',
+  stationPageList: '/auth/station/page',
+  saveStation: '/auth/station/save',
+  updateStation: '/auth/station/update',
+  deleteStation: '/auth/station/delete',
+  importStationData: '/auth/station/import',
+  exportStationData: '/auth/station/export',
 }
 
 export default api

@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
 const api = {
-  roleList: '/authorization/role/page',
-  saveRole: '/authorization/role/save',
-  updateRole: '/authorization/role/update',
-  deleteRole: '/authorization/role/delete',
-  roleUserList: '/authorization/role/user/list',
-  saveAuthRoleUser: '/authorization/role/user/save',
-  getResourceList: '/authorization/resource/list',
-  getRoleResource: '/authorization/role/resource',
-  saveRoleAuthority: '/authorization/role/authority/batch',
-  refreshAuthority: '/authorization/role/authority/refresh',
+  roleList: '/auth/role/page',
+  saveRole: '/auth/role/save',
+  updateRole: '/auth/role/update',
+  deleteRole: '/auth/role/delete',
+  roleUserList: '/auth/role/user/list',
+  saveAuthRoleUser: '/auth/role/user/save',
+  getResourceList: '/auth/resource/list',
+  getRoleResource: '/auth/role/resource',
+  saveRoleAuthority: '/auth/role/authority/batch',
+  refreshAuthority: '/auth/role/authority/refresh',
 }
 
 export default api

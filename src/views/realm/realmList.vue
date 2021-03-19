@@ -1,23 +1,23 @@
 <template>
   <div class="filter-container" style="padding-bottom: 0">
     <el-input
-      v-model="queryParam.appName"
+      v-model="queryParam.code"
       size="small"
       class="filter-item search-item"
-      placeholder="应用名称"
+      placeholder="领域池编码"
     />
     <el-input
-      v-model="queryParam.clientId"
+      v-model="queryParam.name"
       size="small"
       class="filter-item search-item"
-      placeholder="客户端id"
+      placeholder="领域池名称"
     />
     <el-button
       size="small"
       class="filter-item button-item"
       icon="search"
       type="primary"
-      @click="getApplicationPageList"
+      @click="getRealmList()"
     >
       查询
     </el-button>
@@ -29,14 +29,14 @@
           (this.queryParam = {
             pageNum: 1,
             pageSize: 10,
-            clientId: null,
-            appName: null,
+            code: null,
+            name: null,
           })
       "
     >
       重置
     </el-button>
-    <el-divider content-position="left">应用列表</el-divider>
+    <el-divider content-position="left">领域池列表</el-divider>
     <div class="filter-container">
       <el-button
         size="small"
@@ -71,29 +71,63 @@
         type="selection"
         width="40"
       ></el-table-column>
-      <el-table-column
-        prop="tenantName"
-        label="租户"
-        width="100"
-      ></el-table-column>
-      <el-table-column prop="name" label="应用"></el-table-column>
-      <el-table-column prop="appTypeName" label="应用类型"></el-table-column>
-      <el-table-column prop="icon" label="应用logo"></el-table-column>
-      <el-table-column prop="website" label="应用访问地址"></el-table-column>
-      <el-table-column prop="healthStatus" label="应用健康状态">
-        <template #default="{ row }">
-          <el-tag
-            v-if="row.healthCheck !== null"
-            :type="row.healthStatus === true ? 'success' : 'danger'"
-            disable-transitions
-          >
-            {{ row.healthStatus === true ? '健康' : '下线' }}
-          </el-tag>
-          <el-tag v-else type="warning" disable-transitions>未注册</el-tag>
+      <el-table-column type="expand" label="管理员" width="70">
+        <template slot-scope="props">
+          <el-form label-position="left" inline>
+            <el-form-item label="管理员账户:">
+              <el-tag type="success" disable-transitions>
+                {{ props.row.adminUser.account }}
+              </el-tag>
+            </el-form-item>
+            <el-form-item label="管理员密码:">
+              <el-tag type="warning" disable-transitions>
+                {{ props.row.adminUser.originalPassword }}
+              </el-tag>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="clientId" label="客户端"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间"></el-table-column>
+      <el-table-column
+        prop="code"
+        label="领域池编码"
+        width="100"
+      ></el-table-column>
+      <el-table-column
+        prop="name"
+        label="领域池名称"
+        width="150"
+      ></el-table-column>
+      <el-table-column prop="expirationTime" label="领域池有效期" width="130">
+        <template #default="{ row }">
+          <el-tag type="primary" disable-transitions>
+            {{ row.expirationTime === null ? '永久' : row.expirationTime }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="passwordExpire"
+        label="用户密码有效期/秒"
+        width="150"
+      ></el-table-column>
+      <el-table-column
+        prop="passwordErrorNum"
+        label="密码输错次数"
+      ></el-table-column>
+      <el-table-column prop="status" label="状态" width="80">
+        <template #default="{ row }">
+          <el-tag
+            :type="row.status === true ? 'primary' : 'success'"
+            disable-transitions
+          >
+            {{ row.status === true ? '正常' : '禁用' }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="180"
+      ></el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
           <el-link type="primary">
@@ -119,21 +153,18 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
-    <application-edit-form
-      ref="editForm"
-      @fetch-data="getApplicationPageList"
-    />
+    <realm-edit-form ref="editForm" @fetch-data="getRealmList" />
   </div>
 </template>
 
 <script>
   import moment from 'moment'
-  import ApplicationEditForm from './modules/ApplicationEditForm'
-  import { getApplicationPageList, deleteApplication } from '@/api/client'
+  import RealmEditForm from './modules/RealmEditForm'
+  import { getRealmPageList, deleteRealm } from '@/api/realm'
 
   export default {
     components: {
-      ApplicationEditForm,
+      RealmEditForm,
     },
     data() {
       return {
@@ -142,8 +173,8 @@
         queryParam: {
           pageNum: 1,
           pageSize: 10,
-          clientId: null,
-          appName: null,
+          code: null,
+          name: null,
         },
         layout: 'total, sizes, prev, pager, next, jumper',
         orgData: [],
@@ -153,7 +184,7 @@
       }
     },
     mounted() {
-      this.getApplicationPageList()
+      this.getRealmList()
     },
     methods: {
       handleSelectionChange(val) {
@@ -161,23 +192,23 @@
       },
       handleSizeChange(val) {
         this.queryParam.pageSize = val
-        this.getApplicationPageList()
+        this.getRealmList()
       },
       handleCurrentChange(val) {
         this.queryParam.pageNum = val
-        this.getApplicationPageList()
+        this.getRealmList()
       },
-      getApplicationPageList() {
+      async getRealmList() {
         this.tableLoading = true
-        const queryModel = {
+        const queryParam = {
           pageNum: this.queryParam.pageNum,
           pageSize: this.queryParam.pageSize,
           model: {
-            clientId: this.queryParam.clientId,
-            appName: this.queryParam.appName,
+            code: this.queryParam.code,
+            name: this.queryParam.name,
           },
         }
-        getApplicationPageList(queryModel).then((response) => {
+        getRealmPageList(queryParam).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
           this.stationData = result.list
@@ -201,66 +232,27 @@
         const createData = {
           id: null,
           name: null,
-          website: null,
-          icon: null,
-          appType: null,
-          healthCheck: null,
+          logo: null,
+          expirationTime: null,
+          passwordExpire: 7200,
+          passwordErrorNum: 5,
+          passwordErrorLockTime: 30,
+          status: '1',
           describe: null,
-          clientId: null,
-          clientSecret: null,
-          authorizedGrantTypes: [],
-          authorities: null,
-          resourceIds: null,
-          scope: null,
-          accessTokenValidity: 7200,
-          refreshTokenValidity: 864000,
-          webServerRedirectUri: null,
-          autoApprove: 'true',
-          additionalInformation: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
       handleEdit(record) {
-        let authorizedGrantTypes = []
-        let oauthClientDetail = record.oauthClientDetail
-        if (oauthClientDetail !== null) {
-          authorizedGrantTypes = oauthClientDetail.authorizedGrantTypes.split(
-            ','
-          )
-        } else {
-          oauthClientDetail = {
-            clientId: null,
-            clientSecret: null,
-            authorizedGrantTypes: [],
-            authorities: null,
-            resourceIds: null,
-            scope: null,
-            accessTokenValidity: 7200,
-            refreshTokenValidity: 864000,
-            webServerRedirectUri: null,
-            autoApprove: 'true',
-            additionalInformation: null,
-          }
-        }
         const data = {
           id: record.id,
           name: record.name,
-          website: record.website,
-          icon: record.icon,
-          appType: record.appType,
-          healthCheck: record.healthCheck,
+          logo: record.logo,
+          expirationTime: record.expirationTime,
+          passwordExpire: record.passwordExpire,
+          passwordErrorNum: record.passwordErrorNum,
+          passwordErrorLockTime: record.passwordErrorLockTime,
+          status: record.status === true ? '1' : '2',
           describe: record.describe,
-          clientId: oauthClientDetail.clientId,
-          clientSecret: record.originalClientSecret,
-          authorizedGrantTypes: authorizedGrantTypes,
-          authorities: oauthClientDetail.authorities,
-          resourceIds: oauthClientDetail.resourceIds,
-          scope: oauthClientDetail.scope,
-          accessTokenValidity: oauthClientDetail.accessTokenValidity,
-          refreshTokenValidity: oauthClientDetail.refreshTokenValidity,
-          webServerRedirectUri: oauthClientDetail.webServerRedirectUri,
-          autoApprove: oauthClientDetail.autoApprove,
-          additionalInformation: oauthClientDetail.additionalInformation,
         }
         this.$refs['editForm'].showDialog(data)
       },
@@ -281,14 +273,14 @@
         }
         return jsonArray
       },
-      handleDelete(id) {
-        deleteApplication({ ids: [id] }).then((response) => {
+      handleDelete(realmId) {
+        deleteRealm({ ids: [realmId] }).then((response) => {
           const responseData = response.data
           if (responseData) {
-            this.$message.success('删除应用成功')
-            this.getApplicationPageList()
+            this.$message.success('删除领域池成功')
+            this.getRealmList()
           } else {
-            this.$message.error('删除应用失败')
+            this.$message.error('删除领域池失败')
           }
         })
       },
@@ -300,13 +292,13 @@
             const parameter = {
               ids: ids,
             }
-            deleteApplication(parameter).then((response) => {
+            deleteRealm(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {
-                this.$message.success('删除应用成功')
-                this.getApplicationPageList()
+                this.$message.success('删除领域池成功')
+                this.getRealmList()
               } else {
-                this.$message.error('删除应用失败')
+                this.$message.error('删除领域池失败')
               }
             })
           })

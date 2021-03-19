@@ -81,7 +81,7 @@ const actions = {
       Vue.prototype.$baseMessage(`登录接口异常，未正确返回token...`, 'error')
     }
   },
-  async authorizationLogin({ commit }, tokenData) {
+  async authLogin({ commit }, tokenData) {
     const accessToken = tokenData['accessToken']
     const refreshToken = tokenData['refreshToken']
     const tokenType = tokenData['tokenType']

@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 const api = {
-  orgTree: '/authorization/org/tree',
-  saveOrg: '/authorization/org/save',
-  updateOrg: '/authorization/org/update',
-  deleteOrg: '/authorization/org/org/batch',
+  orgTree: '/auth/org/tree',
+  saveOrg: '/auth/org/save',
+  updateOrg: '/auth/org/update',
+  deleteOrg: '/auth/org/org/batch',
 }
 
 export default api

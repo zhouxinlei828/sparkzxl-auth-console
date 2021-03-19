@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
 const api = {
-  userPage: '/authorization/user/page',
-  userList: '/authorization/user/list',
-  exportExcelUser: '/authorization/user/export',
-  saveUser: '/authorization/user/save',
-  updateUser: '/authorization/user/update',
-  deleteUser: '/authorization/user/delete',
-  importUserData: '/authorization/user/importUserData',
+  userPage: '/auth/user/page',
+  userList: '/auth/user/list',
+  exportExcelUser: '/auth/user/export',
+  saveUser: '/auth/user/save',
+  updateUser: '/auth/user/update',
+  deleteUser: '/auth/user/delete',
+  importUserData: '/auth/user/importUserData',
 }
 
 export default api

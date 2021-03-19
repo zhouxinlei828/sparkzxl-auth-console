@@ -1,23 +1,23 @@
 <template>
   <div class="filter-container" style="padding-bottom: 0">
     <el-input
-      v-model="queryParam.code"
+      v-model="queryParam.appName"
       size="small"
       class="filter-item search-item"
-      placeholder="租户编码"
+      placeholder="应用名称"
     />
     <el-input
-      v-model="queryParam.name"
+      v-model="queryParam.clientId"
       size="small"
       class="filter-item search-item"
-      placeholder="租户名称"
+      placeholder="客户端id"
     />
     <el-button
       size="small"
       class="filter-item button-item"
       icon="search"
       type="primary"
-      @click="getTenantList()"
+      @click="getApplicationPageList"
     >
       查询
     </el-button>
@@ -29,14 +29,14 @@
           (this.queryParam = {
             pageNum: 1,
             pageSize: 10,
-            code: null,
-            name: null,
+            clientId: null,
+            appName: null,
           })
       "
     >
       重置
     </el-button>
-    <el-divider content-position="left">租户列表</el-divider>
+    <el-divider content-position="left">应用列表</el-divider>
     <div class="filter-container">
       <el-button
         size="small"
@@ -71,63 +71,29 @@
         type="selection"
         width="40"
       ></el-table-column>
-      <el-table-column type="expand" label="管理员" width="70">
-        <template slot-scope="props">
-          <el-form label-position="left" inline>
-            <el-form-item label="管理员账户:">
-              <el-tag type="success" disable-transitions>
-                {{ props.row.adminUser.account }}
-              </el-tag>
-            </el-form-item>
-            <el-form-item label="管理员密码:">
-              <el-tag type="warning" disable-transitions>
-                {{ props.row.adminUser.originalPassword }}
-              </el-tag>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
       <el-table-column
-        prop="code"
-        label="租户编码"
+        prop="realmName"
+        label="领域池"
         width="100"
       ></el-table-column>
-      <el-table-column
-        prop="name"
-        label="租户名称"
-        width="150"
-      ></el-table-column>
-      <el-table-column prop="expirationTime" label="租户有效期" width="130">
-        <template #default="{ row }">
-          <el-tag type="primary" disable-transitions>
-            {{ row.expirationTime === null ? '永久' : row.expirationTime }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="passwordExpire"
-        label="用户密码有效期/秒"
-        width="150"
-      ></el-table-column>
-      <el-table-column
-        prop="passwordErrorNum"
-        label="密码输错次数"
-      ></el-table-column>
-      <el-table-column prop="status" label="状态" width="80">
+      <el-table-column prop="name" label="应用"></el-table-column>
+      <el-table-column prop="appTypeName" label="应用类型"></el-table-column>
+      <el-table-column prop="icon" label="应用logo"></el-table-column>
+      <el-table-column prop="website" label="应用访问地址"></el-table-column>
+      <el-table-column prop="healthStatus" label="应用健康状态">
         <template #default="{ row }">
           <el-tag
-            :type="row.status === true ? 'primary' : 'success'"
+            v-if="row.healthCheck !== null"
+            :type="row.healthStatus === true ? 'success' : 'danger'"
             disable-transitions
           >
-            {{ row.status === true ? '正常' : '禁用' }}
+            {{ row.healthStatus === true ? '健康' : '下线' }}
           </el-tag>
+          <el-tag v-else type="warning" disable-transitions>未注册</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="180"
-      ></el-table-column>
+      <el-table-column prop="clientId" label="客户端"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
           <el-link type="primary">
@@ -153,18 +119,21 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
-    <tenant-edit-form ref="editForm" @fetch-data="getTenantList" />
+    <application-edit-form
+      ref="editForm"
+      @fetch-data="getApplicationPageList"
+    />
   </div>
 </template>
 
 <script>
   import moment from 'moment'
-  import TenantEditForm from './modules/TenantEditForm'
-  import { getTenantPageList, deleteTenant } from '@/api/tenant'
+  import ApplicationEditForm from './modules/ApplicationEditForm'
+  import { getApplicationPageList, deleteApplication } from '@/api/client'
 
   export default {
     components: {
-      TenantEditForm,
+      ApplicationEditForm,
     },
     data() {
       return {
@@ -173,8 +142,8 @@
         queryParam: {
           pageNum: 1,
           pageSize: 10,
-          code: null,
-          name: null,
+          clientId: null,
+          appName: null,
         },
         layout: 'total, sizes, prev, pager, next, jumper',
         orgData: [],
@@ -184,7 +153,7 @@
       }
     },
     mounted() {
-      this.getTenantList()
+      this.getApplicationPageList()
     },
     methods: {
       handleSelectionChange(val) {
@@ -192,23 +161,23 @@
       },
       handleSizeChange(val) {
         this.queryParam.pageSize = val
-        this.getTenantList()
+        this.getApplicationPageList()
       },
       handleCurrentChange(val) {
         this.queryParam.pageNum = val
-        this.getTenantList()
+        this.getApplicationPageList()
       },
-      async getTenantList() {
+      getApplicationPageList() {
         this.tableLoading = true
-        const queryParam = {
+        const queryModel = {
           pageNum: this.queryParam.pageNum,
           pageSize: this.queryParam.pageSize,
           model: {
-            code: this.queryParam.code,
-            name: this.queryParam.name,
+            clientId: this.queryParam.clientId,
+            appName: this.queryParam.appName,
           },
         }
-        getTenantPageList(queryParam).then((response) => {
+        getApplicationPageList(queryModel).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
           this.stationData = result.list
@@ -232,27 +201,66 @@
         const createData = {
           id: null,
           name: null,
-          logo: null,
-          expirationTime: null,
-          passwordExpire: 7200,
-          passwordErrorNum: 5,
-          passwordErrorLockTime: 30,
-          status: '1',
+          website: null,
+          icon: null,
+          appType: null,
+          healthCheck: null,
           describe: null,
+          clientId: null,
+          clientSecret: null,
+          authorizedGrantTypes: [],
+          authorities: null,
+          resourceIds: null,
+          scope: null,
+          accessTokenValidity: 7200,
+          refreshTokenValidity: 864000,
+          webServerRedirectUri: null,
+          autoApprove: 'true',
+          additionalInformation: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
       handleEdit(record) {
+        let authorizedGrantTypes = []
+        let oauthClientDetail = record.oauthClientDetail
+        if (oauthClientDetail !== null) {
+          authorizedGrantTypes = oauthClientDetail.authorizedGrantTypes.split(
+            ','
+          )
+        } else {
+          oauthClientDetail = {
+            clientId: null,
+            clientSecret: null,
+            authorizedGrantTypes: [],
+            authorities: null,
+            resourceIds: null,
+            scope: null,
+            accessTokenValidity: 7200,
+            refreshTokenValidity: 864000,
+            webServerRedirectUri: null,
+            autoApprove: 'true',
+            additionalInformation: null,
+          }
+        }
         const data = {
           id: record.id,
           name: record.name,
-          logo: record.logo,
-          expirationTime: record.expirationTime,
-          passwordExpire: record.passwordExpire,
-          passwordErrorNum: record.passwordErrorNum,
-          passwordErrorLockTime: record.passwordErrorLockTime,
-          status: record.status === true ? '1' : '2',
+          website: record.website,
+          icon: record.icon,
+          appType: record.appType,
+          healthCheck: record.healthCheck,
           describe: record.describe,
+          clientId: oauthClientDetail.clientId,
+          clientSecret: record.originalClientSecret,
+          authorizedGrantTypes: authorizedGrantTypes,
+          authorities: oauthClientDetail.authorities,
+          resourceIds: oauthClientDetail.resourceIds,
+          scope: oauthClientDetail.scope,
+          accessTokenValidity: oauthClientDetail.accessTokenValidity,
+          refreshTokenValidity: oauthClientDetail.refreshTokenValidity,
+          webServerRedirectUri: oauthClientDetail.webServerRedirectUri,
+          autoApprove: oauthClientDetail.autoApprove,
+          additionalInformation: oauthClientDetail.additionalInformation,
         }
         this.$refs['editForm'].showDialog(data)
       },
@@ -273,14 +281,14 @@
         }
         return jsonArray
       },
-      handleDelete(tenantId) {
-        deleteTenant({ ids: [tenantId] }).then((response) => {
+      handleDelete(id) {
+        deleteApplication({ ids: [id] }).then((response) => {
           const responseData = response.data
           if (responseData) {
-            this.$message.success('删除租户成功')
-            this.getTenantList()
+            this.$message.success('删除应用成功')
+            this.getApplicationPageList()
           } else {
-            this.$message.error('删除租户失败')
+            this.$message.error('删除应用失败')
           }
         })
       },
@@ -292,13 +300,13 @@
             const parameter = {
               ids: ids,
             }
-            deleteTenant(parameter).then((response) => {
+            deleteApplication(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {
-                this.$message.success('删除租户成功')
-                this.getTenantList()
+                this.$message.success('删除应用成功')
+                this.getApplicationPageList()
               } else {
-                this.$message.error('删除租户失败')
+                this.$message.error('删除应用失败')
               }
             })
           })

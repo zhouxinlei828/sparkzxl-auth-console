@@ -25,7 +25,7 @@
             <el-input
               v-model.trim="form.tenant"
               v-focus
-              placeholder="请输入租户编码"
+              placeholder="请输入领域池编码"
               tabindex="1"
               type="text"
             />

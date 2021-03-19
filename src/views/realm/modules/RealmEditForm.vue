@@ -12,10 +12,10 @@
       :rules="rules"
       label-width="140px"
     >
-      <el-form-item label="租户名称:" prop="name" required>
+      <el-form-item label="领域池名称:" prop="name" required>
         <el-input v-model="form.name" class="edit-form-item" />
       </el-form-item>
-      <el-form-item label="租户logo:" prop="logo">
+      <el-form-item label="领域池logo:" prop="logo">
         <el-input v-model="form.logo" class="edit-form-item" />
       </el-form-item>
       <el-form-item label="有效期:" prop="expirationTime">
@@ -71,7 +71,7 @@
         <el-radio v-model="form.status" label="1">启用</el-radio>
         <el-radio v-model="form.status" label="2">禁用</el-radio>
       </el-form-item>
-      <el-form-item label="租户简介:" prop="describe">
+      <el-form-item label="领域池简介:" prop="describe">
         <el-input
           v-model="form.describe"
           type="textarea"
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-  import { saveTenant, updateTenant } from '@/api/tenant'
+  import { saveRealm, updateRealm } from '@/api/realm'
 
   export default {
     data() {
@@ -137,7 +137,7 @@
         },
         rules: {
           name: [
-            { required: true, message: '租户名称不能为空', trigger: 'blur' },
+            { required: true, message: '领域池名称不能为空', trigger: 'blur' },
           ],
           status: [
             { required: true, message: '状态不能为空', trigger: 'blur' },
@@ -149,9 +149,9 @@
     methods: {
       showDialog(data) {
         if (data.id !== undefined && data.id !== null) {
-          this.title = '修改租户'
+          this.title = '修改领域池'
         } else {
-          this.title = '新增租户'
+          this.title = '新增领域池'
         }
         this.dialogFormVisible = true
         this.form = data
@@ -167,24 +167,24 @@
             submitData.status = status
             console.log(submitData)
             if (submitData.id === null) {
-              saveTenant(submitData).then((response) => {
+              saveRealm(submitData).then((response) => {
                 const responseData = response.data
                 if (responseData) {
-                  this.$message.success('新增租户成功')
+                  this.$message.success('新增领域池成功')
                   this.resetForm()
                 } else {
-                  this.$message.error('新增租户失败')
+                  this.$message.error('新增领域池失败')
                 }
               })
             } else {
               submitData.id = this.form.id
-              updateTenant(submitData).then((response) => {
+              updateRealm(submitData).then((response) => {
                 const responseData = response.data
                 if (responseData) {
-                  this.$message.success('修改租户成功')
+                  this.$message.success('修改领域池成功')
                   this.resetForm()
                 } else {
-                  this.$message.error('修改租户失败')
+                  this.$message.error('修改领域池失败')
                 }
               })
             }

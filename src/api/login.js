@@ -1,17 +1,17 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/authorization/oauth/token',
-  Logout: '/authorization/logout',
-  ForgePassword: '/authorization/forge-password',
-  Register: '/authorization/register',
-  getCaptcha: '/authorization/oauth/captcha',
-  authorizeCodeBack: '/authorization/oauth/callBack',
+  Login: '/auth/oauth/token',
+  Logout: '/auth/logout',
+  ForgePassword: '/auth/forge-password',
+  Register: '/auth/register',
+  getCaptcha: '/auth/oauth/captcha',
+  authorizeCodeBack: '/auth/oauth/callBack',
   SendSmsErr: '/account/sms_err',
-  userInfo: '/authorization/user/userinfo',
-  logout: '/authorization/customLogout',
-  authorizeUrl: '/authorization/oauth/getAuthorizeUrl',
-  userRouters: '/authorization/user/routers',
+  userInfo: '/auth/user/userinfo',
+  logout: '/auth/customLogout',
+  authorizeUrl: '/auth/oauth/getAuthorizeUrl',
+  userRouters: '/auth/user/routers',
 }
 
 export function login(parameter) {
