@@ -1,230 +1,309 @@
 <template>
-  <div class="login-container">
-    <el-row>
-      <el-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
-        <div style="color: transparent">占位符</div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-        <el-form
-          ref="form"
-          :model="form"
-          :rules="rules"
-          class="login-form"
-          label-position="left"
-        >
-          <div class="title">hello !</div>
-          <div class="title-tips">欢迎来到{{ title }}！</div>
-          <el-form-item style="margin-top: 40px" prop="tenant">
-            <span class="svg-container">
-              <IconFont
-                slot="prefix"
-                type="icon-lingyufenxi"
-                :style="{ color: 'rgba(0,0,0,.25)' }"
-              />
-            </span>
-            <el-input
-              v-model.trim="form.tenant"
-              v-focus
-              placeholder="请输入领域池编码"
-              tabindex="1"
-              type="text"
-            />
-          </el-form-item>
-          <el-form-item prop="username">
-            <span class="svg-container svg-container-admin">
-              <vab-icon :icon="['fas', 'user']" />
-            </span>
-            <el-input
-              v-model.trim="form.username"
-              v-focus
-              placeholder="请输入用户名"
-              tabindex="1"
-              type="text"
-            />
-          </el-form-item>
-          <el-form-item prop="password">
-            <span class="svg-container">
-              <vab-icon :icon="['fas', 'lock']" />
-            </span>
-            <el-input
-              :key="passwordType"
-              ref="password"
-              v-model.trim="form.password"
-              :type="passwordType"
-              tabindex="2"
-              placeholder="请输入密码"
-              @keyup.enter.native="handleLogin"
-            />
-            <span
-              v-if="passwordType === 'password'"
-              class="show-password"
-              @click="handlePassword"
-            >
-              <vab-icon :icon="['fas', 'eye-slash']"></vab-icon>
-            </span>
-            <span v-else class="show-password" @click="handlePassword">
-              <vab-icon :icon="['fas', 'eye']"></vab-icon>
-            </span>
-          </el-form-item>
-          <el-form-item prop="captchaCode">
-            <span class="svg-container">
-              <IconFont
-                slot="prefix"
-                type="icon-yanzhengma1"
-                :style="{ color: 'rgba(0,0,0,.25)' }"
-              />
-            </span>
-            <el-input
-              v-model.trim="form.captchaCode"
-              v-focus
-              placeholder="请输入验证码"
-              tabindex="3"
-              style="width: 50%"
-              type="text"
-            />
-            <el-link :underline="false">
-              <img :src="captcha.data" @click="getOauthCaptcha" />
-            </el-link>
-          </el-form-item>
-          <el-button
-            :loading="loading"
-            class="login-btn"
-            type="primary"
-            @click="handleLogin"
-          >
-            登录
-          </el-button>
-          <router-link to="/register">
-            <div style="margin-top: 20px">注册</div>
-          </router-link>
-        </el-form>
-      </el-col>
-    </el-row>
+  <div
+    id="dowebok"
+    :class="activeLogin !== true ? 'dowebok' : 'dowebok right-panel-active'"
+  >
+    <div class="form-container sign-up-container">
+      <form action="#">
+        <div>
+          <img style="width: 40px; height: 40px" src="@/assets/logo.png" />
+          <span style="font-size: 20px; font-weight: bold">
+            欢迎加入Spark Auth
+          </span>
+        </div>
+        <span>填写个人信息</span>
+        <input id="tenant" type="text" name="tenant" placeholder="领域池编码" />
+        <input id="account" type="text" name="account" placeholder="账号" />
+        <input type="email" placeholder="电子邮箱" />
+        <input type="password" placeholder="密码" />
+        <button>注册</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form action="/authentication/form" method="post">
+        <div>
+          <img style="width: 40px; height: 40px" src="@/assets/logo.png" />
+          <span style="font-size: 20px; font-weight: bold">Spark Auth</span>
+        </div>
+        <span>使用帐号登录</span>
+        <input
+          id="tenantCode"
+          type="text"
+          name="tenantCode"
+          placeholder="领域池编码"
+        />
+        <input id="username" type="text" name="username" placeholder="账户" />
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="密码"
+        />
+        <a href="#">忘记密码？</a>
+        <button id="login" type="submit">登录</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>已有帐号？</h1>
+          <p>请使用您的帐号进行登录</p>
+          <button id="signIn" class="ghost">登录</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>没有帐号？</h1>
+          <p>立即注册加入我们，和我们一起开始旅程吧</p>
+          <el-button @click="changeRegister">注册</el-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import { isPassword } from '@/utils/validate'
-  import { getCaptcha } from '@/api/login'
-  import { setTenant } from '@/utils/accessToken'
   export default {
-    name: 'Login',
-    directives: {
-      focus: {
-        inserted(el) {
-          el.querySelector('input').focus()
-        },
-      },
-    },
     data() {
-      const validateUsername = (rule, value, callback) => {
-        if ('' === value) {
-          callback(new Error('用户名不能为空'))
-        } else {
-          callback()
-        }
-      }
-      const validatePassword = (rule, value, callback) => {
-        if (!isPassword(value)) {
-          callback(new Error('密码不能少于6位'))
-        } else {
-          callback()
-        }
-      }
       return {
-        nodeEnv: process.env.NODE_ENV,
-        title: this.$baseTitle,
-        form: {
-          tenant: '0000',
-          username: '',
-          password: '',
-          captchaKey: '',
-          captchaCode: null,
-        },
-        captcha: {
-          key: '',
-          data: '',
-        },
-        rules: {
-          username: [
-            {
-              required: true,
-              trigger: 'blur',
-              validator: validateUsername,
-            },
-          ],
-          password: [
-            {
-              required: true,
-              trigger: 'blur',
-              validator: validatePassword,
-            },
-          ],
-          captchaCode: [
-            { required: true, message: '验证码不能为空', trigger: 'blur' },
-          ],
-        },
-        loading: false,
-        passwordType: 'password',
-        redirect: undefined,
+        activeLogin: true,
       }
-    },
-    watch: {
-      $route: {
-        handler(route) {
-          this.redirect = (route.query && route.query.redirect) || '/'
-        },
-        immediate: true,
-      },
-    },
-    created() {
-      document.body.style.overflow = 'hidden'
-      this.getOauthCaptcha()
-    },
-    beforeDestroy() {
-      document.body.style.overflow = 'auto'
     },
     methods: {
-      handlePassword() {
-        this.passwordType === 'password'
-          ? (this.passwordType = '')
-          : (this.passwordType = 'password')
-        this.$nextTick(() => {
-          this.$refs.password.focus()
-        })
-      },
-      async getOauthCaptcha() {
-        const { data } = await getCaptcha({ type: 'arithmetic' })
-        this.captcha = data
-        this.form.captchaKey = data.key
-      },
-      handleLogin() {
-        this.$refs.form.validate((valid) => {
-          if (valid) {
-            setTenant(this.form.tenant)
-            this.loading = true
-            this.$store
-              .dispatch('user/login', this.form)
-              .then(() => {
-                const routerPath =
-                  this.redirect === '/404' || this.redirect === '/401'
-                    ? '/'
-                    : this.redirect
-                this.$router.push(routerPath).catch(() => {})
-                this.loading = false
-              })
-              .catch(() => {
-                this.loading = false
-              })
-          } else {
-            return false
-          }
-        })
+      changeRegister() {
+        this.activeLogin = true
       },
     },
   }
 </script>
+<style lang="scss" scoped>
+  * {
+    box-sizing: border-box;
+  }
 
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f6f5f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  h1 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+  }
+
+  .dowebok {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: calc(100vh - 50vh);
+    top: calc(100vh - 80vh);
+    left: calc(100vh - 57vh);
+    height: calc(100vh - 40vh);
+  }
+
+  .form-container form {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .warning-message {
+    text-align: left;
+    width: 100%;
+    color: red;
+  }
+
+  .social-container {
+    margin: 20px 0;
+  }
+
+  .social-container a {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .social-container a:hover {
+    background-color: #eee;
+  }
+
+  .form-container input {
+    background: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+    outline: none;
+  }
+
+  button {
+    border-radius: 20px;
+    border: 1px solid $base-color-default;
+    background: $base-color-default;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    cursor: pointer;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button.ghost {
+    background: transparent;
+    border-color: #fff;
+  }
+
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+  }
+
+  .sign-up-container {
+    left: 0;
+    width: 50%;
+    z-index: 1;
+    opacity: 0;
+  }
+
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+  }
+
+  .overlay {
+    background: #005bea;
+    background: linear-gradient(to right, #005bea, #006bea) no-repeat 0 0 /
+      cover;
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateY(0);
+    transition: transform 0.6s ease-in-out;
+  }
+
+  input:focus {
+    border: 1px solid #005bea;
+    line-height: 20px;
+  }
+
+  .overlay-panel {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .overlay-right {
+    right: 0;
+    transform: translateY(0);
+  }
+
+  .overlay-left {
+    transform: translateY(-20%);
+  }
+
+  /* Move signin to right */
+  .dowebok.right-panel-active .sign-in-container {
+    transform: translateY(100%);
+  }
+
+  /* Move overlay to left */
+  .dowebok.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+  }
+
+  /* Bring signup over signin */
+  .dowebok.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+  }
+
+  /* Move overlay back to right */
+  .dowebok.right-panel-active .overlay {
+    transform: translateX(50%);
+  }
+
+  /* Bring back the text to center */
+  .dowebok.right-panel-active .overlay-left {
+    transform: translateY(0);
+  }
+
+  /* Same effect for right */
+  .dowebok.right-panel-active .overlay-right {
+    transform: translateY(20%);
+  }
+</style>
+<script></script>
 <style lang="scss" scoped>
   .login-container {
     height: 100vh;
