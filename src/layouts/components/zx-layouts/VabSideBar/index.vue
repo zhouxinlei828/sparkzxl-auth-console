@@ -115,6 +115,7 @@
         .vab-fas-icon {
           padding-right: 3px;
           font-size: $base-font-size-default;
+          color: $base-icon-color;
         }
 
         .vab-remix-icon {
