@@ -144,23 +144,23 @@
       handleGetCode() {
         const url =
           'https://github.com/chuzhixin/vue-admin-beautiful/tree/master/src/views'
-        let path = this.$route.path + '/index.vue'
-        if (path === '/vab/menu1/menu1-1/menu1-1-1/index.vue') {
-          path = '/vab/nested/menu1/menu1-1/menu1-1-1/index.vue'
+        let path = this.$route.path + '/PoolAvatar.vue'
+        if (path === '/vab/menu1/menu1-1/menu1-1-1/PoolAvatar.vue') {
+          path = '/vab/nested/menu1/menu1-1/menu1-1-1/PoolAvatar.vue'
         }
-        if (path === '/vab/icon/awesomeIcon/index.vue') {
-          path = '/vab/icon/index.vue'
+        if (path === '/vab/icon/awesomeIcon/PoolAvatar.vue') {
+          path = '/vab/icon/PoolAvatar.vue'
         }
-        if (path === '/vab/icon/remixIcon/index.vue') {
+        if (path === '/vab/icon/remixIcon/PoolAvatar.vue') {
           path = '/vab/icon/remixIcon.vue'
         }
-        if (path === '/vab/icon/colorfulIcon/index.vue') {
+        if (path === '/vab/icon/colorfulIcon/PoolAvatar.vue') {
           path = '/vab/icon/colorfulIcon.vue'
         }
-        if (path === '/vab/table/comprehensiveTable/index.vue') {
-          path = '/vab/table/index.vue'
+        if (path === '/vab/table/comprehensiveTable/PoolAvatar.vue') {
+          path = '/vab/table/PoolAvatar.vue'
         }
-        if (path === '/vab/table/inlineEditTable/index.vue') {
+        if (path === '/vab/table/inlineEditTable/PoolAvatar.vue') {
           path = '/vab/table/inlineEditTable.vue'
         }
         window.open(url + path)

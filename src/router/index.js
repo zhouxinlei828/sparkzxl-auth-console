@@ -42,7 +42,10 @@ export const constantRoutes = [
   {
     path: '/console/pool',
     name: 'Pool',
-    component: () => import('@/views/pool'),
+    component: () => import('@/views/console/pool'),
+    meta: {
+      title: '控制台',
+    },
     hidden: true,
   },
 ]
