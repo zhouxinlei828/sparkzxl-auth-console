@@ -1,15 +1,17 @@
 <template>
   <div v-if="routerView" class="app-main-container">
-    <transition mode="out-in" name="fade-transform">
-      <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum">
-        <router-view :key="key" class="app-main-height" />
-      </keep-alive>
-    </transition>
-    <footer v-show="footerCopyright" class="footer-copyright">
+    <el-main>
+      <transition mode="out-in" name="fade-transform">
+        <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum">
+          <router-view :key="key" class="app-main-height" />
+        </keep-alive>
+      </transition>
+    </el-main>
+    <el-footer v-show="footerCopyright" class="footer-copyright">
       Copyright
-      <vab-icon :icon="['fas', 'copyright']"></vab-icon>
+      <vab-icon :icon="['fas', 'copyright']" />
       sparkzxl {{ fullYear }}
-    </footer>
+    </el-footer>
   </div>
 </template>
 
