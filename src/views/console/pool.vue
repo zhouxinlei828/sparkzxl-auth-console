@@ -251,7 +251,7 @@
       },
       comeInConsole(item) {
         console.log(item)
-        this.$router.push({ path: '/index', query: { realmCode: item.code } })
+        this.$router.push({ path: '/', query: { realmCode: item.code } })
       },
       async getRealmList() {
         const queryParam = {

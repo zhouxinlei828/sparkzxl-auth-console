@@ -44,6 +44,7 @@ router.beforeResolve(async (to, from, next) => {
               'routes/setAllRoutes',
               parameter
             )
+            console.log(accessRoutes)
             router.addRoutes(accessRoutes)
             debugger
             next({ ...to, replace: true })

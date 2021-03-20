@@ -128,23 +128,8 @@ const actions = {
     return true
   },
   async logout({ dispatch }, frontUrl) {
-    const response = await logout()
-    const responseData = response.data
-    if (responseData === true) {
-      await dispatch('resetAccessToken')
-      await resetRouter()
-      let url = ''
-      if (frontUrl !== undefined) {
-        url = frontUrl
-      }
-      const { data } = await getAuthorizeUrl({ frontUrl: url })
-      if (!data) {
-        Vue.prototype.$baseMessage('获取授权登录地址，请重新获取...', 'error')
-        return false
-      } else {
-      }
-      window.location.href = data
-    }
+    await dispatch('resetAccessToken')
+    await resetRouter()
   },
 
   async resetAccessToken({ commit }) {
