@@ -14,6 +14,7 @@
       </el-col>
       <el-col :xs="20" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="right-panel">
+          <main-realm />
           <vab-error-log />
           <vab-full-screen-bar @refresh="refreshRoute" />
           <vab-theme-bar class="hidden-xs-only" />
@@ -32,9 +33,11 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
+  import MainRealm from '@/layouts/components/Realm/MainRealm'
 
   export default {
     name: 'VabNavBar',
+    components: { MainRealm },
     data() {
       return {
         pulse: false,

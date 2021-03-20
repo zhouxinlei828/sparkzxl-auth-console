@@ -2,7 +2,7 @@ import { loadingText, messageDuration, title } from '@/config'
 import * as lodash from 'lodash'
 import { Loading, Message, MessageBox, Notification } from 'element-ui'
 import store from '@/store'
-import { getAccessToken } from '@/utils/accessToken'
+import { getAccessToken } from '@/utils/storageUtils'
 
 const accessToken = store.getters['user/accessToken']
 const layout = store.getters['settings/layout']

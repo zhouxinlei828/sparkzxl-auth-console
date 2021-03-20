@@ -112,6 +112,56 @@ export function getRealm() {
   }
 }
 
+export function removeRealm() {
+  if (storage) {
+    if ('localStorage' === storage) {
+      localStorage.removeItem('realm')
+      localStorage.removeItem('realmStatus')
+      return localStorage.removeItem('realmName')
+    } else if ('sessionStorage' === storage) {
+      localStorage.removeItem('realm')
+      localStorage.removeItem('realmStatus')
+      return sessionStorage.removeItem('realmName')
+    } else {
+      localStorage.removeItem('realm')
+      localStorage.removeItem('realmStatus')
+      return localStorage.removeItem('realmName')
+    }
+  } else {
+    localStorage.removeItem('realm')
+    localStorage.removeItem('realmStatus')
+    return localStorage.removeItem('realmName')
+  }
+}
+
+export function setRealmName(realmName) {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.setItem('realmName', realmName)
+    } else if ('sessionStorage' === storage) {
+      return localStorage.setItem('realmName', realmName)
+    } else {
+      return localStorage.setItem('realmName', realmName)
+    }
+  } else {
+    return localStorage.setItem('realmName', realmName)
+  }
+}
+
+export function getRealmName() {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.getItem('realmName')
+    } else if ('sessionStorage' === storage) {
+      return sessionStorage.getItem('realmName')
+    } else {
+      return localStorage.getItem('realmName')
+    }
+  } else {
+    return localStorage.getItem('realmName')
+  }
+}
+
 export function setRealmStatus(realm) {
   if (storage) {
     if ('localStorage' === storage) {

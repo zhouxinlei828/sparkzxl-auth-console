@@ -13,7 +13,7 @@ import {
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
-import { getRealm, getTokenType, getAccessToken } from '@/utils/accessToken'
+import { getRealm, getTokenType, getAccessToken } from '@/utils/storageUtils'
 import { isArray } from '@/utils/validate'
 
 let loadingInstance

@@ -13,7 +13,7 @@ import {
   getTokenType,
   getRealmStatus,
   setRealmStatus,
-} from '@/utils/accessToken'
+} from '@/utils/storageUtils'
 import { resetRouter } from '@/router'
 import { title } from '@/config'
 import { timeFix } from '@/utils/util'

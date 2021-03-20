@@ -195,7 +195,7 @@
   import PoolAvatar from '@/views/console/modules/PoolAvatar'
   import { getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
-
+  import { setRealmName, setRealmStatus, setRealm } from '@/utils/storageUtils'
   export default {
     components: {
       PoolAvatar,
@@ -250,6 +250,9 @@
       },
       comeInConsole(item) {
         console.log(item)
+        setRealmName(item.name)
+        setRealmStatus(true)
+        setRealm(item.code)
         this.$router.push({ path: '/index', query: { realmCode: item.code } })
       },
       async getRealmList() {

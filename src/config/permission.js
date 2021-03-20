@@ -11,7 +11,7 @@ import {
   routesWhiteList,
 } from '@/config'
 
-import { getAccessToken } from '@/utils/accessToken'
+import { getAccessToken } from '@/utils/storageUtils'
 
 NProgress.configure({
   easing: 'ease',
