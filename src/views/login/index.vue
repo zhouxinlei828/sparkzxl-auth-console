@@ -142,7 +142,6 @@
                         ? '/'
                         : this.redirect
                   }
-                  debugger
                   this.$router.push(routerPath).catch(() => {})
                   this.loading = false
                 }
