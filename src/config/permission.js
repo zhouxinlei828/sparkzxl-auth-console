@@ -36,7 +36,7 @@ router.beforeResolve(async (to, from, next) => {
         next()
       } else {
         try {
-          let userInfo = store.dispatch('user/getUserInfo')
+          let userInfo = await store.dispatch('user/getUserInfo')
           if (userInfo) {
             let accessRoutes = await store.dispatch('routes/setAllRoutes')
             router.addRoutes(accessRoutes)

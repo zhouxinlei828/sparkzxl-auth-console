@@ -23,14 +23,19 @@
 <script>
   import { refreshAuthority } from '@/api/role'
   import { recordRoute } from '@/config/setting.config'
-
+  import store from '@/store'
   export default {
     name: 'PoolAvatar',
     data() {
       return {
-        avatar: 'https://oss.sparksys.top/halo/images-icon_1586839683912.jpg',
-        username: 'admin',
+        avatar: '',
+        username: '',
       }
+    },
+    async created() {
+      let { name, avatar } = await store.dispatch('user/getUserInfo')
+      this.username = name
+      this.avatar = avatar
     },
     methods: {
       handleCommand(command) {
