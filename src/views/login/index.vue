@@ -142,7 +142,7 @@
                         ? '/'
                         : this.redirect
                   }
-                  this.$router.push('/console/pool').catch(() => {})
+                  this.$router.push(routerPath).catch(() => {})
                   this.loading = false
                 }
               })
