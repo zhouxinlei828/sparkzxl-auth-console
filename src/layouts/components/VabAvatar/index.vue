@@ -54,7 +54,6 @@
           const responseData = response.data
           if (responseData) {
             this.$message.success('刷新权限成功')
-            this.resetForm()
           } else {
             this.$message.error('刷新权限失败')
           }

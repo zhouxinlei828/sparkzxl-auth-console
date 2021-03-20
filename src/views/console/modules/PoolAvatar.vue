@@ -23,7 +23,7 @@
 <script>
   import { refreshAuthority } from '@/api/role'
   import { recordRoute } from '@/config/setting.config'
-  import store from '@/store'
+  import { userInfo } from '@/api/login'
   export default {
     name: 'PoolAvatar',
     data() {
@@ -32,12 +32,17 @@
         username: '',
       }
     },
-    async created() {
-      let { name, avatar } = await store.dispatch('user/getUserInfo')
-      this.username = name
-      this.avatar = avatar
+    created() {
+      this.initUserData()
     },
     methods: {
+      initUserData() {
+        userInfo().then((response) => {
+          const userInfo = response.data
+          this.username = userInfo.name
+          this.avatar = userInfo.avatar
+        })
+      },
       handleCommand(command) {
         switch (command) {
           case 'logout':
@@ -59,7 +64,6 @@
           const responseData = response.data
           if (responseData) {
             this.$message.success('刷新权限成功')
-            this.resetForm()
           } else {
             this.$message.error('刷新权限失败')
           }
