@@ -3,10 +3,7 @@
     <div class="form-container sign-up-container">
       <el-form ref="ruleForm" :model="form" size="medium">
         <div style="line-height: 40px">
-          <img style="width: 40px; height: 40px" src="@/assets/logo.png" />
-          <span style="font-size: 20px; font-weight: bold">
-            欢迎加入Spark Auth
-          </span>
+          <img style="height: 40px" src="@/assets/login-welcome.png" />
           <br />
           <span>填写个人信息</span>
         </div>
@@ -41,8 +38,8 @@
     <div class="form-container sign-in-container">
       <el-form ref="ruleForm" :model="form" :rules="rules" size="medium">
         <div style="line-height: 40px">
-          <img style="width: 40px; height: 40px" src="@/assets/logo.png" />
-          <span style="font-size: 20px; font-weight: bold">Spark Auth</span>
+          <img style="height: 40px" src="@/assets/logo-auth.png" />
+          <!--          <span style="font-size: 20px; font-weight: bold">Spark Auth</span>-->
           <br />
           <span>使用帐号登录</span>
         </div>
