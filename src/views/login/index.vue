@@ -108,6 +108,14 @@
         },
       }
     },
+    watch: {
+      $route: {
+        handler(route) {
+          this.redirect = (route.query && route.query.redirect) || '/'
+        },
+        immediate: true,
+      },
+    },
     methods: {
       changeRegister() {
         this.activeLogin = false
@@ -137,6 +145,7 @@
                         ? '/'
                         : this.redirect
                   }
+                  debugger
                   this.$router.push(routerPath).catch(() => {})
                   this.loading = false
                 }

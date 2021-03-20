@@ -160,7 +160,13 @@
                 >
                   删除
                 </el-button>
-                <el-button size="mini" class="button-item">控制台</el-button>
+                <el-button
+                  size="mini"
+                  class="button-item"
+                  @click="comeInConsole(item)"
+                >
+                  控制台
+                </el-button>
               </div>
             </el-card>
           </el-col>
@@ -243,6 +249,10 @@
         }
         this.$refs['editForm'].showDialog(data)
       },
+      comeInConsole(item) {
+        console.log(item)
+        this.$router.push({ path: '/index', query: { realmCode: item.code } })
+      },
       async getRealmList() {
         const queryParam = {
           pageNum: this.queryParam.pageNum,
@@ -256,7 +266,6 @@
           const result = response.data
           this.total = parseInt(result.total)
           this.realmPoolData = result.list
-          console.log(this.realmPoolData)
         })
       },
       handleSizeChange(val) {

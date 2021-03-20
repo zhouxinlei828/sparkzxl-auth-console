@@ -53,10 +53,11 @@ export function getAuthorizeUrl(parameter) {
   })
 }
 
-export function serRouters() {
+export function userRouters(parameter) {
   return request({
     url: userApi.userRouters,
     method: 'get',
+    params: parameter,
   })
 }
 

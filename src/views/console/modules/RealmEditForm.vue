@@ -91,10 +91,6 @@
         }
         this.dialogFormVisible = true
         this.form = data
-        console.log(data)
-      },
-      loadListOptions({ callback }) {
-        callback()
       },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {

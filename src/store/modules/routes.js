@@ -3,7 +3,7 @@
  * @description 路由拦截状态管理
  */
 import { asyncRoutes, constantRoutes } from '@/router'
-import { serRouters } from '@/api/login'
+import { userRouters } from '@/api/login'
 import {
   convertRouter,
   buildRouterJson,
@@ -57,8 +57,8 @@ const actions = {
     commit('setRoutes', finallyAsyncRoutes)
     return finallyAsyncRoutes
   },
-  async setAllRoutes({ commit }) {
-    let { data } = await serRouters()
+  async setAllRoutes({ commit }, parameter) {
+    let { data } = await userRouters(parameter)
     const routeData = []
     routeData.push(rootRouter)
     const routJsonData = buildRouterJson(data)
