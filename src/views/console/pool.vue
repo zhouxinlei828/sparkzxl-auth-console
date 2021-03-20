@@ -290,7 +290,7 @@
     color: #333;
     text-align: center;
     line-height: 50px;
-    height: calc(100vh - 12.5vh);
+    height: calc(100vh - 20vh);
     overflow-x: hidden;
   }
 
