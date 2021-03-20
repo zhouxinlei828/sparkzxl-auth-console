@@ -225,7 +225,6 @@
       },
     },
     created() {
-      this.fetchData()
       this.getRealmList()
     },
     methods: {
@@ -275,26 +274,6 @@
       handleCurrentChange(val) {
         this.queryParam.pageNum = val
         this.fetchData()
-      },
-      handleQuery() {
-        this.queryParam.pageNum = 1
-        this.fetchData()
-      },
-      async fetchData() {
-        this.listLoading = true
-        const list = []
-        const count = 10
-        for (let i = 0; i < count; i++) {
-          list.push({
-            uuid: '@uuid',
-            image: 'https://oss.sparksys.top/images/logo.png',
-            title: `sparkzxl-${i + 1}`,
-            latestRegisterDate: `最近一次用户注册：${i + 1}天前`,
-            userTotal: `${i + 1}`,
-          })
-        }
-        this.list = list
-        this.total = count
       },
       async refreshRoute() {
         this.$baseEventBus.$emit('reload-router-view')
