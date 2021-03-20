@@ -106,7 +106,7 @@
             </el-card>
           </el-col>
           <el-col
-            v-for="(item, index) in list"
+            v-for="(item, index) in realmPoolData"
             :key="index"
             :xs="22"
             :sm="6"
@@ -120,7 +120,7 @@
             >
               <div style="text-align: center; line-height: 100px">
                 <img
-                  :src="item.image"
+                  :src="item.logo"
                   style="
                     width: 68px;
                     height: 68px;
@@ -131,14 +131,14 @@
                   "
                 />
                 <span style="color: #181818; font-size: 24px; height: 68px">
-                  {{ item.title }}
+                  {{ item.name }}
                 </span>
               </div>
               <div style="text-align: center; line-height: 20px">
-                <span>{{ item.latestRegisterDate }}</span>
+                <span>{{ item.describe }}</span>
               </div>
               <div style="text-align: center; line-height: 30px">
-                <span>总用户数：{{ item.userTotal }} 人</span>
+                <span>总用户数：{{ item.userCount }} 人</span>
               </div>
               <el-divider />
               <div
@@ -171,12 +171,18 @@
         ></el-pagination>
       </div>
     </el-main>
+    <el-footer class="footer-copyright">
+      Copyright
+      <vab-icon :icon="['fas', 'copyright']" />
+      sparkzxl {{ fullYear }}
+    </el-footer>
   </el-container>
 </template>
 <script>
   import variables from '@/styles/variables.scss'
   import PoolAvatar from '@/views/console/modules/PoolAvatar'
   import { getRealmPageList } from '@/api/realm'
+  import { footerCopyright } from '@/config/setting.config'
 
   export default {
     components: {
@@ -197,6 +203,7 @@
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
         elementLoadingText: '正在加载...',
+        fullYear: new Date().getFullYear(),
       }
     },
     computed: {
@@ -275,6 +282,8 @@
     color: #333;
     text-align: center;
     line-height: 50px;
+    height: calc(100vh - 12.5vh);
+    overflow-x: hidden;
   }
 
   body > .el-container {
@@ -401,5 +410,12 @@
         margin-right: 15px;
       }
     }
+  }
+  .footer-copyright {
+    min-height: 55px;
+    line-height: 55px;
+    color: rgba(0, 0, 0, 0.45);
+    text-align: center;
+    border-top: 1px dashed $base-border-color;
   }
 </style>

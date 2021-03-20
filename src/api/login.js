@@ -7,7 +7,6 @@ const userApi = {
   Register: '/auth/register',
   getCaptcha: '/auth/oauth/captcha',
   authorizeCodeBack: '/auth/oauth/callBack',
-  SendSmsErr: '/account/sms_err',
   userInfo: '/auth/user/userinfo',
   logout: '/auth/customLogout',
   authorizeUrl: '/auth/oauth/getAuthorizeUrl',
@@ -17,6 +16,7 @@ const userApi = {
 export function login(parameter) {
   const data = { ...parameter }
   data.grantType = 'password'
+  data.clientId = 'sparkzxl'
   return request({
     url: userApi.Login,
     method: 'post',

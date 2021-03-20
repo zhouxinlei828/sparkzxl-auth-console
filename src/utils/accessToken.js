@@ -112,6 +112,34 @@ export function getRealm() {
   }
 }
 
+export function setRealmStatus(realm) {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.setItem('realmStatus', realm)
+    } else if ('sessionStorage' === storage) {
+      return localStorage.setItem('realmStatus', realm)
+    } else {
+      return localStorage.setItem('realmStatus', realm)
+    }
+  } else {
+    return localStorage.setItem('realmStatus', realm)
+  }
+}
+
+export function getRealmStatus() {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.getItem('realmStatus')
+    } else if ('sessionStorage' === storage) {
+      return sessionStorage.getItem('realmStatus')
+    } else {
+      return localStorage.getItem('realmStatus')
+    }
+  } else {
+    return localStorage.getItem('realmStatus')
+  }
+}
+
 export function setRefreshToken(refreshToken) {
   if (storage) {
     if ('localStorage' === storage) {

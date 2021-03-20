@@ -11,6 +11,8 @@ import {
   setRealm,
   getRealm,
   getTokenType,
+  getRealmStatus,
+  setRealmStatus,
 } from '@/utils/accessToken'
 import { resetRouter } from '@/router'
 import { title } from '@/config'
@@ -20,6 +22,7 @@ const state = () => ({
   tokenType: getTokenType(),
   accessToken: getAccessToken(),
   realm: getRealm(),
+  realmStatus: getRealmStatus(),
   username: '',
   avatar: '',
   roles: [],
@@ -29,6 +32,7 @@ const getters = {
   tokenType: (state) => state.tokenType,
   accessToken: (state) => state.accessToken,
   realm: (state) => state.realm,
+  realmStatus: (state) => state.realmStatus,
   username: (state) => state.username,
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
@@ -45,7 +49,13 @@ const mutations = {
   },
   setRealm(state, realm) {
     state.realm = realm
-    setRealm(realm)
+    if (realm !== null) {
+      setRealm(realm)
+    }
+  },
+  setRealmStatus(state, realmStatus) {
+    state.realmStatus = realmStatus
+    setRealmStatus(realmStatus)
   },
   setUsername(state, username) {
     state.username = username
@@ -76,6 +86,7 @@ const actions = {
       setRefreshToken(refreshToken)
       commit('setTokenType', tokenType)
       commit('setRealm', realm)
+      commit('setRealmStatus', realmStatus)
       return {
         loginStatus: true,
         realmStatus: realmStatus,
