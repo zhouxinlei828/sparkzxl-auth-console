@@ -293,10 +293,9 @@
             key5: 'icon-daojishi',
           },
           {
-            key1: 'icon-zuhu1',
+            key1: 'icon-yingyong',
             key2: 'icon-dingshirenwu',
             key3: 'icon-baobiao',
-            key4: 'icon-baobiao1',
           },
         ],
         form: {
@@ -393,6 +392,7 @@
         this.title = ''
         this.menuTree = []
         this.$refs['ruleForm'].resetFields()
+        this.iconVisible = false
         this.dialogFormVisible = false
         this.$emit('fetch-data')
       },
@@ -400,6 +400,7 @@
         this.title = ''
         this.menuTree = []
         this.$refs['ruleForm'].resetFields()
+        this.iconVisible = false
         this.dialogFormVisible = false
       },
     },
