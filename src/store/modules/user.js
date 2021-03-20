@@ -59,7 +59,9 @@ const actions = {
       setAccessToken(accessToken)
       setTokenType(tokenType)
       setRealmStatus(realmStatus)
-      setRealm(realm)
+      if (realm !== null) {
+        setRealm(realm)
+      }
       return {
         loginStatus: true,
         realmStatus: realmStatus,
@@ -80,7 +82,9 @@ const actions = {
       setAccessToken(accessToken)
       setTokenType(tokenType)
       setRealmStatus(realmStatus)
-      setRealm(realm)
+      if (realm !== null) {
+        setRealm(realm)
+      }
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return true

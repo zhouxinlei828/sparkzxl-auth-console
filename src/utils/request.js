@@ -10,6 +10,7 @@ import {
   requestTimeout,
   successCode,
   tokenHeaderKey,
+  loginInterception,
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
@@ -22,10 +23,16 @@ const handleCode = (code, msg) => {
   switch (code) {
     case tokenExpiredCode:
       Vue.prototype.$baseNotify(msg, '错误', 'error')
-      store.dispatch('user/logout')
+      store.dispatch('user/resetAccessToken').catch(() => {})
+      if (loginInterception) {
+        location.reload()
+      }
       break
     case noAuthorizedCode:
-      store.dispatch('user/logout')
+      store.dispatch('user/resetAccessToken').catch(() => {})
+      if (loginInterception) {
+        location.reload()
+      }
       break
     case noForbiddenCode:
       Vue.prototype.$baseNotify(msg, '错误', 'error')
@@ -57,7 +64,7 @@ instance.interceptors.request.use(
       accessToken !== ''
     ) {
       const token = getTokenType().concat(' ').concat(accessToken)
-      if (config.url === '/auth/customLogout') {
+      if (config.url === '/auth/logout') {
         config.headers['token'] = token
       } else {
         config.headers[tokenHeaderKey] = token

@@ -1,5 +1,5 @@
 <template>
-  <el-link :underline="false" @click="changeRealm">
+  <el-link @click="changeRealm">
     <div
       v-if="realmStatus === 'true'"
       style="display: flex; align-items: center"
@@ -49,7 +49,6 @@
     transform: scale(0.8);
   }
   .realm {
-    font-weight: bold;
     font-family: 'Comic Sans MS';
     font-size: 20px;
     transform: translateY(-10%);

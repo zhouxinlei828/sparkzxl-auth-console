@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/auth/sso/token',
+  Login: '/auth/authentication/token',
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   getCaptcha: '/auth/oauth/captcha',
   authorizeCodeBack: '/auth/oauth/callBack',
   userInfo: '/auth/user/userinfo',
-  logout: '/auth/customLogout',
+  logout: '/auth/logout',
   authorizeUrl: '/auth/oauth/getAuthorizeUrl',
   userRouters: '/auth/user/routers',
 }
