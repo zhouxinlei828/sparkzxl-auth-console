@@ -91,7 +91,7 @@
               :body-style="{ padding: '0px', height: '220px' }"
               shadow="hover"
             >
-              <el-link>
+              <el-link @click="handleAdd">
                 <div style="line-height: 30px">
                   <img
                     style="width: 30px; height: 30px; margin-top: 80px"
@@ -144,7 +144,12 @@
               <div
                 style="text-align: right; line-height: 20px; margin-top: -10px"
               >
-                <el-button size="mini" class="button-item" type="primary">
+                <el-button
+                  size="mini"
+                  class="button-item"
+                  type="primary"
+                  @click="handleEdit(item)"
+                >
                   修改
                 </el-button>
                 <el-button
@@ -176,17 +181,19 @@
       <vab-icon :icon="['fas', 'copyright']" />
       sparkzxl {{ fullYear }}
     </el-footer>
+    <realm-edit-form ref="editForm" @fetch-data="getRealmList" />
   </el-container>
 </template>
 <script>
   import variables from '@/styles/variables.scss'
   import PoolAvatar from '@/views/console/modules/PoolAvatar'
   import { getRealmPageList } from '@/api/realm'
-  import { footerCopyright } from '@/config/setting.config'
+  import RealmEditForm from './modules/RealmEditForm'
 
   export default {
     components: {
       PoolAvatar,
+      RealmEditForm,
     },
     data() {
       return {
@@ -216,6 +223,26 @@
       this.getRealmList()
     },
     methods: {
+      handleAdd() {
+        const createData = {
+          id: null,
+          name: null,
+          logo: null,
+          status: '1',
+          describe: null,
+        }
+        this.$refs['editForm'].showDialog(createData)
+      },
+      handleEdit(record) {
+        const data = {
+          id: record.id,
+          name: record.name,
+          logo: record.logo,
+          status: record.status === true ? '1' : '2',
+          describe: record.describe,
+        }
+        this.$refs['editForm'].showDialog(data)
+      },
       async getRealmList() {
         const queryParam = {
           pageNum: this.queryParam.pageNum,
