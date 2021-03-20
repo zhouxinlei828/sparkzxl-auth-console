@@ -24,13 +24,6 @@ export function login(parameter) {
   })
 }
 
-export function refreshToken() {
-  return request({
-    url: userApi.logout,
-    method: 'get',
-  })
-}
-
 export function logout() {
   return request({
     url: userApi.logout,

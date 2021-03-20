@@ -2,13 +2,14 @@
  * @author zhouxinlei
  * @description 路由拦截状态管理
  */
-import { asyncRoutes, constantRoutes } from '@/router'
+import { asyncRoutes, constantRoutes, resetRouter } from '@/router'
 import { userRouters } from '@/api/login'
 import {
   convertRouter,
   buildRouterJson,
   filterAsyncRoutes,
 } from '@/utils/handleRoutes'
+import { getRealm, getRealmStatus } from '@/utils/storageUtils'
 
 const state = () => ({
   routes: [],
@@ -57,10 +58,35 @@ const actions = {
     commit('setRoutes', finallyAsyncRoutes)
     return finallyAsyncRoutes
   },
-  async setAllRoutes({ commit }, parameter) {
+  async setAllRoutes({ commit }) {
+    const realmStatus = getRealmStatus()
+    let parameter = {}
+    if (realmStatus !== null && realmStatus) {
+      const realmCode = getRealm()
+      parameter = {
+        realmCode: realmCode,
+      }
+    }
     let { data } = await userRouters(parameter)
     const routeData = []
-    routeData.push(rootRouter)
+    routeData.push({
+      path: '/',
+      component: 'Layout',
+      redirect: 'index',
+      children: [
+        {
+          path: 'index',
+          name: 'Index',
+          component: '@/views/index/index',
+          meta: {
+            title: '首页',
+            icon: 'icon-home',
+            affix: true,
+            useVabIcon: true,
+          },
+        },
+      ],
+    })
     const routJsonData = buildRouterJson(data)
     routJsonData.forEach((routeJson) => {
       routeData.push(routeJson)
@@ -69,6 +95,9 @@ const actions = {
     let accessRoutes = convertRouter(routeData)
     commit('setAllRoutes', accessRoutes)
     return accessRoutes
+  },
+  async clearRoutes({ commit }) {
+    commit('setAllRoutes', '')
   },
   setPartialRoutes({ commit }, accessRoutes) {
     commit('setPartialRoutes', accessRoutes)

@@ -38,11 +38,7 @@ router.beforeResolve(async (to, from, next) => {
         try {
           let userInfo = store.dispatch('user/getUserInfo')
           if (userInfo) {
-            const parameter = to.query
-            let accessRoutes = await store.dispatch(
-              'routes/setAllRoutes',
-              parameter
-            )
+            let accessRoutes = await store.dispatch('routes/setAllRoutes')
             router.addRoutes(accessRoutes)
             // 请求带有 redirect 重定向时，登录自动重定向到该地址
             const redirect = decodeURIComponent(from.query.redirect || to.path)
@@ -53,7 +49,8 @@ router.beforeResolve(async (to, from, next) => {
               next({ path: redirect })
             }
           }
-        } catch {
+        } catch (e) {
+          console.log(e)
           await store.dispatch('user/resetAccessToken')
           if (progressBar) NProgress.done()
         }

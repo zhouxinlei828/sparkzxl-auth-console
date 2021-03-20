@@ -19,6 +19,8 @@
 
 <script>
   import { getRealmName, removeRealm } from '@/utils/storageUtils'
+  import store from '@/store'
+  import { resetRouter } from '@/router'
   export default {
     name: 'MainRealm',
     data() {
@@ -29,9 +31,11 @@
     created() {},
     mounted() {},
     methods: {
-      changeRealm() {
+      async changeRealm() {
         removeRealm()
-        this.$router.push('/console/pool')
+        await store.dispatch('user/clearUserInfo')
+        await resetRouter()
+        await this.$router.push('/console/pool')
       },
     },
   }

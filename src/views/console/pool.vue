@@ -196,6 +196,7 @@
   import { getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
   import { setRealmName, setRealmStatus, setRealm } from '@/utils/storageUtils'
+  import store from '@/store'
   export default {
     components: {
       PoolAvatar,
@@ -248,12 +249,11 @@
         }
         this.$refs['editForm'].showDialog(data)
       },
-      comeInConsole(item) {
-        console.log(item)
+      async comeInConsole(item) {
         setRealmName(item.name)
         setRealmStatus(true)
         setRealm(item.code)
-        this.$router.push({ path: '/index', query: { realmCode: item.code } })
+        await this.$router.push('/index')
       },
       async getRealmList() {
         const queryParam = {
