@@ -22,6 +22,7 @@
 
 <script>
   import { refreshAuthority } from '@/api/role'
+  import { recordRoute } from '@/config/setting.config'
 
   export default {
     name: 'PoolAvatar',
@@ -65,6 +66,12 @@
           null,
           async () => {
             await this.$store.dispatch('user/logout')
+            if (recordRoute) {
+              const fullPath = this.$route.fullPath
+              await this.$router.push(`/login?redirect=${fullPath}`)
+            } else {
+              await this.$router.push('/login')
+            }
           }
         )
       },

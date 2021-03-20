@@ -5,7 +5,7 @@
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/login-welcome.png" />
           <br />
-          <span>填写个人信息</span>
+          <span>填写注册人信息</span>
         </div>
         <el-form-item prop="label" required>
           <el-input
@@ -36,10 +36,15 @@
       </el-form>
     </div>
     <div class="form-container sign-in-container">
-      <el-form ref="ruleForm" :model="form" :rules="rules" size="medium">
+      <el-form
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        size="medium"
+        @submit.native.prevent
+      >
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/logo-auth.png" />
-          <!--          <span style="font-size: 20px; font-weight: bold">Spark Auth</span>-->
           <br />
           <span>使用帐号登录</span>
         </div>
@@ -59,7 +64,12 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary" @click="handleLogin">
+          <el-button
+            size="small"
+            native-type="submit"
+            type="primary"
+            @click="handleLogin"
+          >
             登 录
           </el-button>
         </el-form-item>

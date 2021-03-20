@@ -94,6 +94,7 @@
               <el-link @click="handleAdd">
                 <div style="line-height: 30px">
                   <img
+                    class="realm-add"
                     style="width: 30px; height: 30px; margin-top: 80px"
                     src="@/assets/plus.png"
                   />
@@ -118,32 +119,22 @@
               :body-style="{ padding: '0px', height: '220px' }"
               shadow="hover"
             >
-              <div style="text-align: center; line-height: 100px">
-                <img
-                  :src="item.logo"
-                  style="
-                    width: 68px;
-                    height: 68px;
-                    flex-shrink: 0;
-                    margin-right: 12px;
-                    border-radius: 4px;
-                    overflow: hidden;
-                  "
-                />
-                <span style="color: #181818; font-size: 24px; height: 68px">
+              <div class="realm-main">
+                <img class="realm-logo" :src="item.logo" />
+                <span class="realm-name">
                   {{ item.name }}
                 </span>
               </div>
-              <div style="text-align: center; line-height: 20px">
+              <div class="realm-sub">
                 <span>{{ item.describe }}</span>
               </div>
-              <div style="text-align: center; line-height: 30px">
-                <span>总用户数：{{ item.userCount }} 人</span>
+              <div class="realm-sub">
+                总用户数：
+                <span style="color: red">{{ item.userCount }}</span>
+                人
               </div>
               <el-divider />
-              <div
-                style="text-align: right; line-height: 20px; margin-top: -10px"
-              >
+              <div class="realm-button">
                 <el-button
                   size="mini"
                   class="button-item"
@@ -196,7 +187,6 @@
   import { getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
   import { setRealmName, setRealmStatus, setRealm } from '@/utils/storageUtils'
-  import store from '@/store'
   export default {
     components: {
       PoolAvatar,
@@ -428,6 +418,38 @@
         margin-right: 15px;
       }
     }
+  }
+  .realm-add {
+    width: 30px;
+    height: 30px;
+  }
+  .realm-logo {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    margin-right: 12px;
+    transform: translateX(-8px);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .realm-main {
+    text-align: center;
+    line-height: 100px;
+  }
+  .realm-name {
+    color: #181818;
+    font-family: 'Comic Sans MS';
+    font-size: 24px;
+    height: 68px;
+  }
+  .realm-sub {
+    text-align: center;
+    line-height: 20px;
+  }
+  .realm-button {
+    text-align: right;
+    line-height: 20px;
+    transform: translateY(-8px);
   }
   .footer-copyright {
     min-height: 55px;
