@@ -233,6 +233,7 @@
                 if (responseData) {
                   this.$message.success('修改组织成功')
                   this.getOrgList()
+                  this.getOrgTreeList()
                 } else {
                   this.$message.error('修改组织失败')
                 }
@@ -243,6 +244,7 @@
                 if (responseData) {
                   this.$message.success('新增组织成功')
                   this.getOrgList()
+                  this.getOrgTreeList()
                 } else {
                   this.$message.error('新增组织失败')
                 }
@@ -259,6 +261,7 @@
           if (responseData) {
             this.$message.success('删除组织成功')
             this.getOrgList()
+            this.getOrgTreeList()
           } else {
             this.$message.error('删除组织失败')
           }
