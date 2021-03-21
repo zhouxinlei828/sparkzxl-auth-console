@@ -326,7 +326,6 @@
     },
     methods: {
       showDialog(data) {
-        console.log(data)
         if (data.id !== null && data.id !== 0) {
           this.title = '修改菜单'
         } else {
@@ -358,7 +357,6 @@
             submitData.isEnable = this.form.isEnable === '1'
             submitData.noKeepAlive = this.form.noKeepAlive === 0
             submitData.hidden = this.form.hidden === 0
-            console.log(submitData)
             if (submitData.id != null) {
               updateMenu(submitData).then((response) => {
                 const responseData = response.data

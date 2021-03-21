@@ -1,48 +1,48 @@
 <template>
   <div :class="activeLogin === true ? 'dowebok' : 'dowebok right-panel-active'">
     <div class="form-container sign-up-container">
-      <el-form ref="ruleForm" :model="form" size="medium">
+      <el-form
+        ref="registerForm"
+        :model="registerForm"
+        :rules="registerRules"
+        size="medium"
+      >
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/login-welcome.png" />
           <br />
           <span>填写注册人信息</span>
         </div>
-        <el-form-item prop="label" required>
+        <el-form-item prop="account" required>
           <el-input
-            v-model="form.username"
+            v-model="registerForm.account"
             placeholder="请输入账户或者手机号"
             class="edit-form-item"
           />
         </el-form-item>
-        <el-form-item required>
+        <el-form-item prop="email" required>
           <el-input
-            v-model="form.password"
-            type="password"
+            v-model="registerForm.email"
             placeholder="请输入邮箱"
             class="edit-form-item"
           />
         </el-form-item>
         <el-form-item required>
           <el-input
-            v-model="form.password"
+            v-model="registerForm.password"
             type="password"
             placeholder="请输入密码"
             class="edit-form-item"
           />
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary">注 册</el-button>
+          <el-button size="small" type="primary" @click="handleRegister">
+            注 册
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="form-container sign-in-container">
-      <el-form
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        size="medium"
-        @submit.native.prevent
-      >
+      <el-form ref="loginForm" :model="form" :rules="rules" size="medium">
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/logo-auth.png" />
           <br />
@@ -64,12 +64,7 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button
-            size="small"
-            native-type="submit"
-            type="primary"
-            @click="handleLogin"
-          >
+          <el-button size="small" type="primary" @click="handleLogin">
             登 录
           </el-button>
         </el-form-item>
@@ -91,8 +86,8 @@
     </div>
   </div>
 </template>
-
 <script>
+  import { userRegister } from '@/api/login'
   export default {
     data() {
       return {
@@ -100,11 +95,25 @@
           username: null,
           password: null,
         },
+        registerForm: {
+          username: null,
+          email: null,
+          password: null,
+        },
         activeLogin: true,
         rules: {
           username: [
             { required: true, message: '账户不能为空', trigger: 'blur' },
           ],
+          password: [
+            { required: true, message: '密码不能为空', trigger: 'blur' },
+          ],
+        },
+        registerRules: {
+          account: [
+            { required: true, message: '账户不能为空', trigger: 'blur' },
+          ],
+          email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }],
           password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
           ],
@@ -127,9 +136,8 @@
         this.activeLogin = true
       },
       handleLogin() {
-        this.$refs.ruleForm.validate((valid) => {
+        this.$refs.loginForm.validate((valid) => {
           if (valid) {
-            this.loading = true
             this.$store
               .dispatch('user/login', this.form)
               .then((result) => {
@@ -145,14 +153,27 @@
                         ? '/index'
                         : this.redirect
                   }
-                  console.log(this.redirect)
                   this.$router.push(routerPath).catch(() => {})
-                  this.loading = false
                 }
               })
-              .catch(() => {
-                this.loading = false
-              })
+              .catch(() => {})
+          } else {
+            return false
+          }
+        })
+      },
+      handleRegister() {
+        this.$refs.registerForm.validate((valid) => {
+          if (valid) {
+            this.loading = true
+            userRegister(this.registerForm).then((response) => {
+              const responseData = response.data
+              if (responseData) {
+                this.$message.success('注册成功')
+              } else {
+                this.$message.error('注册失败')
+              }
+            })
           } else {
             return false
           }

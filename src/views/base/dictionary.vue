@@ -363,7 +363,6 @@
         data.name = null
         data.isEnable = '1'
         data.describe = null
-        console.log(data)
         this.$refs['dictionaryItemCreateForm'].showDialog(data)
       },
       handleUpdateDictionaryItem(record) {
@@ -373,7 +372,6 @@
         data.name = record.name
         data.isEnable = record.status === true ? '1' : '2'
         data.describe = record.describe
-        console.log(data)
         this.$refs['dictionaryItemCreateForm'].showDialog(data)
       },
       handleDeleteDictionaryItem(id) {

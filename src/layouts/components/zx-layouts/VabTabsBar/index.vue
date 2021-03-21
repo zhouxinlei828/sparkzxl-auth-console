@@ -78,9 +78,7 @@
         immediate: true,
       },
     },
-    mounted() {
-      //console.log(this.visitedRoutes);
-    },
+    mounted() {},
     methods: {
       async handleTabRemove(tabActive) {
         let view

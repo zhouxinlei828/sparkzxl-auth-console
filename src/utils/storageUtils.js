@@ -131,3 +131,51 @@ export function removeRealmInfo() {
     return localStorage.removeItem('realmInfo')
   }
 }
+
+export function setUserInfo(userInfo) {
+  const jsonStrInfo = JSON.stringify(userInfo)
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.setItem('userInfo', jsonStrInfo)
+    } else if ('sessionStorage' === storage) {
+      return localStorage.setItem('userInfo', jsonStrInfo)
+    } else {
+      return localStorage.setItem('userInfo', jsonStrInfo)
+    }
+  } else {
+    return localStorage.setItem('userInfo', jsonStrInfo)
+  }
+}
+
+export function getUserInfo() {
+  let jsonStrInfo
+  if (storage) {
+    if ('localStorage' === storage) {
+      jsonStrInfo = localStorage.getItem('userInfo')
+    } else if ('sessionStorage' === storage) {
+      jsonStrInfo = sessionStorage.getItem('userInfo')
+    } else {
+      jsonStrInfo = localStorage.getItem('userInfo')
+    }
+  } else {
+    jsonStrInfo = localStorage.getItem('userInfo')
+  }
+  if (jsonStrInfo !== null) {
+    return JSON.parse(jsonStrInfo)
+  }
+  return null
+}
+
+export function removeUserInfo() {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return localStorage.removeItem('userInfo')
+    } else if ('sessionStorage' === storage) {
+      return sessionStorage.removeItem('userInfo')
+    } else {
+      return localStorage.removeItem('userInfo')
+    }
+  } else {
+    return localStorage.removeItem('userInfo')
+  }
+}

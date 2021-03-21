@@ -222,7 +222,6 @@
         }
         this.dialogFormVisible = true
         this.form = data
-        console.log(data)
       },
       getAuthorizedGrantTypeList() {
         const data = {
@@ -271,7 +270,6 @@
                 additionalInformation: this.form.additionalInformation,
               }
             }
-            console.log(submitData)
             if (submitData.id === null) {
               saveApplication(submitData).then((response) => {
                 const responseData = response.data

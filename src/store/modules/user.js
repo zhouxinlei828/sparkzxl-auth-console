@@ -7,6 +7,8 @@ import {
   setTokenType,
   setRealmInfo,
   removeRealmInfo,
+  setUserInfo,
+  removeUserInfo,
 } from '@/utils/storageUtils'
 import { resetRouter } from '@/router'
 import { title } from '@/config'
@@ -17,14 +19,12 @@ const state = () => ({
   avatar: '',
   roles: [],
   permissions: [],
-  info: {},
 })
 const getters = {
   username: (state) => state.username,
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
   roles: (state) => state.roles,
-  info: (state) => state.info,
 }
 const mutations = {
   setUsername(state, username) {
@@ -38,9 +38,6 @@ const mutations = {
   },
   setPermissions(state, permissions) {
     state.permissions = permissions
-  },
-  setInfo: (state, info) => {
-    state.info = info
   },
 }
 const actions = {
@@ -104,7 +101,7 @@ const actions = {
     commit('setUsername', name)
     commit('setAvatar', avatar)
     commit('setRoles', roleBasicInfos)
-    commit('setInfo', data)
+    setUserInfo(data)
     return true
   },
   async logout({ dispatch }) {
@@ -118,12 +115,12 @@ const actions = {
     removeAccessToken()
     removeTokenType()
     removeRealmInfo()
+    removeUserInfo()
   },
   async clearUserInfo({ commit }) {
     commit('setUsername', '')
     commit('setAvatar', '')
     commit('setRoles', [])
-    commit('setInfo', {})
   },
 }
 export default { state, getters, mutations, actions }

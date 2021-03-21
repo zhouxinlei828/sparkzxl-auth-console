@@ -87,9 +87,7 @@
         this.dialogFormVisible = true
         this.form = data
       },
-      onChange(e) {
-        console.log('radio checked', e.target.value)
-      },
+      onChange(e) {},
       loadListOptions({ callback }) {
         callback()
       },

@@ -186,14 +186,6 @@
           password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
           ],
-          email: [
-            {
-              type: 'email',
-              required: true,
-              message: '密码不能为空',
-              trigger: 'blur',
-            },
-          ],
         },
         dialogFormVisible: false,
         sexData: [

@@ -69,7 +69,6 @@
           this.$message.error('登录失效')
           await store.dispatch('user/logout')
         } else {
-          console.log(responseData)
           let result = await store.dispatch('user/authLogin', responseData)
           if (result) {
             setTimeout(() => {

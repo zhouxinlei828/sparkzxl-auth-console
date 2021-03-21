@@ -263,8 +263,6 @@
         }
         this.unique(menuIds)
         this.menuIds = menuIds
-        console.log(this.menuIds)
-        console.log(this.resourceIdList)
         if (toggleSelection) {
           this.toggleSelection([val], this.menuIds)
         }

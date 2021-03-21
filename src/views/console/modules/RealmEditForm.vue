@@ -98,7 +98,6 @@
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
             submitData.status = status
-            console.log(submitData)
             if (submitData.id === null) {
               saveRealm(submitData).then((response) => {
                 const responseData = response.data

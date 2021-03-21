@@ -139,7 +139,6 @@ instance.interceptors.response.use(
     return response
   },
   (error) => {
-    console.log(error)
     if (loadingInstance) loadingInstance.close()
     let { response, message } = error
     if (error.response && error.response.data) {

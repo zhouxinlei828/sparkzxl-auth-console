@@ -115,10 +115,7 @@
           }
         })
       },
-      handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys)
-        console.log(this.form.userIds)
-      },
+      handleChange(value, direction, movedKeys) {},
     },
   }
 </script>

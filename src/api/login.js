@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/auth/authentication/token',
+  userRegister: '/auth/authentication/register',
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
@@ -54,22 +55,18 @@ export function userRouters(parameter) {
   })
 }
 
-/**
- * get user 2step code open?
- * @param parameter {*}
- */
-export function getCaptcha(parameter) {
-  return request({
-    url: userApi.getCaptcha,
-    method: 'get',
-    params: parameter,
-  })
-}
-
 export function authorizeCodeBack(parameter) {
   return request({
     url: userApi.authorizeCodeBack,
     method: 'get',
     params: parameter,
+  })
+}
+
+export function userRegister(parameter) {
+  return request({
+    url: userApi.userRegister,
+    method: 'post',
+    data: parameter,
   })
 }
