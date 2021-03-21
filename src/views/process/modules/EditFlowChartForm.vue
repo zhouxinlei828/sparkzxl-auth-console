@@ -53,8 +53,8 @@
       },
       resizeWindowInfo() {
         // 获取浏览器高度，减去顶部导航栏的值70（可动态获取）,再减去head-DIV高度值80
-        this.getWindowInfo.height = window.innerHeight * 0.7 + 'px'
-        this.getWindowInfo.width = window.innerWidth * 0.7 + 'px'
+        this.getWindowInfo.height = window.innerHeight * 0.78 + 'px'
+        this.getWindowInfo.width = window.innerWidth * 0.8 + 'px'
       },
       closeDialog() {
         this.dialogFormVisible = false

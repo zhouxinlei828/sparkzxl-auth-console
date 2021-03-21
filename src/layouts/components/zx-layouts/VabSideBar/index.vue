@@ -114,7 +114,7 @@
 
         .vab-fas-icon {
           padding-right: 3px;
-          font-size: $base-font-size-default;
+          font-size: 15px;
           color: $base-icon-color;
         }
 

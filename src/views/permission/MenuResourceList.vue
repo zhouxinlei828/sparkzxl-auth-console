@@ -50,7 +50,7 @@
       <el-table-column prop="icon" label="图标" align="center">
         <template #default="{ row }">
           <div v-if="row.icon !== null && row.icon !== ''">
-            <IconFont :type="row.icon" />
+            <IconFont :type="row.icon" style="font-size: 16px" />
           </div>
           <div v-if="row.icon !== null && row.icon !== ''">
             <i :class="row.icon" />

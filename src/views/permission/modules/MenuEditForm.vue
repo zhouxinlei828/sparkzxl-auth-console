@@ -223,9 +223,9 @@
             key5: 'icon-excel',
           },
           {
-            key1: 'icon-youhuiquan',
-            key2: 'icon-dianpu',
-            key3: 'icon-licai',
+            key1: 'icon-user',
+            key2: 'icon-jichupeizhi',
+            key3: 'icon-identity',
             key4: 'icon-home',
             key5: 'icon-guanggaoguanli',
           },
