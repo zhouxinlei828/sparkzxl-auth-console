@@ -139,10 +139,13 @@
                     routerPath = '/console/pool'
                   } else {
                     routerPath =
-                      this.redirect === '/404' || this.redirect === '/401'
-                        ? '/'
+                      this.redirect === '/404' ||
+                      this.redirect === '/401' ||
+                      this.redirect === '/console/pool'
+                        ? '/index'
                         : this.redirect
                   }
+                  console.log(this.redirect)
                   this.$router.push(routerPath).catch(() => {})
                   this.loading = false
                 }
