@@ -73,11 +73,11 @@ const actions = {
       ],
     })
     routeData.push({
-      path: '/console/pool',
-      name: 'Pool',
-      component: '@/views/console/pool',
+      path: '/realm/pool',
+      name: 'RealmPool',
+      component: '@/views/realm/pool',
       meta: {
-        title: '控制台',
+        title: '领域池控制台',
       },
       hidden: true,
     })

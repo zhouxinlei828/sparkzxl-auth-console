@@ -57,7 +57,7 @@ export function deleteUser(parameter) {
   return request({
     url: api.deleteUser,
     method: 'delete',
-    params: parameter,
+    data: parameter,
   })
 }
 

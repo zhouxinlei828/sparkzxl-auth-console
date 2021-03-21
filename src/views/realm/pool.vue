@@ -148,6 +148,7 @@
                   icon="el-icon-delete"
                   class="button-item"
                   type="danger"
+                  @click="handleDelete(item)"
                 >
                   删除
                 </el-button>
@@ -183,8 +184,8 @@
 </template>
 <script>
   import variables from '@/styles/variables.scss'
-  import PoolAvatar from '@/views/console/modules/PoolAvatar'
-  import { getRealmPageList } from '@/api/realm'
+  import PoolAvatar from '@/views/realm/modules/PoolAvatar'
+  import { deleteRealm, getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
   import { getUserInfo, setRealmInfo } from '@/utils/storageUtils'
   import store from '@/store'
@@ -267,6 +268,17 @@
           const result = response.data
           this.total = parseInt(result.total)
           this.realmPoolData = result.list
+        })
+      },
+      handleDelete(item) {
+        deleteRealm({ ids: [item.id] }).then((response) => {
+          const responseData = response.data
+          if (responseData) {
+            this.$message.success('删除领域池成功')
+            this.getRealmList()
+          } else {
+            this.$message.error('删除领域池失败')
+          }
         })
       },
       handleSizeChange(val) {

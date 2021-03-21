@@ -31,7 +31,7 @@
     methods: {
       async changeRealm() {
         removeRealmInfo()
-        await this.$router.push('/console/pool')
+        await this.$router.push('/realm/pool')
       },
     },
   }

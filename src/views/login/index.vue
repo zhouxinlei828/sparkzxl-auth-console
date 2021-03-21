@@ -144,12 +144,12 @@
                 if (result.loginStatus) {
                   let routerPath
                   if (result.realmStatus) {
-                    routerPath = '/console/pool'
+                    routerPath = '/realm/pool'
                   } else {
                     routerPath =
                       this.redirect === '/404' ||
                       this.redirect === '/401' ||
-                      this.redirect === '/console/pool'
+                      this.redirect === '/realm/pool'
                         ? '/index'
                         : this.redirect
                   }

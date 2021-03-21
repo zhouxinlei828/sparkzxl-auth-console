@@ -46,7 +46,7 @@ router.beforeResolve(async (to, from, next) => {
             ) {
               next({ ...to, replace: true })
             } else {
-              if (redirect === '/console/pool') {
+              if (redirect === '/realm/pool') {
                 redirect = to.path
               }
               next({ path: redirect })
