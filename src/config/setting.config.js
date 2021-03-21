@@ -38,7 +38,6 @@ const setting = {
   tokenHeaderKey: 'Authorization',
   //token在localStorage、sessionStorage存储的key的名称
   tokenKeyName: 'accessToken',
-  tokenTypeKeyName: 'tokenType',
   //token存储位置localStorage sessionStorage
   storage: 'localStorage',
   //token失效回退到登录页时是否记录本次的路由

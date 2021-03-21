@@ -227,10 +227,10 @@
             key2: 'icon-jichupeizhi',
             key3: 'icon-identity',
             key4: 'icon-home',
-            key5: 'icon-guanggaoguanli',
+            key5: 'icon-shenjiguanli',
           },
           {
-            key1: 'icon-jichu-copy',
+            key1: 'icon-jiankong',
             key2: 'icon-home1',
             key3: 'icon-lingyufenxi',
             key4: 'icon-icon-test',
@@ -288,7 +288,7 @@
           {
             key1: 'icon-shezhi',
             key2: 'icon-yonghuguanli',
-            key3: 'icon-SysManagement',
+            key3: 'icon-youjian',
             key4: 'icon-quanxianguanli',
             key5: 'icon-daojishi',
           },

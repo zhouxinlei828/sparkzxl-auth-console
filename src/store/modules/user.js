@@ -2,9 +2,7 @@ import Vue from 'vue'
 import { userInfo, login, logout } from '@/api/login'
 import {
   removeAccessToken,
-  removeTokenType,
   setAccessToken,
-  setTokenType,
   setRealmInfo,
   removeRealmInfo,
   setUserInfo,
@@ -44,12 +42,10 @@ const actions = {
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo)
     const accessToken = data['accessToken']
-    const tokenType = data['tokenType']
     const realm = data['realm']
     const realmStatus = data['realmStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      setTokenType(tokenType)
       const realmInfo = {
         realmStatus: realmStatus,
       }
@@ -72,12 +68,10 @@ const actions = {
   },
   async authLogin({ commit }, tokenData) {
     const accessToken = tokenData['accessToken']
-    const tokenType = tokenData['tokenType']
     const realm = tokenData['realm']
     const realmStatus = data['realmStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      setTokenType(tokenType)
       const realmInfo = {
         realmStatus: realmStatus,
       }
@@ -113,7 +107,6 @@ const actions = {
   async resetAccessToken({ dispatch }) {
     await dispatch('clearUserInfo')
     removeAccessToken()
-    removeTokenType()
     removeRealmInfo()
     removeUserInfo()
   },

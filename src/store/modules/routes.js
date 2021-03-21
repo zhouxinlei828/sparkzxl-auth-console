@@ -43,8 +43,13 @@ const actions = {
     let parameter = {}
     const realmInfo = getRealmInfo()
     if (realmInfo !== null && realmInfo.realm !== undefined) {
-      parameter = {
-        realmCode: realmInfo.realm,
+      if (
+        realmInfo.realmStatus !== undefined &&
+        realmInfo.realmStatus === true
+      ) {
+        parameter = {
+          realmCode: realmInfo.realm,
+        }
       }
     }
     let { data } = await userRouters(parameter)

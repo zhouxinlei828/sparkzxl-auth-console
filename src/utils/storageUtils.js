@@ -1,4 +1,4 @@
-import { storage, tokenKeyName, tokenTypeKeyName } from '@/config'
+import { storage, tokenKeyName } from '@/config'
 
 export function setAccessToken(accessToken) {
   if (storage) {
@@ -39,48 +39,6 @@ export function removeAccessToken() {
     }
   } else {
     return localStorage.removeItem(tokenKeyName)
-  }
-}
-
-export function setTokenType(tokenType) {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.setItem(tokenTypeKeyName, tokenType)
-    } else if ('sessionStorage' === storage) {
-      return localStorage.setItem(tokenTypeKeyName, tokenType)
-    } else {
-      return localStorage.setItem(tokenTypeKeyName, tokenType)
-    }
-  } else {
-    return localStorage.setItem(tokenTypeKeyName, tokenType)
-  }
-}
-
-export function getTokenType() {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.getItem(tokenTypeKeyName)
-    } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem(tokenTypeKeyName)
-    } else {
-      return localStorage.getItem(tokenTypeKeyName)
-    }
-  } else {
-    return localStorage.getItem(tokenTypeKeyName)
-  }
-}
-
-export function removeTokenType() {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.removeItem(tokenTypeKeyName)
-    } else if ('sessionStorage' === storage) {
-      return sessionStorage.clear()
-    } else {
-      return localStorage.removeItem(tokenTypeKeyName)
-    }
-  } else {
-    return localStorage.removeItem(tokenTypeKeyName)
   }
 }
 
