@@ -39,15 +39,6 @@ export const constantRoutes = [
     component: () => import('@/views/jump'),
     hidden: true,
   },
-  {
-    path: '/console/pool',
-    name: 'Pool',
-    component: () => import('@/views/console/pool'),
-    meta: {
-      title: '控制台',
-    },
-    hidden: true,
-  },
 ]
 
 export const asyncRoutes = [

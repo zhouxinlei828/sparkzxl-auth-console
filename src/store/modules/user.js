@@ -1,17 +1,12 @@
 import Vue from 'vue'
-import { getAuthorizeUrl, userInfo, login, logout } from '@/api/login'
+import { userInfo, login, logout } from '@/api/login'
 import {
-  getAccessToken,
   removeAccessToken,
   removeTokenType,
   setAccessToken,
   setTokenType,
-  setRealm,
-  getRealm,
-  getTokenType,
-  getRealmStatus,
-  setRealmStatus,
-  removeRealm,
+  setRealmInfo,
+  removeRealmInfo,
 } from '@/utils/storageUtils'
 import { resetRouter } from '@/router'
 import { title } from '@/config'
@@ -58,10 +53,15 @@ const actions = {
     if (accessToken) {
       setAccessToken(accessToken)
       setTokenType(tokenType)
-      setRealmStatus(realmStatus)
-      if (realm !== null) {
-        setRealm(realm)
+      const realmInfo = {
+        realmStatus: realmStatus,
       }
+      if (realm !== null) {
+        realmInfo.realm = realm
+      }
+      setRealmInfo(realmInfo)
+      const thisTime = timeFix()
+      Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return {
         loginStatus: true,
         realmStatus: realmStatus,
@@ -81,10 +81,13 @@ const actions = {
     if (accessToken) {
       setAccessToken(accessToken)
       setTokenType(tokenType)
-      setRealmStatus(realmStatus)
-      if (realm !== null) {
-        setRealm(realm)
+      const realmInfo = {
+        realmStatus: realmStatus,
       }
+      if (realm !== null) {
+        realmInfo.realm = realm
+      }
+      setRealmInfo(realmInfo)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return true
@@ -110,14 +113,11 @@ const actions = {
     await resetRouter()
   },
 
-  async resetAccessToken({ commit }) {
-    commit('setUsername', '')
-    commit('setAvatar', '')
-    commit('setRoles', [])
-    commit('setInfo', {})
+  async resetAccessToken({ dispatch }) {
+    await dispatch('clearUserInfo')
     removeAccessToken()
     removeTokenType()
-    removeRealm()
+    removeRealmInfo()
   },
   async clearUserInfo({ commit }) {
     commit('setUsername', '')

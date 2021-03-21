@@ -186,7 +186,9 @@
   import PoolAvatar from '@/views/console/modules/PoolAvatar'
   import { getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
-  import { setRealmName, setRealmStatus, setRealm } from '@/utils/storageUtils'
+  import { setRealmInfo } from '@/utils/storageUtils'
+  import store from '@/store'
+  import { resetRouter } from '@/router'
   export default {
     components: {
       PoolAvatar,
@@ -240,9 +242,14 @@
         this.$refs['editForm'].showDialog(data)
       },
       async comeInConsole(item) {
-        setRealmName(item.name)
-        setRealmStatus(true)
-        setRealm(item.code)
+        await store.dispatch('user/clearUserInfo')
+        await resetRouter()
+        const realmInfo = {
+          realmName: item.name,
+          realmStatus: true,
+          realm: item.code,
+        }
+        setRealmInfo(realmInfo)
         await this.$router.push('/index')
       },
       async getRealmList() {

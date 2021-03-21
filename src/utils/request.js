@@ -14,7 +14,12 @@ import {
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
-import { getRealm, getTokenType, getAccessToken } from '@/utils/storageUtils'
+import {
+  getRealm,
+  getTokenType,
+  getAccessToken,
+  getRealmInfo,
+} from '@/utils/storageUtils'
 import { isArray } from '@/utils/validate'
 
 let loadingInstance
@@ -63,7 +68,7 @@ instance.interceptors.request.use(
       accessToken !== null &&
       accessToken !== ''
     ) {
-      const token = getTokenType().concat(' ').concat(accessToken)
+      const token = 'Bearer '.concat(accessToken)
       if (config.url === '/auth/logout') {
         config.headers['token'] = token
       } else {
@@ -72,9 +77,13 @@ instance.interceptors.request.use(
     }
     const realmHeader = config.headers['realm']
     if (realmHeader === undefined || realmHeader === '') {
-      const realm = getRealm()
-      if (realm !== undefined && realm !== null) {
-        config.headers['realm'] = realm
+      const realmInfo = getRealmInfo()
+      if (
+        realmInfo !== null &&
+        realmInfo.realm !== undefined &&
+        realmInfo.realm !== null
+      ) {
+        config.headers['realm'] = realmInfo.realm
       }
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

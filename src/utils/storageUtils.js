@@ -84,108 +84,50 @@ export function removeTokenType() {
   }
 }
 
-export function setRealm(realm) {
+export function setRealmInfo(realmInfo) {
+  const jsonStrInfo = JSON.stringify(realmInfo)
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem('realm', realm)
+      return localStorage.setItem('realmInfo', jsonStrInfo)
     } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('realm', realm)
+      return localStorage.setItem('realmInfo', jsonStrInfo)
     } else {
-      return localStorage.setItem('realm', realm)
+      return localStorage.setItem('realmInfo', jsonStrInfo)
     }
   } else {
-    return localStorage.setItem('realm', realm)
+    return localStorage.setItem('realmInfo', jsonStrInfo)
   }
 }
 
-export function getRealm() {
+export function getRealmInfo() {
+  let jsonStrInfo
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.getItem('realm')
+      jsonStrInfo = localStorage.getItem('realmInfo')
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem('realm')
+      jsonStrInfo = sessionStorage.getItem('realmInfo')
     } else {
-      return localStorage.getItem('realm')
+      jsonStrInfo = localStorage.getItem('realmInfo')
     }
   } else {
-    return localStorage.getItem('realm')
+    jsonStrInfo = localStorage.getItem('realmInfo')
   }
+  if (jsonStrInfo !== null) {
+    return JSON.parse(jsonStrInfo)
+  }
+  return null
 }
 
-export function removeRealm() {
+export function removeRealmInfo() {
   if (storage) {
     if ('localStorage' === storage) {
-      localStorage.removeItem('realm')
-      localStorage.removeItem('realmStatus')
-      return localStorage.removeItem('realmName')
+      return localStorage.removeItem('realmInfo')
     } else if ('sessionStorage' === storage) {
-      localStorage.removeItem('realm')
-      localStorage.removeItem('realmStatus')
-      return sessionStorage.removeItem('realmName')
+      return sessionStorage.removeItem('realmInfo')
     } else {
-      localStorage.removeItem('realm')
-      localStorage.removeItem('realmStatus')
-      return localStorage.removeItem('realmName')
+      return localStorage.removeItem('realmInfo')
     }
   } else {
-    localStorage.removeItem('realm')
-    localStorage.removeItem('realmStatus')
-    return localStorage.removeItem('realmName')
-  }
-}
-
-export function setRealmName(realmName) {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.setItem('realmName', realmName)
-    } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('realmName', realmName)
-    } else {
-      return localStorage.setItem('realmName', realmName)
-    }
-  } else {
-    return localStorage.setItem('realmName', realmName)
-  }
-}
-
-export function getRealmName() {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.getItem('realmName')
-    } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem('realmName')
-    } else {
-      return localStorage.getItem('realmName')
-    }
-  } else {
-    return localStorage.getItem('realmName')
-  }
-}
-
-export function setRealmStatus(realm) {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.setItem('realmStatus', realm)
-    } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('realmStatus', realm)
-    } else {
-      return localStorage.setItem('realmStatus', realm)
-    }
-  } else {
-    return localStorage.setItem('realmStatus', realm)
-  }
-}
-
-export function getRealmStatus() {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.getItem('realmStatus')
-    } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem('realmStatus')
-    } else {
-      return localStorage.getItem('realmStatus')
-    }
-  } else {
-    return localStorage.getItem('realmStatus')
+    return localStorage.removeItem('realmInfo')
   }
 }

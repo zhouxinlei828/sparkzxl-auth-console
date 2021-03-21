@@ -93,10 +93,6 @@
 </template>
 
 <script>
-  import { timeFix } from '@/utils/util'
-  import Vue from 'vue'
-  import { title } from '@/config/setting.config'
-
   export default {
     data() {
       return {
@@ -140,11 +136,6 @@
                 if (result.loginStatus) {
                   let routerPath
                   if (result.realmStatus) {
-                    const thisTime = timeFix()
-                    Vue.prototype.$baseNotify(
-                      `欢迎登录${title}`,
-                      `${thisTime}！`
-                    )
                     routerPath = '/console/pool'
                   } else {
                     routerPath =

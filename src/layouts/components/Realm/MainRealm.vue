@@ -1,9 +1,6 @@
 <template>
   <el-link @click="changeRealm">
-    <div
-      v-if="realmStatus === 'true'"
-      style="display: flex; align-items: center"
-    >
+    <div v-if="realmStatus === true" style="display: flex; align-items: center">
       <span class="realm">{{ realmName }}</span>
       <div class="realm-container" @click="changeRealm">
         <img style="height: 20px" src="@/assets/switch.png" />
@@ -14,28 +11,26 @@
 </template>
 
 <script>
-  import {
-    getRealmName,
-    getRealmStatus,
-    removeRealm,
-  } from '@/utils/storageUtils'
-  import store from '@/store'
-  import { resetRouter } from '@/router'
+  import { getRealmInfo, removeRealmInfo } from '@/utils/storageUtils'
   export default {
     name: 'MainRealm',
     data() {
       return {
-        realmName: getRealmName(),
-        realmStatus: getRealmStatus(),
+        realmName: null,
+        realmStatus: false,
       }
     },
-    created() {},
+    created() {
+      const realmInfo = getRealmInfo()
+      if (realmInfo !== null) {
+        this.realmName = realmInfo.realmName
+        this.realmStatus = realmInfo.realmStatus
+      }
+    },
     mounted() {},
     methods: {
       async changeRealm() {
-        removeRealm()
-        await store.dispatch('user/clearUserInfo')
-        await resetRouter()
+        removeRealmInfo()
         await this.$router.push('/console/pool')
       },
     },

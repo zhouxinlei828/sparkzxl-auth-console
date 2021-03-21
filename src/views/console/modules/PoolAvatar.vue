@@ -23,26 +23,16 @@
 <script>
   import { refreshAuthority } from '@/api/role'
   import { recordRoute } from '@/config/setting.config'
-  import { userInfo } from '@/api/login'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'PoolAvatar',
-    data() {
-      return {
-        avatar: '',
-        username: '',
-      }
-    },
-    created() {
-      this.initUserData()
+    computed: {
+      ...mapGetters({
+        avatar: 'user/avatar',
+        username: 'user/username',
+      }),
     },
     methods: {
-      initUserData() {
-        userInfo().then((response) => {
-          const userInfo = response.data
-          this.username = userInfo.name
-          this.avatar = userInfo.avatar
-        })
-      },
       handleCommand(command) {
         switch (command) {
           case 'logout':
