@@ -66,7 +66,12 @@
             >
               <el-table-column prop="type" label="类型"></el-table-column>
               <el-table-column prop="name" label="名称"></el-table-column>
-              <el-table-column prop="status" label="状态" width="70">
+              <el-table-column
+                prop="status"
+                label="状态"
+                align="center"
+                width="70"
+              >
                 <template #default="{ row }">
                   <el-tag
                     :type="row.status === true ? 'primary' : 'success'"
@@ -160,7 +165,12 @@
             >
               <el-table-column prop="code" label="编码"></el-table-column>
               <el-table-column prop="name" label="名称"></el-table-column>
-              <el-table-column prop="status" label="状态" width="70">
+              <el-table-column
+                prop="status"
+                label="状态"
+                align="center"
+                width="70"
+              >
                 <template #default="{ row }">
                   <el-tag
                     :type="row.status === true ? 'primary' : 'success'"

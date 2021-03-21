@@ -59,7 +59,6 @@
             <el-table-column
               prop="abbreviation"
               label="组织简称"
-              align="center"
             ></el-table-column>
             <el-table-column label="操作" align="center">
               <template #default="{ row }">

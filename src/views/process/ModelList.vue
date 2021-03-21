@@ -77,9 +77,14 @@
       <el-table-column
         prop="deployed"
         label="状态"
+        align="center"
         width="80"
       ></el-table-column>
-      <el-table-column prop="version" label="版本"></el-table-column>
+      <el-table-column
+        prop="version"
+        align="center"
+        label="版本"
+      ></el-table-column>
       <el-table-column label="操作" align="center" width="250">
         <template #default="{ row }">
           <el-link type="primary">

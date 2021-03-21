@@ -61,13 +61,21 @@
       <el-table-column prop="businessKey" label="业务主键"></el-table-column>
       <el-table-column prop="processName" label="流程名称"></el-table-column>
       <el-table-column prop="processKey" label="流程key"></el-table-column>
-      <el-table-column prop="status" label="流程状态"></el-table-column>
+      <el-table-column
+        prop="status"
+        align="center"
+        label="流程状态"
+      ></el-table-column>
       <el-table-column
         prop="startTime"
         label="创建时间"
         width="160"
       ></el-table-column>
-      <el-table-column prop="originator" label="发起人"></el-table-column>
+      <el-table-column
+        prop="originator"
+        align="center"
+        label="发起人"
+      ></el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
           <el-link type="primary">

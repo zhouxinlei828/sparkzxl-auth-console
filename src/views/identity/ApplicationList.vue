@@ -78,9 +78,13 @@
       ></el-table-column>
       <el-table-column prop="name" label="应用"></el-table-column>
       <el-table-column prop="appTypeName" label="应用类型"></el-table-column>
-      <el-table-column prop="icon" label="应用logo"></el-table-column>
+      <el-table-column
+        prop="icon"
+        align="center"
+        label="应用logo"
+      ></el-table-column>
       <el-table-column prop="website" label="应用访问地址"></el-table-column>
-      <el-table-column prop="healthStatus" label="应用健康状态">
+      <el-table-column prop="healthStatus" align="center" label="应用健康状态">
         <template #default="{ row }">
           <el-tag
             v-if="row.healthCheck !== null"
