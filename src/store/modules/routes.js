@@ -40,6 +40,7 @@ const actions = {
     return finallyAsyncRoutes
   },
   async setAllRoutes({ commit }) {
+    const routeData = []
     let parameter = {}
     const realmInfo = getRealmInfo()
     if (realmInfo !== null && realmInfo.realm !== undefined) {
@@ -53,7 +54,6 @@ const actions = {
       }
     }
     let { data } = await userRouters(parameter)
-    const routeData = []
     routeData.push({
       path: '/',
       component: 'Layout',

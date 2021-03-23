@@ -187,9 +187,10 @@
   import PoolAvatar from '@/views/realm/modules/PoolAvatar'
   import { deleteRealm, getRealmPageList } from '@/api/realm'
   import RealmEditForm from './modules/RealmEditForm'
-  import { getUserInfo, setRealmInfo } from '@/utils/storageUtils'
+  import { getRealmInfo, getUserInfo, setRealmInfo } from '@/utils/storageUtils'
   import store from '@/store'
   import { resetRouter } from '@/router'
+  import Vue from 'vue'
   export default {
     components: {
       PoolAvatar,
@@ -254,21 +255,34 @@
         await this.$router.push('/index')
       },
       async getRealmList() {
-        const userInfo = getUserInfo()
-        const queryParam = {
-          pageNum: this.queryParam.pageNum,
-          pageSize: this.queryParam.pageSize,
-          model: {
-            code: this.queryParam.code,
-            name: this.queryParam.name,
-            realmUserId: userInfo.id,
-          },
+        const realmInfo = getRealmInfo()
+        if (
+          realmInfo !== null &&
+          realmInfo.realmStatus !== undefined &&
+          realmInfo.realmStatus === true
+        ) {
+          const userInfo = getUserInfo()
+          const queryParam = {
+            pageNum: this.queryParam.pageNum,
+            pageSize: this.queryParam.pageSize,
+            model: {
+              code: this.queryParam.code,
+              name: this.queryParam.name,
+              realmUserId: userInfo.id,
+            },
+          }
+          getRealmPageList(queryParam).then((response) => {
+            const result = response.data
+            this.total = parseInt(result.total)
+            this.realmPoolData = result.list
+          })
+        } else {
+          Vue.prototype.$baseNotify(
+            '您的角色不是领域管理员，无法访问...',
+            '错误',
+            'error'
+          )
         }
-        getRealmPageList(queryParam).then((response) => {
-          const result = response.data
-          this.total = parseInt(result.total)
-          this.realmPoolData = result.list
-        })
       },
       handleDelete(item) {
         deleteRealm({ ids: [item.id] }).then((response) => {
@@ -468,7 +482,7 @@
     line-height: 20px;
   }
   .realm-button {
-    text-align: right;
+    text-align: center;
     line-height: 20px;
     transform: translateY(-8px);
   }

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import { getRealmInfo, removeRealmInfo } from '@/utils/storageUtils'
+  import { getRealmInfo, setRealmInfo } from '@/utils/storageUtils'
   export default {
     name: 'MainRealm',
     data() {
@@ -30,7 +30,10 @@
     mounted() {},
     methods: {
       async changeRealm() {
-        removeRealmInfo()
+        const realmInfo = getRealmInfo()
+        delete realmInfo.realmName
+        delete realmInfo.realm
+        setRealmInfo(realmInfo)
         await this.$router.push('/realm/pool')
       },
     },

@@ -359,12 +359,17 @@ template {
     vertical-align: middle;
     margin-bottom: 10px;
   }
+  .filter-datetime-range {
+    display: inline-block;
+    vertical-align: middle;
+  }
   .search-item {
     margin-right: 10px;
     width: 190px;
   }
   .button-item {
     margin-right: 10px;
+    transform: translateX(10px)
   }
   .date-range-item {
     width: 240px;
