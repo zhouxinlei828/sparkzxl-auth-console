@@ -1,87 +1,44 @@
 <template>
   <div class="filter-container" style="padding-bottom: 0">
     <el-input
-      v-model="queryParam.name"
+      v-model="queryParam.account"
       size="small"
       class="filter-item search-item"
       placeholder="账号"
     />
     <el-date-picker
       v-model="queryParam.startTime"
-      type="datetimerange"
-      style="transform: translateY(-3px)"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
+      type="date"
+      class="filter-item button-item"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      format="yyyy-MM-dd HH:mm:ss"
+      placeholder="选择开始日期"
+    ></el-date-picker>
+    <el-date-picker
+      v-model="queryParam.endTime"
+      type="date"
+      class="filter-item button-item"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      format="yyyy-MM-dd HH:mm:ss"
+      placeholder="选择结束日期"
     ></el-date-picker>
     <el-button
       size="small"
       class="filter-item button-item"
       icon="search"
       type="primary"
-      @click="getStationList()"
+      @click="getLoginLogPage()"
     >
       查询
     </el-button>
     <el-button
       size="small"
       class="filter-item button-item"
-      @click="() => (this.queryParam = {})"
+      @click="initQueryParam"
     >
       重置
     </el-button>
-    <el-divider content-position="left">岗位列表</el-divider>
-    <div class="filter-container">
-      <el-button
-        size="small"
-        class="filter-item"
-        icon="el-icon-plus"
-        type="primary"
-        @click="handleAdd"
-      >
-        新建
-      </el-button>
-      <el-button
-        class="filter-item button-item"
-        icon="el-icon-delete"
-        type="danger"
-        @click="handleBatchDelete"
-      >
-        批量删除
-      </el-button>
-      <el-link
-        class="filter-item button-item"
-        target="_blank"
-        :href="excelTemplate"
-        :underline="false"
-      >
-        <el-button size="small" icon="el-icon-download">
-          下载EXCEL模板
-        </el-button>
-      </el-link>
-      <el-upload
-        ref="upload"
-        class="filter-item button-item"
-        :accept="uploadAccept"
-        action=""
-        :http-request="handleImportData"
-        :limit="1"
-        :show-file-list="false"
-      >
-        <el-button size="small">
-          <IconFont type="icon-daoru" />
-          <span style="margin-left: 5px">导入</span>
-        </el-button>
-      </el-upload>
-      <el-button
-        size="small"
-        class="filter-item button-item"
-        @click="handleExportExcelData"
-      >
-        <IconFont type="icon-daochu" />
-        <span style="margin-left: 5px">导出</span>
-      </el-button>
-    </div>
+    <el-divider content-position="left">登录日志列表</el-divider>
     <el-table
       v-loading="tableLoading"
       element-loading-text="拼命加载中"
@@ -97,40 +54,23 @@
         type="selection"
         width="40"
       ></el-table-column>
-      <el-table-column prop="name" label="岗位名称"></el-table-column>
+      <el-table-column prop="account" label="账号"></el-table-column>
+      <el-table-column prop="userName" label="姓名"></el-table-column>
+      <el-table-column prop="requestIp" label="登录ip"></el-table-column>
+      <el-table-column prop="browser" label="浏览器"></el-table-column>
       <el-table-column
-        prop="describe"
-        label="描述"
-        width="180"
+        prop="operatingSystem"
+        label="操作系统"
       ></el-table-column>
-      <el-table-column prop="org" label="组织" width="210">
-        <template #default="{ row }">
-          <span v-if="row.org.data != null">
-            {{ row.org.data.label }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="status" label="状态" align="center" width="80">
-        <template #default="{ row }">
-          <el-tag
-            :type="row.status === true ? 'primary' : 'success'"
-            disable-transitions
-          >
-            {{ row.status === true ? '启用' : '停用' }}
-          </el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column prop="location" label="登录地点"></el-table-column>
+      <el-table-column prop="description" label="事件描述"></el-table-column>
       <el-table-column
-        prop="createTime"
-        label="创建时间"
+        prop="loginDate"
+        label="登录时间"
         width="180"
       ></el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-link type="primary">
-            <IconFont type="icon-edit" @click="handleEdit(row)" />
-          </el-link>
-          <el-divider direction="vertical"></el-divider>
           <el-link type="primary">
             <IconFont
               type="icon-template_delete"
@@ -155,28 +95,20 @@
 
 <script>
   import moment from 'moment'
-  import { getOrgList } from '@/api/org'
-  import {
-    getStationPageList,
-    deleteStation,
-    importStationData,
-    exportStationExcelData,
-  } from '@/api/station'
-
-  import { downloadFile } from '@/utils/util'
+  import { deleteStation } from '@/api/station'
+  import { deleteLoginLog, loginLogPage } from '@/api/login'
 
   export default {
     data() {
       return {
-        uploadAccept: '.xls,.xlsx',
-        excelTemplate: 'https://oss.sparksys.top/template/岗位导入模板.xlsx',
         total: 0,
         // 查询参数
         queryParam: {
           pageNum: 1,
           pageSize: 10,
-          name: '',
+          account: null,
           startTime: null,
+          endTime: null,
         },
         layout: 'total, sizes, prev, pager, next, jumper',
         orgData: [],
@@ -187,19 +119,16 @@
       }
     },
     mounted() {
-      this.getOrgList()
-      this.getStationList()
+      this.getLoginLogPage()
     },
     methods: {
-      getOrgList() {
-        if (this.orgData.length === 0) {
-          const parameter = {
-            name: null,
-            status: true,
-          }
-          getOrgList(parameter).then((response) => {
-            this.orgData = response.data
-          })
+      initQueryParam() {
+        this.queryParam = {
+          pageNum: 1,
+          pageSize: 10,
+          account: null,
+          startTime: null,
+          endTime: null,
         }
       },
       handleSizeChange(val) {
@@ -210,28 +139,23 @@
         this.queryParam.pageNum = val
         this.getStationList()
       },
-      async getStationList() {
+      async getLoginLogPage() {
         this.tableLoading = true
         const params = {
           pageNum: this.queryParam.pageNum,
           pageSize: this.queryParam.pageSize,
           model: {
-            name: this.queryParam.name,
-            org:
-              this.queryParam.orgId === null
-                ? null
-                : {
-                    key: this.queryParam.orgId,
-                    data: null,
-                  },
+            account: this.queryParam.account,
+            startTime: this.queryParam.startTime,
+            endTime: this.queryParam.endTime,
           },
         }
-        getStationPageList(params).then((response) => {
+        loginLogPage(params).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
           this.stationData = result.list
           for (const station of this.stationData) {
-            station.createTime = moment(station.createTime).format(
+            station.loginDate = moment(station.loginDate).format(
               'YYYY-MM-DD HH:mm:ss'
             )
           }
@@ -241,49 +165,14 @@
       loadListOptions({ callback }) {
         callback()
       },
-      handleAdd() {
-        const createData = {
-          status: '1',
-          orgData: this.orgData,
-        }
-        this.$refs['editForm'].showDialog(createData)
-      },
-      handleEdit(record) {
-        const data = {
-          id: record.id,
-          name: record.name,
-          org: record.org === null ? '' : record.org.key,
-          status: record.status === true ? '1' : '2',
-          describe: record.describe,
-          orgData: this.orgData,
-        }
-        this.$refs['editForm'].showDialog(data)
-      },
-      buildTreeData(data) {
-        const jsonArray = []
-        for (const datum of data) {
-          const children = datum.children
-          let treeNode = null
-          if (children !== null && children.length > 0) {
-            treeNode = this.buildTreeData(children)
-          }
-          const jsonData = {
-            value: datum.id,
-            label: datum.label,
-            children: treeNode,
-          }
-          jsonArray.push(jsonData)
-        }
-        return jsonArray
-      },
       handleDelete(id) {
-        deleteStation({ ids: [id] }).then((response) => {
+        deleteLoginLog({ ids: [id] }).then((response) => {
           const responseData = response.data
           if (responseData) {
-            this.$message.success('删除岗位成功')
-            this.getStationList()
+            this.$message.success('删除登录日志成功')
+            this.getLoginLogPage()
           } else {
-            this.$message.error('删除岗位失败')
+            this.$message.error('删除登录日志失败')
           }
         })
       },
@@ -296,11 +185,11 @@
               ids: ids,
             }
             debugger
-            deleteStation(parameter).then((response) => {
+            deleteLoginLog(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {
                 this.$message.success('删除岗位成功')
-                this.getStationList()
+                this.getLoginLogPage()
               } else {
                 this.$message.error('删除岗位失败')
               }
@@ -309,34 +198,6 @@
         } else {
           this.$message.error('未选中任何行')
         }
-      },
-      handleImportData(data) {
-        const formData = new FormData()
-        formData.append('file', data.file)
-        importStationData(formData).then((response) => {
-          const responseData = response.data
-          if (responseData > 0) {
-            this.$message.success('导入岗位' + responseData + '条记录')
-            this.getUserPage()
-          } else {
-            this.$message.error('导入岗位失败')
-          }
-        })
-      },
-      async handleExportExcelData() {
-        const params = {
-          name: this.queryParam.name,
-          org:
-            this.queryParam.orgId === null
-              ? null
-              : {
-                  key: this.queryParam.orgId,
-                  data: null,
-                },
-        }
-        exportStationExcelData(params).then((response) => {
-          downloadFile(response)
-        })
       },
       handleSelectionChange(val) {
         this.selectedRows = val

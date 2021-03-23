@@ -12,6 +12,8 @@ const userApi = {
   logout: '/auth/logout',
   authorizeUrl: '/auth/oauth/getAuthorizeUrl',
   userRouters: '/auth/user/routers',
+  loginLogPage: '/auth/login/log/page',
+  deleteLoginLog: '/auth/login/log/delete',
 }
 
 export function login(parameter) {
@@ -67,6 +69,22 @@ export function userRegister(parameter) {
   return request({
     url: userApi.userRegister,
     method: 'post',
+    data: parameter,
+  })
+}
+
+export function loginLogPage(parameter) {
+  return request({
+    url: userApi.loginLogPage,
+    method: 'post',
+    data: parameter,
+  })
+}
+
+export function deleteLoginLog(parameter) {
+  return request({
+    url: userApi.deleteLoginLog,
+    method: 'delete',
     data: parameter,
   })
 }
