@@ -6,15 +6,17 @@ import './plugins'
 import '@/layouts/export'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import { Table, Icon } from 'ant-design-vue'
+import { Spin, Icon } from 'ant-design-vue'
+import Iframe from '@/components/Iframe'
 import 'ant-design-vue/dist/antd.css'
 const iconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_946821_4hjmpt71h1j.js',
+  scriptUrl: '//at.alicdn.com/t/font_946821_x3edyjj0q7b.js',
 })
 Vue.config.productionTip = false
-Vue.use(Table)
 Vue.component('TreeSelect', Treeselect)
 Vue.component('IconFont', iconFont)
+Vue.component('Spin', Spin)
+Vue.component('Iframe', Iframe)
 new Vue({
   el: '#vue-admin-beautiful',
   router,

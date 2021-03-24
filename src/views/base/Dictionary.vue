@@ -212,7 +212,6 @@
     />
   </div>
 </template>
-<style></style>
 <script>
   import {
     getDictionaryPage,

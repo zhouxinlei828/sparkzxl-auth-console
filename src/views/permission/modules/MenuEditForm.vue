@@ -290,7 +290,7 @@
             key2: 'icon-yonghuguanli',
             key3: 'icon-youjian',
             key4: 'icon-quanxianguanli',
-            key5: 'icon-daojishi',
+            key5: 'icon-kafka',
           },
           {
             key1: 'icon-yingyong',

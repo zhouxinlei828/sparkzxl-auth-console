@@ -1,18 +1,18 @@
 <template>
   <div>
-    <JobFrame :url="url" />
+    <KafkaFrame :url="url" />
   </div>
 </template>
 <script>
-  import JobFrame from './modules/jobFrame'
+  import KafkaFrame from '../modules/kafkaFrame'
 
   export default {
     components: {
-      JobFrame,
+      KafkaFrame,
     },
     data() {
       return {
-        url: `${process.env.VUE_APP_JOB_IFRAME_URL}/xxl-job-admin/jobinfo`,
+        url: `${process.env.VUE_APP_KAFKA_IFRAME_URL}/kafka/cluster`,
       }
     },
     methods: {},

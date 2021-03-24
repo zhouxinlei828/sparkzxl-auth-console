@@ -3,7 +3,6 @@
     <JobFrame :url="url" />
   </div>
 </template>
-<style></style>
 <script>
   import JobFrame from './modules/jobFrame'
   export default {
