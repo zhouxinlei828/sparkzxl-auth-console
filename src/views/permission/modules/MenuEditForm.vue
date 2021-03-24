@@ -214,90 +214,48 @@
         },
         menuTree: [],
         iconVisible: false,
-        iconData: [
-          {
-            key1: 'icon-pengyouquan',
-            key2: 'icon-QQ',
-            key3: 'icon-doc',
-            key4: 'icon-PPT',
-            key5: 'icon-excel',
-          },
-          {
-            key1: 'icon-user',
-            key2: 'icon-jichupeizhi',
-            key3: 'icon-identity',
-            key4: 'icon-home',
-            key5: 'icon-shenjiguanli',
-          },
-          {
-            key1: 'icon-jiankong',
-            key2: 'icon-home1',
-            key3: 'icon-lingyufenxi',
-            key4: 'icon-icon-test',
-            key5: 'icon-icon-test1',
-          },
-          {
-            key1: 'icon-icon-test2',
-            key2: 'icon-icon-test3',
-            key3: 'icon-icon-test4',
-            key4: 'icon-icon-test5',
-            key5: 'icon-icon-test6',
-          },
-          {
-            key1: 'icon-icon-test7',
-            key2: 'icon-dingtalk',
-            key3: 'icon-zuixing-80',
-            key4: 'icon-saoyisao',
-            key5: 'icon-link',
-          },
-          {
-            key1: 'icon-yanzhengma1',
-            key2: 'icon-manage-file',
-            key3: 'icon-kaifazhe',
-            key4: 'icon-process1',
-            key5: 'icon-process2',
-          },
-          {
-            key1: 'icon-permission',
-            key2: 'icon-daochu',
-            key3: 'icon-daoru',
-            key4: 'icon-liucheng',
-            key5: 'icon-yanzhengma',
-          },
-          {
-            key1: 'icon-2',
-            key2: 'icon-tupian',
-            key3: 'icon-16_10',
-            key4: 'icon-guize',
-            key5: 'icon-edit',
-          },
-          {
-            key1: 'icon-fenpei',
-            key2: 'icon-upload-demo',
-            key3: 'icon-template_delete',
-            key4: 'icon-chexiao',
-            key5: 'icon-fabu',
-          },
-          {
-            key1: 'icon-quanxian1',
-            key2: 'icon-alert-warning',
-            key3: 'icon-chenggong',
-            key4: 'icon-Error',
-            key5: 'icon-role',
-          },
-          {
-            key1: 'icon-shezhi',
-            key2: 'icon-yonghuguanli',
-            key3: 'icon-youjian',
-            key4: 'icon-quanxianguanli',
-            key5: 'icon-kafka',
-          },
-          {
-            key1: 'icon-yingyong',
-            key2: 'icon-dingshirenwu',
-            key3: 'icon-baobiao',
-          },
+        iconArrayData: [
+          'icon-pengyouquan',
+          'icon-QQ',
+          'icon-doc',
+          'icon-PPT',
+          'icon-excel',
+          'icon-user',
+          'icon-jichupeizhi',
+          'icon-identity',
+          'icon-home',
+          'icon-shenjiguanli',
+          'icon-jiankong',
+          'icon-home1',
+          'icon-lingyufenxi',
+          'icon-icon-test',
+          'icon-icon-test1',
+          'icon-icon-test2',
+          'icon-icon-test3',
+          'icon-icon-test4',
+          'icon-icon-test5',
+          'icon-icon-test6',
+          'icon-icon-test7',
+          'icon-dingtalk',
+          'icon-zuixing-80',
+          'icon-saoyisao',
+          'icon-link',
+          'icon-yanzhengma1',
+          'icon-manage-file',
+          'icon-kaifazhe',
+          'icon-process1',
+          'icon-permission',
+          'icon-daochu',
+          'icon-liucheng',
+          'icon-yanzhengma',
+          'icon-2',
+          'icon-tupian',
+          'icon-16_10',
+          'icon-guize',
+          'icon-edit',
+          'icon-fenpei',
         ],
+        iconData: [],
         form: {
           id: null,
           parentId: 0,
@@ -339,6 +297,27 @@
         })
         delete data.menuTree
         this.form = data
+        this.initIconSelect()
+      },
+      initIconSelect() {
+        const arrayData = this.iconArrayData
+        const iconData = []
+        for (let i = 0; i < arrayData.length; i = i + 5) {
+          let icon = {}
+          if (i + 5 > arrayData.length - 1) {
+            const length = arrayData.length - i
+            for (let j = 0; j < length; j++) {
+              icon['key'.concat(j + 1)] = arrayData[i + j]
+            }
+          } else {
+            for (let j = 0; j < 5; j++) {
+              icon['key'.concat(j + 1)] = arrayData[i + j]
+            }
+          }
+          iconData.push(icon)
+        }
+        this.iconData = iconData
+        console.log(iconData)
       },
       handleIconSelect(key) {
         this.iconVisible = !this.iconVisible
