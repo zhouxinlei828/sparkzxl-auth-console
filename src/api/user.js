@@ -48,7 +48,7 @@ export function saveUser(parameter) {
 export function updateUser(parameter) {
   return request({
     url: api.updateUser,
-    method: 'post',
+    method: 'put',
     data: parameter,
   })
 }

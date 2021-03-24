@@ -131,6 +131,56 @@
         />
       </el-form-item>
     </el-form>
+    <el-divider content-position="left">用户自定义属性</el-divider>
+    <div class="filter-container">
+      <el-button
+        size="small"
+        class="filter-item"
+        icon="el-icon-plus"
+        type="primary"
+        @click="handleAddUserAttribute"
+      >
+        新建
+      </el-button>
+    </div>
+    <el-table
+      :data="form.userAttributes"
+      border
+      style="width: 100%"
+      max-height="450"
+    >
+      <el-table-column type="index" label="序号" width="55"></el-table-column>
+      <el-table-column prop="name" label="属性名称">
+        <template #default="{ row }">
+          <el-input v-model="row.name" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="attributeKey" label="属性key">
+        <template #default="{ row }">
+          <el-input v-model="row.attributeKey" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="attributeValue" label="属性值">
+        <template #default="{ row }">
+          <el-input v-model="row.attributeValue" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="remark" label="备注">
+        <template #default="{ row }">
+          <el-input v-model="row.remark" />
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary">
+            <IconFont
+              type="icon-template_delete"
+              @click="handleDeleteUserAttribute(scope.$index)"
+            />
+          </el-link>
+        </template>
+      </el-table-column>
+    </el-table>
     <div slot="footer" class="dialog-footer">
       <el-button size="small" class="button-item" @click="closeDialog">
         取 消
@@ -176,6 +226,7 @@
           positionStatus: null,
           status: '1',
           workDescribe: null,
+          userAttributes: [],
         },
         labelPosition: 'right',
         rules: {
@@ -332,6 +383,23 @@
         this.$refs['ruleForm'].resetFields()
         this.dialogFormVisible = false
         this.$emit('fetch-data')
+      },
+      handleAddUserAttribute() {
+        let userAttributes = this.form.userAttributes
+        if (userAttributes === undefined || userAttributes === null) {
+          userAttributes = []
+        }
+        userAttributes.push({
+          name: '',
+          attributeKey: '',
+          attributeValue: '',
+          remark: '',
+        })
+        this.form.userAttributes = userAttributes
+      },
+      handleDeleteUserAttribute(index) {
+        this.form.userAttributes.splice(index, 1)
+        console.log(this.form.userAttributes)
       },
       closeDialog() {
         this.$refs['ruleForm'].resetFields()
