@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item label="组织:" prop="org">
         <TreeSelect
-          v-model="form.org"
+          v-model="form.orgId"
           class="edit-form-item"
           :load-options="loadListOptions"
           :multiple="false"
@@ -48,7 +48,7 @@
       </el-form-item>
       <el-form-item label="岗位:" prop="station">
         <el-select
-          v-model="form.station"
+          v-model="form.stationId"
           placeholder="请选择岗位"
           class="edit-form-item"
         >
@@ -216,8 +216,8 @@
           account: null,
           name: null,
           password: null,
-          org: null,
-          station: null,
+          orgId: null,
+          stationId: null,
           email: null,
           mobile: null,
           sex: '1',
@@ -322,28 +322,8 @@
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            const org = {
-              key: this.form.org,
-            }
-            const station = {
-              key: this.form.station,
-            }
-            const nation = {
-              key: this.form.nation,
-            }
-            const education = {
-              key: this.form.education,
-            }
-            const positionStatus = {
-              key: this.form.positionStatus,
-            }
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
-            submitData.org = org
-            submitData.station = station
-            submitData.nation = nation
-            submitData.education = education
-            submitData.positionStatus = positionStatus
             submitData.status = status
             if (this.form.id !== undefined) {
               submitData.id = this.form.id
@@ -361,11 +341,6 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('新增用户成功')
-                  this.$notification['success']({
-                    message: '提示',
-                    description: '新增用户成功',
-                    duration: 3,
-                  })
                   this.$refs['ruleForm'].resetFields()
                   this.dialogFormVisible = false
                   this.resetForm()
