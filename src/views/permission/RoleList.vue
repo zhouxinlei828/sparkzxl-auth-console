@@ -195,7 +195,11 @@
       },
       handleAdd() {
         const createData = {
+          code: null,
+          name: null,
           status: '1',
+          describe: null,
+          roleAttributes: [],
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -206,6 +210,7 @@
           name: record.name,
           status: record.status === true ? '1' : '2',
           describe: record.describe,
+          roleAttributes: record.roleAttributes,
         }
         this.$refs['editForm'].showDialog(data)
       },

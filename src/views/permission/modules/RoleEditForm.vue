@@ -2,24 +2,84 @@
   <el-dialog
     :title="title"
     :visible.sync="dialogFormVisible"
-    width="450px"
+    width="700px"
     @close="closeDialog"
   >
-    <el-form ref="ruleForm" :model="form" :rules="rules" label-width="100px">
+    <el-form
+      ref="ruleForm"
+      :model="form"
+      :inline="true"
+      :rules="rules"
+      label-width="100px"
+    >
       <el-form-item label="编码:" prop="code" required>
-        <el-input v-model="form.code" />
+        <el-input v-model="form.code" class="edit-form-item" />
       </el-form-item>
       <el-form-item label="角色名称:" prop="name" required>
-        <el-input v-model="form.name" />
+        <el-input v-model="form.name" class="edit-form-item" />
       </el-form-item>
       <el-form-item label="状态:" prop="status">
         <el-radio v-model="form.status" label="1">启用</el-radio>
         <el-radio v-model="form.status" label="2">禁用</el-radio>
       </el-form-item>
       <el-form-item label="角色描述:" prop="describe">
-        <el-input v-model="form.describe" type="textarea" />
+        <el-input
+          v-model="form.describe"
+          type="textarea"
+          style="width: 510px"
+        />
       </el-form-item>
     </el-form>
+    <el-divider content-position="left">角色自定义属性</el-divider>
+    <div class="filter-container">
+      <el-button
+        size="small"
+        class="filter-item"
+        icon="el-icon-plus"
+        type="primary"
+        @click="handleAddRoleAttribute"
+      >
+        新建
+      </el-button>
+    </div>
+    <el-table
+      :data="form.roleAttributes"
+      border
+      style="width: 100%"
+      max-height="450"
+    >
+      <el-table-column type="index" label="序号" width="55"></el-table-column>
+      <el-table-column prop="name" label="属性名称">
+        <template #default="{ row }">
+          <el-input v-model="row.name" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="attributeKey" label="属性key">
+        <template #default="{ row }">
+          <el-input v-model="row.attributeKey" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="attributeValue" label="属性值">
+        <template #default="{ row }">
+          <el-input v-model="row.attributeValue" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="remark" label="备注">
+        <template #default="{ row }">
+          <el-input v-model="row.remark" />
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary">
+            <IconFont
+              type="icon-template_delete"
+              @click="handleDeleteRoleAttribute(scope.$index)"
+            />
+          </el-link>
+        </template>
+      </el-table-column>
+    </el-table>
     <div slot="footer" class="dialog-footer">
       <el-button size="small" class="button-item" @click="closeDialog">
         取 消
@@ -49,6 +109,7 @@
           name: null,
           status: '1',
           describe: null,
+          roleAttributes: [],
         },
         rules: {
           code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
@@ -104,6 +165,23 @@
             return false
           }
         })
+      },
+      handleAddRoleAttribute() {
+        let roleAttributes = this.form.roleAttributes
+        if (roleAttributes === undefined || roleAttributes === null) {
+          roleAttributes = []
+        }
+        roleAttributes.push({
+          name: '',
+          attributeKey: '',
+          attributeValue: '',
+          remark: '',
+        })
+        this.form.roleAttributes = roleAttributes
+      },
+      handleDeleteRoleAttribute(index) {
+        this.form.roleAttributes.splice(index, 1)
+        console.log(this.form.roleAttributes)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()
