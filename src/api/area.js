@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 const api = {
-  areaTree: '/auth/common/area/tree',
-  saveArea: '/auth/common/area/save',
-  updateArea: '/auth/common/area/update',
-  deleteArea: '/auth/common/area/delete',
+  areaTree: '/auth/base/area/tree',
+  saveArea: '/auth/base/area/save',
+  updateArea: '/auth/base/area/update',
+  deleteArea: '/auth/base/area/delete',
 }
 
 export function getAreaTree() {

@@ -39,7 +39,10 @@ const handleCode = (code, msg) => {
       break
     case jwtValidCode:
       Vue.prototype.$baseNotify(msg, '错误', 'error')
-      store.dispatch('user/logout')
+      store.dispatch('user/resetAccessToken').catch(() => {})
+      if (loginInterception) {
+        location.reload()
+      }
       break
     default:
       Vue.prototype.$baseNotify(msg || `后端接口${code}异常`, '错误', 'error')
