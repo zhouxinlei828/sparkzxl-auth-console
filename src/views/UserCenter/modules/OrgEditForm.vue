@@ -12,38 +12,49 @@
       :rules="rules"
       label-width="100px"
     >
-      <el-form-item label="编码:" prop="code" required>
-        <el-input v-model="form.code" class="edit-form-item" />
+      <el-form-item label="上级ID:" prop="parentId" required>
+        <TreeSelect
+          v-model="form.parentId"
+          class="edit-form-item"
+          :load-options="loadListOptions"
+          :multiple="false"
+          :searchable="true"
+          placeholder="上级组织"
+          :options="orgTreeData"
+        />
       </el-form-item>
-      <el-form-item label="角色名称:" prop="name" required>
-        <el-input v-model="form.name" class="edit-form-item" />
+      <el-form-item label="组织名称:" prop="label" required>
+        <el-input v-model="form.label" class="edit-form-item" />
       </el-form-item>
-      <el-form-item label="状态:" prop="status">
+      <el-form-item label="简称:" prop="abbreviation">
+        <el-input v-model="form.abbreviation" class="edit-form-item" />
+      </el-form-item>
+      <el-form-item label="描述:" prop="describe">
+        <el-input v-model="form.describe" class="edit-form-item" />
+      </el-form-item>
+      <el-form-item label="状态:" prop="status" required>
         <el-radio v-model="form.status" label="1">启用</el-radio>
         <el-radio v-model="form.status" label="2">禁用</el-radio>
       </el-form-item>
-      <el-form-item label="角色描述:" prop="describe">
-        <el-input
-          v-model="form.describe"
-          type="textarea"
-          style="width: 510px"
-        />
+      <br />
+      <el-form-item label="排序值:" prop="sortValue">
+        <el-input-number v-model="form.sortValue" :min="1" :max="100" />
       </el-form-item>
     </el-form>
-    <el-divider content-position="left">角色自定义属性</el-divider>
+    <el-divider content-position="left">组织自定义属性</el-divider>
     <div class="filter-container">
       <el-button
         size="small"
         class="filter-item"
         icon="el-icon-plus"
         type="primary"
-        @click="handleAddRoleAttribute"
+        @click="handleAddOrgAttribute"
       >
         新建
       </el-button>
     </div>
     <el-table
-      :data="form.roleAttributes"
+      :data="form.orgAttributes"
       border
       style="width: 100%"
       max-height="450"
@@ -74,7 +85,7 @@
           <el-link type="primary">
             <IconFont
               type="icon-template_delete"
-              @click="handleDeleteRoleAttribute(scope.$index)"
+              @click="handleDeleteOrgAttributes(scope.$index)"
             />
           </el-link>
         </template>
@@ -97,7 +108,7 @@
 </template>
 
 <script>
-  import { saveRole, updateRole } from '@/api/role'
+  import { getOrgList, saveOrg, updateOrg } from '@/api/org'
 
   export default {
     data() {
@@ -105,58 +116,88 @@
         title: '',
         dialogFormVisible: false,
         form: {
-          code: null,
-          name: null,
-          status: '1',
+          id: null,
+          parentId: '0',
+          label: null,
+          abbreviation: null,
           describe: null,
+          status: '1',
+          sortValue: 1,
           orgAttributes: [],
         },
+        orgTreeData: [],
+        parentOrg: {
+          id: '0',
+          label: '顶级组织',
+          parentId: null,
+          sortValue: 1,
+          children: null,
+        },
         rules: {
-          code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
-          name: [
-            { required: true, message: '角色名称不能为空', trigger: 'blur' },
+          parentId: [
+            { required: true, message: '上级组织不能为空', trigger: 'blur' },
+          ],
+          label: [
+            { required: true, message: '组织名称不能为空', trigger: 'blur' },
           ],
           status: [
             { required: true, message: '状态不能为空', trigger: 'blur' },
           ],
         },
         status: 1,
+        orgData: [],
       }
     },
     methods: {
       showDialog(data) {
+        this.getOrgTreeList()
         if (data.id !== undefined) {
-          this.title = '修改角色'
+          this.title = '修改组织'
         } else {
-          this.title = '新增角色'
+          this.title = '新增组织'
         }
         this.dialogFormVisible = true
         this.form = data
       },
+      loadListOptions({ callback }) {
+        callback()
+      },
+      getOrgTreeList() {
+        const parameter = {
+          name: null,
+          status: true,
+        }
+        getOrgList(parameter).then((response) => {
+          this.orgTreeData.push(this.parentOrg)
+          const tree = response.data
+          tree.forEach((item) => {
+            this.orgTreeData.push(item)
+          })
+        })
+      },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            const status = parseInt(this.form.status) === 1
             const submitData = this.form
-            submitData.status = status
-            if (submitData.id !== undefined) {
-              updateRole(submitData).then((response) => {
+            submitData.status = this.form.status === 1
+            if (submitData.id != null) {
+              updateOrg(submitData).then((response) => {
                 const responseData = response.data
                 if (responseData) {
-                  this.$message.success('修改角色成功')
+                  this.$message.success('修改组织成功')
                   this.resetForm()
                 } else {
-                  this.$message.error('修改角色失败')
+                  this.$message.error('修改组织失败')
                 }
               })
             } else {
-              saveRole(submitData).then((response) => {
+              saveOrg(submitData).then((response) => {
                 const responseData = response.data
                 if (responseData) {
-                  this.$message.success('新增角色成功')
+                  this.$message.success('新增组织成功')
                   this.resetForm()
                 } else {
-                  this.$message.error('新增角色失败')
+                  this.$message.error('新增组织失败')
                 }
               })
             }
@@ -165,22 +206,22 @@
           }
         })
       },
-      handleAddRoleAttribute() {
-        let roleAttributes = this.form.roleAttributes
-        if (roleAttributes === undefined || roleAttributes === null) {
-          roleAttributes = []
+      handleAddOrgAttribute() {
+        let orgAttributes = this.form.orgAttributes
+        if (orgAttributes === undefined || orgAttributes === null) {
+          orgAttributes = []
         }
-        roleAttributes.push({
+        orgAttributes.push({
           name: '',
           attributeKey: '',
           attributeValue: '',
           remark: '',
         })
-        this.form.roleAttributes = roleAttributes
+        this.form.orgAttributes = orgAttributes
       },
-      handleDeleteRoleAttribute(index) {
-        this.form.roleAttributes.splice(index, 1)
-        console.log(this.form.roleAttributes)
+      handleDeleteOrgAttributes(index) {
+        this.form.orgAttributes.splice(index, 1)
+        console.log(this.form.orgAttributes)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()

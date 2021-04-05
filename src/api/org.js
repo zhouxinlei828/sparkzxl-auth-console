@@ -4,7 +4,7 @@ const api = {
   orgTree: '/auth/org/tree',
   saveOrg: '/auth/org/save',
   updateOrg: '/auth/org/update',
-  deleteOrg: '/auth/org/org/batch',
+  deleteOrg: '/auth/org/delete',
 }
 
 export default api
