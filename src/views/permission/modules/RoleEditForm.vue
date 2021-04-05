@@ -109,7 +109,7 @@
           name: null,
           status: '1',
           describe: null,
-          orgAttributes: [],
+          roleAttributes: [],
         },
         rules: {
           code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
