@@ -133,11 +133,11 @@
       },
       handleSizeChange(val) {
         this.queryParam.pageSize = val
-        this.getStationList()
+        this.getLoginLogPage()
       },
       handleCurrentChange(val) {
         this.queryParam.pageNum = val
-        this.getStationList()
+        this.getLoginLogPage()
       },
       async getLoginLogPage() {
         this.tableLoading = true
