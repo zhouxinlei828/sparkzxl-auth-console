@@ -144,6 +144,7 @@
                   修改
                 </el-button>
                 <el-button
+                  v-show="item.readonly === false"
                   size="mini"
                   icon="el-icon-delete"
                   class="button-item"
