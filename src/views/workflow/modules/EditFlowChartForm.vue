@@ -31,7 +31,6 @@
     data() {
       return {
         dialogFormVisible: false,
-        form: this.$form.createForm(this),
         flowChartSrc: '',
         getWindowInfo: {
           height: '',
