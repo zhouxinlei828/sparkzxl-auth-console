@@ -292,7 +292,7 @@
           status: '1',
           workDescribe: null,
           orgData: this.orgData,
-          userAttributes: [],
+          userAttribute: {},
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -313,7 +313,7 @@
           status: record.status === true ? '1' : '2',
           workDescribe: record.workDescribe,
           orgData: this.orgData,
-          userAttributes: record.userAttributes,
+          userAttribute: record.userAttribute,
         }
         this.$refs['editForm'].showDialog(data)
       },

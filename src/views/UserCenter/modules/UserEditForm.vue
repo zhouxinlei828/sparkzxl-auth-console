@@ -144,17 +144,12 @@
       </el-button>
     </div>
     <el-table
-      :data="form.userAttributes"
+      :data="userAttributes"
       border
       style="width: 100%"
       max-height="450"
     >
       <el-table-column type="index" label="序号" width="55"></el-table-column>
-      <el-table-column prop="name" label="属性名称">
-        <template #default="{ row }">
-          <el-input v-model="row.name" />
-        </template>
-      </el-table-column>
       <el-table-column prop="attributeKey" label="属性key">
         <template #default="{ row }">
           <el-input v-model="row.attributeKey" />
@@ -163,11 +158,6 @@
       <el-table-column prop="attributeValue" label="属性值">
         <template #default="{ row }">
           <el-input v-model="row.attributeValue" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" label="备注">
-        <template #default="{ row }">
-          <el-input v-model="row.remark" />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
@@ -201,6 +191,7 @@
   import { saveUser, updateUser } from '@/api/user'
   import { getStationList } from '@/api/station'
   import { getDictionaryItemList } from '@/api/dictionary'
+  import { objToArray } from '@/utils/util'
 
   export default {
     props: {
@@ -226,9 +217,10 @@
           positionStatus: null,
           status: '1',
           workDescribe: null,
-          userAttributes: [],
+          userAttribute: null,
         },
         labelPosition: 'right',
+        userAttributes: [],
         rules: {
           account: [
             { required: true, message: '账号不能为空', trigger: 'blur' },
@@ -271,13 +263,16 @@
       showDialog(data) {
         if (data.id !== undefined) {
           this.title = '修改用户'
+          this.userAttributes = objToArray(data.userAttribute)
         } else {
           this.title = '新增用户'
+          this.userAttributes = []
         }
         this.orgData = data.orgData
         delete data.orgData
         this.dialogFormVisible = true
         this.form = data
+        console.log(this.userAttributes)
       },
       loadListOptions({ callback }) {
         callback()
@@ -325,6 +320,16 @@
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
             submitData.status = status
+            const userAttribute = {}
+            const userAttributes = this.userAttributes
+            if (userAttributes.length > 0) {
+              for (const attribute of userAttributes) {
+                userAttribute[attribute.attributeKey] = attribute.attributeValue
+              }
+              submitData.userAttribute = userAttribute
+            } else {
+              submitData.userAttribute = null
+            }
             if (this.form.id !== undefined) {
               submitData.id = this.form.id
               updateUser(submitData).then((response) => {
@@ -360,21 +365,19 @@
         this.$emit('fetch-data')
       },
       handleAddUserAttribute() {
-        let userAttributes = this.form.userAttributes
+        let userAttributes = this.userAttributes
         if (userAttributes === undefined || userAttributes === null) {
           userAttributes = []
         }
         userAttributes.push({
-          name: '',
           attributeKey: '',
           attributeValue: '',
-          remark: '',
         })
-        this.form.userAttributes = userAttributes
+        this.userAttributes = userAttributes
       },
       handleDeleteUserAttribute(index) {
-        this.form.userAttributes.splice(index, 1)
-        console.log(this.form.userAttributes)
+        this.userAttributes.splice(index, 1)
+        console.log(this.form.userAttribute)
       },
       closeDialog() {
         this.$refs['ruleForm'].resetFields()

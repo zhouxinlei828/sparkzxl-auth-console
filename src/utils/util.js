@@ -164,3 +164,20 @@ export function arrayRemove(array, value) {
   }
   array.remove(value)
 }
+
+/**
+ * 对象转数组
+ * @param obj
+ * @returns {*[]}
+ */
+export function objToArray(obj) {
+  const arr = []
+  for (let key in obj) {
+    let o = {
+      attributeKey: key,
+      attributeValue: obj[key],
+    }
+    arr.push(o)
+  }
+  return arr
+}
