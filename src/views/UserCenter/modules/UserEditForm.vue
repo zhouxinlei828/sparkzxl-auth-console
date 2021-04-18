@@ -331,7 +331,9 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('修改用户成功')
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('修改用户失败')
                 }
@@ -343,7 +345,9 @@
                   this.$message.success('新增用户成功')
                   this.$refs['ruleForm'].resetFields()
                   this.dialogFormVisible = false
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('新增用户失败')
                 }

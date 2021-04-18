@@ -184,7 +184,9 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('修改组织成功')
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('修改组织失败')
                 }
@@ -194,7 +196,9 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('新增组织成功')
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('新增组织失败')
                 }

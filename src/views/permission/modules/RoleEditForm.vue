@@ -144,7 +144,9 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('修改角色成功')
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('修改角色失败')
                 }
@@ -154,7 +156,9 @@
                 const responseData = response.data
                 if (responseData) {
                   this.$message.success('新增角色成功')
-                  this.resetForm()
+                  setTimeout(() => {
+                    this.resetForm()
+                  }, 1000)
                 } else {
                   this.$message.error('新增角色失败')
                 }
