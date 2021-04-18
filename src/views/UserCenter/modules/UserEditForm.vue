@@ -143,12 +143,7 @@
         新建
       </el-button>
     </div>
-    <el-table
-      :data="userAttributes"
-      border
-      style="width: 100%"
-      max-height="450"
-    >
+    <el-table :data="attributes" border style="width: 100%" max-height="450">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column prop="attributeKey" label="属性key">
         <template #default="{ row }">
@@ -217,10 +212,10 @@
           positionStatus: null,
           status: '1',
           workDescribe: null,
-          userAttribute: null,
+          attribute: null,
         },
         labelPosition: 'right',
-        userAttributes: [],
+        attributes: [],
         rules: {
           account: [
             { required: true, message: '账号不能为空', trigger: 'blur' },
@@ -263,16 +258,16 @@
       showDialog(data) {
         if (data.id !== undefined) {
           this.title = '修改用户'
-          this.userAttributes = objToArray(data.userAttribute)
+          this.attributes = objToArray(data.attribute)
         } else {
           this.title = '新增用户'
-          this.userAttributes = []
+          this.attributes = []
         }
         this.orgData = data.orgData
         delete data.orgData
         this.dialogFormVisible = true
         this.form = data
-        console.log(this.userAttributes)
+        console.log(this.attributes)
       },
       loadListOptions({ callback }) {
         callback()
@@ -320,15 +315,15 @@
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
             submitData.status = status
-            const userAttribute = {}
-            const userAttributes = this.userAttributes
-            if (userAttributes.length > 0) {
-              for (const attribute of userAttributes) {
-                userAttribute[attribute.attributeKey] = attribute.attributeValue
+            const attribute = {}
+            const attributes = this.attributes
+            if (attributes.length > 0) {
+              for (const data of attributes) {
+                attribute[data.attributeKey] = data.attributeValue
               }
-              submitData.userAttribute = userAttribute
+              submitData.attribute = attribute
             } else {
-              submitData.userAttribute = null
+              submitData.attribute = null
             }
             if (this.form.id !== undefined) {
               submitData.id = this.form.id
@@ -365,19 +360,19 @@
         this.$emit('fetch-data')
       },
       handleAddUserAttribute() {
-        let userAttributes = this.userAttributes
-        if (userAttributes === undefined || userAttributes === null) {
-          userAttributes = []
+        let attributes = this.attributes
+        if (attributes === undefined || attributes === null) {
+          attributes = []
         }
-        userAttributes.push({
+        attributes.push({
           attributeKey: '',
           attributeValue: '',
         })
-        this.userAttributes = userAttributes
+        this.attributes = attributes
       },
       handleDeleteUserAttribute(index) {
-        this.userAttributes.splice(index, 1)
-        console.log(this.form.userAttribute)
+        this.attributes.splice(index, 1)
+        console.log(this.form.attribute)
       },
       closeDialog() {
         this.$refs['ruleForm'].resetFields()
