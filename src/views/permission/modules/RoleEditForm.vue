@@ -42,18 +42,8 @@
         新建
       </el-button>
     </div>
-    <el-table
-      :data="form.roleAttributes"
-      border
-      style="width: 100%"
-      max-height="450"
-    >
+    <el-table :data="attributes" border style="width: 100%" max-height="450">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
-      <el-table-column prop="name" label="属性名称">
-        <template #default="{ row }">
-          <el-input v-model="row.name" />
-        </template>
-      </el-table-column>
       <el-table-column prop="attributeKey" label="属性key">
         <template #default="{ row }">
           <el-input v-model="row.attributeKey" />
@@ -62,11 +52,6 @@
       <el-table-column prop="attributeValue" label="属性值">
         <template #default="{ row }">
           <el-input v-model="row.attributeValue" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" label="备注">
-        <template #default="{ row }">
-          <el-input v-model="row.remark" />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
@@ -98,6 +83,7 @@
 
 <script>
   import { saveRole, updateRole } from '@/api/role'
+  import { objToArray } from '@/utils/util'
 
   export default {
     data() {
@@ -109,8 +95,9 @@
           name: null,
           status: '1',
           describe: null,
-          roleAttributes: [],
+          attribute: null,
         },
+        attributes: [],
         rules: {
           code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
           name: [
@@ -127,11 +114,14 @@
       showDialog(data) {
         if (data.id !== undefined) {
           this.title = '修改角色'
+          this.attributes = objToArray(data.attribute)
         } else {
           this.title = '新增角色'
+          this.attributes = []
         }
         this.dialogFormVisible = true
         this.form = data
+        console.log(this.attributes)
       },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {
@@ -139,6 +129,16 @@
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
             submitData.status = status
+            const attribute = {}
+            const attributes = this.attributes
+            if (attributes.length > 0) {
+              for (const data of attributes) {
+                attribute[data.attributeKey] = data.attributeValue
+              }
+              submitData.attribute = attribute
+            } else {
+              submitData.attribute = null
+            }
             if (submitData.id !== undefined) {
               updateRole(submitData).then((response) => {
                 const responseData = response.data
@@ -166,21 +166,19 @@
         })
       },
       handleAddRoleAttribute() {
-        let roleAttributes = this.form.roleAttributes
-        if (roleAttributes === undefined || roleAttributes === null) {
-          roleAttributes = []
+        let attributes = this.attributes
+        if (attributes === undefined || attributes === null) {
+          attributes = []
         }
-        roleAttributes.push({
-          name: '',
+        attributes.push({
           attributeKey: '',
           attributeValue: '',
-          remark: '',
         })
-        this.form.roleAttributes = roleAttributes
+        this.attributes = attributes
       },
       handleDeleteRoleAttribute(index) {
-        this.form.roleAttributes.splice(index, 1)
-        console.log(this.form.roleAttributes)
+        this.attributes.splice(index, 1)
+        console.log(this.attributes)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()

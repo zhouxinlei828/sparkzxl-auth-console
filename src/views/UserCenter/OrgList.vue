@@ -126,7 +126,7 @@
           describe: null,
           status: '1',
           sortValue: 1,
-          attribute: {},
+          attribute: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },

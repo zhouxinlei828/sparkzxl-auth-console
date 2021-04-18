@@ -292,7 +292,7 @@
           status: '1',
           workDescribe: null,
           orgData: this.orgData,
-          attribute: {},
+          attribute: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
