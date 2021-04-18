@@ -88,7 +88,7 @@
 </template>
 
 <script>
-  import { deleteOrg, getOrgList, saveOrg, updateOrg } from '@/api/org'
+  import { deleteOrg, getOrgList } from '@/api/org'
   import OrgEditForm from './modules/OrgEditForm'
   export default {
     components: {
@@ -117,37 +117,6 @@
           this.treeLoading = false
         })
       },
-      handleSave() {
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-            const submitData = this.form
-            submitData.status = this.form.status === '1'
-            if (submitData.id != null) {
-              updateOrg(submitData).then((response) => {
-                const responseData = response.data
-                if (responseData) {
-                  this.$message.success('修改组织成功')
-                  this.getOrgList()
-                } else {
-                  this.$message.error('修改组织失败')
-                }
-              })
-            } else {
-              saveOrg(submitData).then((response) => {
-                const responseData = response.data
-                if (responseData) {
-                  this.$message.success('新增组织成功')
-                  this.getOrgList()
-                } else {
-                  this.$message.error('新增组织失败')
-                }
-              })
-            }
-          } else {
-            return false
-          }
-        })
-      },
       handleAdd() {
         const createData = {
           id: null,
@@ -157,7 +126,7 @@
           describe: null,
           status: '1',
           sortValue: 1,
-          orgAttributes: [],
+          attribute: {},
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -170,7 +139,7 @@
           status: record.status === true ? '1' : '2',
           describe: record.describe,
           sortValue: record.sortValue,
-          orgAttributes: record.orgAttributes,
+          attribute: record.attribute,
         }
         this.$refs['editForm'].showDialog(data)
       },

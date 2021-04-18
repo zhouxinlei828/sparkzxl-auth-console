@@ -53,18 +53,8 @@
         新建
       </el-button>
     </div>
-    <el-table
-      :data="form.orgAttributes"
-      border
-      style="width: 100%"
-      max-height="450"
-    >
+    <el-table :data="attributes" border style="width: 100%" max-height="450">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
-      <el-table-column prop="name" label="属性名称">
-        <template #default="{ row }">
-          <el-input v-model="row.name" />
-        </template>
-      </el-table-column>
       <el-table-column prop="attributeKey" label="属性key">
         <template #default="{ row }">
           <el-input v-model="row.attributeKey" />
@@ -73,11 +63,6 @@
       <el-table-column prop="attributeValue" label="属性值">
         <template #default="{ row }">
           <el-input v-model="row.attributeValue" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" label="备注">
-        <template #default="{ row }">
-          <el-input v-model="row.remark" />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
@@ -109,6 +94,7 @@
 
 <script>
   import { getOrgList, saveOrg, updateOrg } from '@/api/org'
+  import { objToArray } from '@/utils/util'
 
   export default {
     data() {
@@ -123,9 +109,10 @@
           describe: null,
           status: '1',
           sortValue: 1,
-          orgAttributes: [],
+          attribute: null,
         },
         orgTreeData: [],
+        attributes: [],
         parentOrg: {
           id: '0',
           label: '顶级组织',
@@ -153,26 +140,28 @@
         this.getOrgTreeList()
         if (data.id !== undefined) {
           this.title = '修改组织'
+          this.attributes = objToArray(data.attribute)
         } else {
           this.title = '新增组织'
+          this.attributes = []
         }
         this.dialogFormVisible = true
         this.form = data
+        console.log(this.attributes)
       },
       loadListOptions({ callback }) {
         callback()
       },
-      getOrgTreeList() {
+      async getOrgTreeList() {
         const parameter = {
           name: null,
           status: true,
         }
-        getOrgList(parameter).then((response) => {
-          this.orgTreeData.push(this.parentOrg)
-          const tree = response.data
-          tree.forEach((item) => {
-            this.orgTreeData.push(item)
-          })
+        this.orgTreeData = []
+        const { data } = await getOrgList(parameter)
+        this.orgTreeData.push(this.parentOrg)
+        data.forEach((item) => {
+          this.orgTreeData.push(item)
         })
       },
       onSubmit() {
@@ -180,6 +169,16 @@
           if (valid) {
             const submitData = this.form
             submitData.status = this.form.status === 1
+            const attribute = {}
+            const attributes = this.attributes
+            if (attributes.length > 0) {
+              for (const data of attributes) {
+                attribute[data.attributeKey] = data.attributeValue
+              }
+              submitData.attribute = attribute
+            } else {
+              submitData.attribute = null
+            }
             if (submitData.id != null) {
               updateOrg(submitData).then((response) => {
                 const responseData = response.data
@@ -207,21 +206,19 @@
         })
       },
       handleAddOrgAttribute() {
-        let orgAttributes = this.form.orgAttributes
-        if (orgAttributes === undefined || orgAttributes === null) {
-          orgAttributes = []
+        let attributes = this.attributes
+        if (attributes === undefined || attributes === null) {
+          attributes = []
         }
-        orgAttributes.push({
-          name: '',
+        attributes.push({
           attributeKey: '',
           attributeValue: '',
-          remark: '',
         })
-        this.form.orgAttributes = orgAttributes
+        this.attributes = attributes
       },
       handleDeleteOrgAttributes(index) {
-        this.form.orgAttributes.splice(index, 1)
-        console.log(this.form.orgAttributes)
+        this.attributes.splice(index, 1)
+        console.log(this.form.attribute)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()
