@@ -11,7 +11,7 @@
     },
     data() {
       return {
-        url: `${process.env.VUE_APP_JOB_IFRAME_URL}/xxl-job-admin/jobgroup`,
+        url: '/xxl-job-admin/jobgroup',
       }
     },
     methods: {},

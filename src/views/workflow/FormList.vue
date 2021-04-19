@@ -203,7 +203,7 @@
       },
       handleEdit(id) {
         const data = {
-          flowChartSrc: process.env.VUE_APP_ACT_BASE_URL.concat(id),
+          flowChartSrc: '/flowChart/editor??modelId='.concat(id),
         }
         this.$refs['flowChartForm'].showDialog(data)
       },
