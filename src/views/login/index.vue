@@ -245,7 +245,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
-    font-family: 'Comic Sans MS';
+    font-family: 'Comic Sans MS', serif;
   }
   .dowebok {
     background: #fff;
