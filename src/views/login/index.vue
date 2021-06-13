@@ -8,7 +8,10 @@
         size="medium"
       >
         <div style="line-height: 40px">
-          <img style="height: 40px" src="@/assets/login-welcome.png" />
+          <img style="height: 40px" src="@/assets/logo.png" />
+          <span class="title">
+            {{ systemName }}
+          </span>
           <br />
           <span>填写注册人信息</span>
         </div>
@@ -44,7 +47,10 @@
     <div class="form-container sign-in-container">
       <el-form ref="loginForm" :model="form" :rules="rules" size="medium">
         <div style="line-height: 40px">
-          <img style="height: 40px" src="@/assets/logo-auth.png" />
+          <img style="height: 40px" src="@/assets/logo.png" />
+          <span class="title">
+            {{ systemName }}
+          </span>
           <br />
           <span>使用帐号登录</span>
         </div>
@@ -88,6 +94,7 @@
 </template>
 <script>
   import { userRegister } from '@/api/login'
+  import { getParameter } from '@/api/parameter'
   export default {
     data() {
       return {
@@ -95,6 +102,7 @@
           username: null,
           password: null,
         },
+        systemName: null,
         registerForm: {
           username: null,
           email: null,
@@ -128,7 +136,15 @@
         immediate: true,
       },
     },
+    created() {
+      this.getParameter('system_name')
+    },
     methods: {
+      getParameter(data) {
+        getParameter({ code: data }).then((response) => {
+          this.systemName = response.data.value
+        })
+      },
       changeRegister() {
         this.activeLogin = false
       },
@@ -220,6 +236,17 @@
     margin: 15px 0;
   }
 
+  .title {
+    display: inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 55px;
+    color: $base-title-color;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-family: 'Comic Sans MS';
+  }
   .dowebok {
     background: #fff;
     border-radius: 10px;
