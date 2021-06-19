@@ -42,33 +42,33 @@ export function removeAccessToken() {
   }
 }
 
-export function setRealmInfo(realmInfo) {
-  const jsonStrInfo = JSON.stringify(realmInfo)
+export function setTenantInfo(tenantInfo) {
+  const jsonStrInfo = JSON.stringify(tenantInfo)
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem('realmInfo', jsonStrInfo)
+      return localStorage.setItem('tenantInfo', jsonStrInfo)
     } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('realmInfo', jsonStrInfo)
+      return localStorage.setItem('tenantInfo', jsonStrInfo)
     } else {
-      return localStorage.setItem('realmInfo', jsonStrInfo)
+      return localStorage.setItem('tenantInfo', jsonStrInfo)
     }
   } else {
-    return localStorage.setItem('realmInfo', jsonStrInfo)
+    return localStorage.setItem('tenantInfo', jsonStrInfo)
   }
 }
 
-export function getRealmInfo() {
+export function getTenantInfo() {
   let jsonStrInfo
   if (storage) {
     if ('localStorage' === storage) {
-      jsonStrInfo = localStorage.getItem('realmInfo')
+      jsonStrInfo = localStorage.getItem('tenantInfo')
     } else if ('sessionStorage' === storage) {
-      jsonStrInfo = sessionStorage.getItem('realmInfo')
+      jsonStrInfo = sessionStorage.getItem('tenantInfo')
     } else {
-      jsonStrInfo = localStorage.getItem('realmInfo')
+      jsonStrInfo = localStorage.getItem('tenantInfo')
     }
   } else {
-    jsonStrInfo = localStorage.getItem('realmInfo')
+    jsonStrInfo = localStorage.getItem('tenantInfo')
   }
   if (jsonStrInfo !== null) {
     return JSON.parse(jsonStrInfo)
@@ -76,17 +76,17 @@ export function getRealmInfo() {
   return null
 }
 
-export function removeRealmInfo() {
+export function removeTenantInfo() {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.removeItem('realmInfo')
+      return localStorage.removeItem('tenantInfo')
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.removeItem('realmInfo')
+      return sessionStorage.removeItem('tenantInfo')
     } else {
-      return localStorage.removeItem('realmInfo')
+      return localStorage.removeItem('tenantInfo')
     }
   } else {
-    return localStorage.removeItem('realmInfo')
+    return localStorage.removeItem('tenantInfo')
   }
 }
 

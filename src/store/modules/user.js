@@ -3,8 +3,8 @@ import { userInfo, login, logout } from '@/api/login'
 import {
   removeAccessToken,
   setAccessToken,
-  setRealmInfo,
-  removeRealmInfo,
+  setTenantInfo,
+  removeTenantInfo,
   setUserInfo,
   removeUserInfo,
 } from '@/utils/storageUtils'
@@ -42,22 +42,22 @@ const actions = {
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo)
     const accessToken = data['accessToken']
-    const realm = data['realm']
-    const realmStatus = data['realmStatus']
+    const tenant = data['tenant']
+    const tenantStatus = data['tenantStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      const realmInfo = {
-        realmStatus: realmStatus,
+      const tenantInfo = {
+        tenantStatus: tenantStatus,
       }
-      if (realm !== null) {
-        realmInfo.realm = realm
+      if (tenant !== null) {
+        tenantInfo.tenant = tenant
       }
-      setRealmInfo(realmInfo)
+      setTenantInfo(tenantInfo)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return {
         loginStatus: true,
-        realmStatus: realmStatus,
+        tenantStatus: tenantStatus,
       }
     } else {
       Vue.prototype.$baseMessage(`登录接口异常，未正确返回token...`, 'error')
@@ -68,17 +68,17 @@ const actions = {
   },
   async authLogin({ commit }, tokenData) {
     const accessToken = tokenData['accessToken']
-    const realm = tokenData['realm']
-    const realmStatus = data['realmStatus']
+    const tenant = tokenData['tenant']
+    const tenantStatus = data['tenantStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      const realmInfo = {
-        realmStatus: realmStatus,
+      const tenantInfo = {
+        tenantStatus: tenantStatus,
       }
-      if (realm !== null) {
-        realmInfo.realm = realm
+      if (tenant !== null) {
+        tenantInfo.tenant = tenant
       }
-      setRealmInfo(realmInfo)
+      setTenantInfo(tenantInfo)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return true
@@ -107,7 +107,7 @@ const actions = {
   async resetAccessToken({ dispatch }) {
     await dispatch('clearUserInfo')
     removeAccessToken()
-    removeRealmInfo()
+    removeTenantInfo()
     removeUserInfo()
   },
   async clearUserInfo({ commit }) {

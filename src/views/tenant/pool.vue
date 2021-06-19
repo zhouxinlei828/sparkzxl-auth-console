@@ -37,11 +37,11 @@
                 line-height: 48px;
               "
             >
-              领域池管理
+              租户池管理
             </span>
             <el-divider direction="vertical" style="height: 2em"></el-divider>
             <span style="color: #181818; font-size: 18px; height: 48px">
-              领域池
+              租户池
             </span>
           </el-col>
         </el-row>
@@ -51,20 +51,20 @@
               v-model="queryParam.code"
               size="small"
               class="filter-item search-item"
-              placeholder="领域池编码"
+              placeholder="租户池编码"
             />
             <el-input
               v-model="queryParam.name"
               size="small"
               class="filter-item search-item"
-              placeholder="领域池名称"
+              placeholder="租户池名称"
             />
             <el-button
               size="small"
               class="filter-item button-item"
               icon="search"
               type="primary"
-              @click="getRealmList()"
+              @click="getTenantList()"
             >
               查询
             </el-button>
@@ -73,7 +73,7 @@
               class="filter-item button-item"
               @click="
                 () =>
-                  (this.queryParam = {
+                  (queryParam = {
                     pageNum: 1,
                     pageSize: 10,
                     code: null,
@@ -94,20 +94,20 @@
               <el-link @click="handleAdd">
                 <div style="line-height: 30px">
                   <img
-                    class="realm-add"
+                    class="tenant-add"
                     style="width: 30px; height: 30px; margin-top: 80px"
                     src="@/assets/plus.png"
                   />
                   <br />
                   <span style="font-size: 16px; line-height: 20px">
-                    添加领域池
+                    添加租户池
                   </span>
                 </div>
               </el-link>
             </el-card>
           </el-col>
           <el-col
-            v-for="(item, index) in realmPoolData"
+            v-for="(item, index) in tenantPoolData"
             :key="index"
             :xs="22"
             :sm="6"
@@ -119,22 +119,22 @@
               :body-style="{ padding: '0px', height: '220px' }"
               shadow="hover"
             >
-              <div class="realm-main">
-                <img class="realm-logo" :src="item.logo" />
-                <span class="realm-name">
+              <div class="tenant-main">
+                <img class="tenant-logo" :src="item.logo" />
+                <span class="tenant-name">
                   {{ item.name }}
                 </span>
               </div>
-              <div class="realm-sub">
+              <div class="tenant-sub">
                 <span>{{ item.describe }}</span>
               </div>
-              <div class="realm-sub">
+              <div class="tenant-sub">
                 总用户数：
                 <span style="color: red">{{ item.userCount }}</span>
                 人
               </div>
               <el-divider />
-              <div class="realm-button">
+              <div class="tenant-button">
                 <el-button
                   size="mini"
                   class="button-item"
@@ -180,22 +180,26 @@
       <vab-icon :icon="['fas', 'copyright']" />
       sparkzxl {{ fullYear }}
     </el-footer>
-    <realm-edit-form ref="editForm" @fetch-data="getRealmList" />
+    <tenant-edit-form ref="editForm" @fetch-data="getTenantList" />
   </el-container>
 </template>
 <script>
   import variables from '@/styles/variables.scss'
-  import PoolAvatar from '@/views/realm/modules/PoolAvatar'
-  import { deleteRealm, getRealmPageList } from '@/api/realm'
-  import RealmEditForm from './modules/RealmEditForm'
-  import { getRealmInfo, getUserInfo, setRealmInfo } from '@/utils/storageUtils'
+  import PoolAvatar from '@/views/tenant/modules/PoolAvatar'
+  import { deleteTenant, getTenantPageList } from '@/api/tenant'
+  import TenantEditForm from './modules/TenantEditForm'
+  import {
+    getTenantInfo,
+    getUserInfo,
+    setTenantInfo,
+  } from '@/utils/storageUtils'
   import store from '@/store'
   import { resetRouter } from '@/router'
   import Vue from 'vue'
   export default {
     components: {
       PoolAvatar,
-      RealmEditForm,
+      TenantEditForm,
     },
     data() {
       return {
@@ -207,7 +211,7 @@
           name: null,
         },
         list: null,
-        realmPoolData: [],
+        tenantPoolData: [],
         listLoading: true,
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
@@ -221,7 +225,7 @@
       },
     },
     created() {
-      this.getRealmList()
+      this.getTenantList()
     },
     methods: {
       handleAdd() {
@@ -247,20 +251,20 @@
       async comeInConsole(item) {
         await store.dispatch('user/clearUserInfo')
         await resetRouter()
-        const realmInfo = {
-          realmName: item.name,
-          realmStatus: true,
-          realm: item.code,
+        const tenantInfo = {
+          tenantName: item.name,
+          tenantStatus: true,
+          tenant: item.code,
         }
-        setRealmInfo(realmInfo)
+        setTenantInfo(tenantInfo)
         await this.$router.push('/index')
       },
-      async getRealmList() {
-        const realmInfo = getRealmInfo()
+      async getTenantList() {
+        const tenantInfo = getTenantInfo()
         if (
-          realmInfo !== null &&
-          realmInfo.realmStatus !== undefined &&
-          realmInfo.realmStatus === true
+          tenantInfo !== null &&
+          tenantInfo.tenantStatus !== undefined &&
+          tenantInfo.tenantStatus === true
         ) {
           const userInfo = getUserInfo()
           const queryParam = {
@@ -269,30 +273,30 @@
             model: {
               code: this.queryParam.code,
               name: this.queryParam.name,
-              realmUserId: userInfo.id,
+              tenantUserId: userInfo.id,
             },
           }
-          getRealmPageList(queryParam).then((response) => {
+          getTenantPageList(queryParam).then((response) => {
             const result = response.data
             this.total = parseInt(result.total)
-            this.realmPoolData = result.list
+            this.tenantPoolData = result.list
           })
         } else {
           Vue.prototype.$baseNotify(
-            '您的角色不是领域管理员，无法访问...',
+            '您的角色不是租户管理员，无法访问...',
             '错误',
             'error'
           )
         }
       },
       handleDelete(item) {
-        deleteRealm({ ids: [item.id] }).then((response) => {
+        deleteTenant({ ids: [item.id] }).then((response) => {
           const responseData = response.data
           if (responseData) {
-            this.$message.success('删除领域池成功')
-            this.getRealmList()
+            this.$message.success('删除租户池成功')
+            this.getTenantList()
           } else {
-            this.$message.error('删除领域池失败')
+            this.$message.error('删除租户池失败')
           }
         })
       },
@@ -455,11 +459,11 @@
       }
     }
   }
-  .realm-add {
+  .tenant-add {
     width: 30px;
     height: 30px;
   }
-  .realm-logo {
+  .tenant-logo {
     width: 68px;
     height: 68px;
     flex-shrink: 0;
@@ -468,21 +472,21 @@
     border-radius: 4px;
     overflow: hidden;
   }
-  .realm-main {
+  .tenant-main {
     text-align: center;
     line-height: 100px;
   }
-  .realm-name {
+  .tenant-name {
     color: #181818;
     font-family: 'Comic Sans MS';
     font-size: 24px;
     height: 68px;
   }
-  .realm-sub {
+  .tenant-sub {
     text-align: center;
     line-height: 20px;
   }
-  .realm-button {
+  .tenant-button {
     text-align: center;
     line-height: 20px;
     transform: translateY(-8px);

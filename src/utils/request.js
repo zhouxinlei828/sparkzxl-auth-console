@@ -14,7 +14,7 @@ import {
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
-import { getAccessToken, getRealmInfo } from '@/utils/storageUtils'
+import { getAccessToken, getTenantInfo } from '@/utils/storageUtils'
 import { isArray } from '@/utils/validate'
 
 let loadingInstance
@@ -73,15 +73,15 @@ instance.interceptors.request.use(
         config.headers[tokenHeaderKey] = token
       }
     }
-    const realmHeader = config.headers['realm']
-    if (realmHeader === undefined || realmHeader === '') {
-      const realmInfo = getRealmInfo()
+    const tenantHeader = config.headers['tenant']
+    if (tenantHeader === undefined || tenantHeader === '') {
+      const tenantInfo = getTenantInfo()
       if (
-        realmInfo !== null &&
-        realmInfo.realm !== undefined &&
-        realmInfo.realm !== null
+        tenantInfo !== null &&
+        tenantInfo.tenant !== undefined &&
+        tenantInfo.tenant !== null
       ) {
-        config.headers['realm'] = realmInfo.realm
+        config.headers['tenant'] = tenantInfo.tenant
       }
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

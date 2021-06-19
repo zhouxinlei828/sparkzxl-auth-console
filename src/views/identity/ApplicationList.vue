@@ -26,7 +26,7 @@
       class="filter-item button-item"
       @click="
         () =>
-          (this.queryParam = {
+          (queryParam = {
             pageNum: 1,
             pageSize: 10,
             clientId: null,
@@ -72,8 +72,8 @@
         width="40"
       ></el-table-column>
       <el-table-column
-        prop="realmName"
-        label="领域池"
+        prop="tenantName"
+        label="租户池"
         width="100"
       ></el-table-column>
       <el-table-column prop="name" label="应用"></el-table-column>
@@ -228,9 +228,8 @@
         let authorizedGrantTypes = []
         let oauthClientDetail = record.oauthClientDetail
         if (oauthClientDetail !== null) {
-          authorizedGrantTypes = oauthClientDetail.authorizedGrantTypes.split(
-            ','
-          )
+          authorizedGrantTypes =
+            oauthClientDetail.authorizedGrantTypes.split(',')
         } else {
           oauthClientDetail = {
             clientId: null,

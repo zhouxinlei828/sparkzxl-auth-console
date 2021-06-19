@@ -64,6 +64,11 @@ module.exports = {
           '^/service': '/api/workflow/',
         },
       },
+      '/flowChart': {
+        target: 'http://127.0.0.1:8802',
+        ws: false,
+        changeOrigin: true,
+      },
     },
   },
   configureWebpack() {

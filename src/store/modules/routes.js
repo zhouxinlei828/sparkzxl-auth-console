@@ -9,7 +9,7 @@ import {
   buildRouterJson,
   filterAsyncRoutes,
 } from '@/utils/handleRoutes'
-import { getRealmInfo } from '@/utils/storageUtils'
+import { getTenantInfo } from '@/utils/storageUtils'
 const state = () => ({
   routes: [],
   partialRoutes: [],
@@ -42,14 +42,14 @@ const actions = {
   async setAllRoutes({ commit }) {
     const routeData = []
     let parameter = {}
-    const realmInfo = getRealmInfo()
-    if (realmInfo !== null && realmInfo.realm !== undefined) {
+    const tenantInfo = getTenantInfo()
+    if (tenantInfo !== null && tenantInfo.tenant !== undefined) {
       if (
-        realmInfo.realmStatus !== undefined &&
-        realmInfo.realmStatus === true
+        tenantInfo.tenantStatus !== undefined &&
+        tenantInfo.tenantStatus === true
       ) {
         parameter = {
-          realmCode: realmInfo.realm,
+          tenantId: tenantInfo.tenant,
         }
       }
     }
@@ -73,11 +73,11 @@ const actions = {
       ],
     })
     routeData.push({
-      path: '/realm/pool',
-      name: 'RealmPool',
-      component: '@/views/realm/pool',
+      path: '/tenant/pool',
+      name: 'TenantPool',
+      component: '@/views/tenant/pool',
       meta: {
-        title: '领域池控制台',
+        title: '租户池控制台',
       },
       hidden: true,
     })

@@ -159,13 +159,13 @@
               .then((result) => {
                 if (result.loginStatus) {
                   let routerPath
-                  if (result.realmStatus) {
-                    routerPath = '/realm/pool'
+                  if (result.tenantStatus) {
+                    routerPath = '/tenant/pool'
                   } else {
                     routerPath =
                       this.redirect === '/404' ||
                       this.redirect === '/401' ||
-                      this.redirect === '/realm/pool'
+                      this.redirect === '/tenant/pool'
                         ? '/index'
                         : this.redirect
                   }

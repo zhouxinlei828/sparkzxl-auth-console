@@ -11,7 +11,7 @@ import {
   routesWhiteList,
 } from '@/config'
 
-import { getAccessToken, getRealmInfo } from '@/utils/storageUtils'
+import { getAccessToken, getTenantInfo } from '@/utils/storageUtils'
 
 NProgress.configure({
   easing: 'ease',
@@ -38,15 +38,15 @@ router.beforeResolve(async (to, from, next) => {
             let accessRoutes = await store.dispatch('routes/setAllRoutes')
             router.addRoutes(accessRoutes)
             let redirect = decodeURIComponent(from.query.redirect || to.path)
-            const realmInfo = getRealmInfo()
+            const tenantInfo = getTenantInfo()
             if (
-              realmInfo !== null &&
-              realmInfo.realmStatus !== undefined &&
-              realmInfo.realmStatus === true
+              tenantInfo !== null &&
+              tenantInfo.tenantStatus !== undefined &&
+              tenantInfo.tenantStatus === true
             ) {
               next({ ...to, replace: true })
             } else {
-              if (redirect === '/realm/pool') {
+              if (redirect === '/tenant/pool') {
                 redirect = to.path
               }
               next({ path: redirect })
