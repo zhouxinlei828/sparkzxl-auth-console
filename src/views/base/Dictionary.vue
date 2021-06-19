@@ -332,7 +332,10 @@
         this.$refs['dictionaryCreateForm'].showDialog(data)
       },
       handleDeleteDictionary(id) {
-        deleteDictionary(id).then((response) => {
+        const data = {
+          ids: [id],
+        }
+        deleteDictionary(data).then((response) => {
           const responseData = response.data
           if (responseData) {
             this.$message.success('删除字典成功')
@@ -384,7 +387,10 @@
         this.$refs['dictionaryItemCreateForm'].showDialog(data)
       },
       handleDeleteDictionaryItem(id) {
-        deleteDictionaryItem(id).then((response) => {
+        const data = {
+          ids: [id],
+        }
+        deleteDictionaryItem(data).then((response) => {
           const responseData = response.data
           if (responseData) {
             this.$message.success('删除字典项成功')

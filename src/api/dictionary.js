@@ -54,8 +54,9 @@ export function updateDictionary(parameter) {
 
 export function deleteDictionary(parameter) {
   return request({
-    url: api.deleteDictionary.concat('?ids[]=').concat(parameter),
+    url: api.deleteDictionary,
     method: 'delete',
+    data: parameter,
   })
 }
 
@@ -77,7 +78,8 @@ export function updateDictionaryItem(parameter) {
 
 export function deleteDictionaryItem(parameter) {
   return request({
-    url: api.deleteDictionaryItem.concat('?ids[]=').concat(parameter),
+    url: api.deleteDictionaryItem,
     method: 'delete',
+    data: parameter,
   })
 }
