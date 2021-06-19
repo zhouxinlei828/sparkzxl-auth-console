@@ -14,10 +14,7 @@
         <el-button type="primary" icon="search" @click="getOrgList()">
           查询
         </el-button>
-        <el-button
-          style="margin-left: 8px"
-          @click="() => (this.filterText = null)"
-        >
+        <el-button style="margin-left: 8px" @click="() => (filterText = null)">
           重置
         </el-button>
       </el-form-item>

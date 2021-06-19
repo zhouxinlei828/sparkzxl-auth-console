@@ -17,7 +17,7 @@
           style="margin-left: 12px"
           @click="
             () =>
-              (this.queryParam = {
+              (queryParam = {
                 pageNum: 1,
                 pageSize: 10,
                 name: '',

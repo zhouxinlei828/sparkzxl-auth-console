@@ -2,14 +2,14 @@
   <el-dialog
     title="设计流程图"
     :visible.sync="dialogFormVisible"
-    :width="this.getWindowInfo.width"
+    :width="getWindowInfo.width"
     fullscreen
     @close="closeDialog"
   >
     <iframe
       :src="flowChartSrc"
       width="100%"
-      :height="this.getWindowInfo.height"
+      :height="getWindowInfo.height"
       allowfullscreen
       frameborder="0"
     />

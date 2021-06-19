@@ -19,10 +19,7 @@
         <el-button type="primary" icon="search" @click="getRoleList()">
           查询
         </el-button>
-        <el-button
-          style="margin-left: 8px"
-          @click="() => (this.queryParam = {})"
-        >
+        <el-button style="margin-left: 8px" @click="() => (queryParam = {})">
           重置
         </el-button>
       </el-form-item>

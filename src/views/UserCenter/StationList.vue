@@ -28,7 +28,7 @@
     <el-button
       size="small"
       class="filter-item button-item"
-      @click="() => (this.queryParam = {})"
+      @click="() => (queryParam = {})"
     >
       重置
     </el-button>

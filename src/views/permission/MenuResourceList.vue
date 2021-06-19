@@ -15,7 +15,7 @@
         <el-button
           size="small"
           style="margin-left: 8px"
-          @click="() => (this.filterText = '')"
+          @click="() => (filterText = '')"
         >
           重置
         </el-button>
