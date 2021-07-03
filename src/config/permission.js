@@ -11,7 +11,7 @@ import {
   routesWhiteList,
 } from '@/config'
 
-import { getAccessToken, getTenantInfo } from '@/utils/storageUtils'
+import { getAccessToken } from '@/utils/storageUtils'
 
 NProgress.configure({
   easing: 'ease',
@@ -38,19 +38,7 @@ router.beforeResolve(async (to, from, next) => {
             let accessRoutes = await store.dispatch('routes/setAllRoutes')
             router.addRoutes(accessRoutes)
             let redirect = decodeURIComponent(from.query.redirect || to.path)
-            const tenantInfo = getTenantInfo()
-            if (
-              tenantInfo !== null &&
-              tenantInfo.tenantStatus !== undefined &&
-              tenantInfo.tenantStatus === true
-            ) {
-              next({ ...to, replace: true })
-            } else {
-              if (redirect === '/tenant/pool') {
-                redirect = to.path
-              }
-              next({ path: redirect })
-            }
+            next({ path: redirect })
           }
         } catch (e) {
           await store.dispatch('user/resetAccessToken')

@@ -14,7 +14,6 @@
       </el-col>
       <el-col :xs="20" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="right-panel">
-          <main-tenant />
           <vab-error-log />
           <vab-full-screen-bar @refresh="refreshRoute" />
           <vab-theme-bar class="hidden-xs-only" />
@@ -33,11 +32,9 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
-  import MainTenant from '@/layouts/components/Tenant/MainTenant'
 
   export default {
     name: 'VabNavBar',
-    components: { MainTenant },
     data() {
       return {
         pulse: false,

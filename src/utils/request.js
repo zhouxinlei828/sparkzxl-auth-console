@@ -14,8 +14,9 @@ import {
 } from '@/config'
 import store from '@/store'
 import qs from 'qs'
-import { getAccessToken, getTenantInfo } from '@/utils/storageUtils'
+import { getAccessToken } from '@/utils/storageUtils'
 import { isArray } from '@/utils/validate'
+import { getTenant } from './storageUtils'
 
 let loadingInstance
 
@@ -75,13 +76,9 @@ instance.interceptors.request.use(
     }
     const tenantHeader = config.headers['tenant']
     if (tenantHeader === undefined || tenantHeader === '') {
-      const tenantInfo = getTenantInfo()
-      if (
-        tenantInfo !== null &&
-        tenantInfo.tenant !== undefined &&
-        tenantInfo.tenant !== null
-      ) {
-        config.headers['tenant'] = tenantInfo.tenant
+      const tenant = getTenant()
+      if (tenant !== null && tenant !== undefined) {
+        config.headers['tenant'] = tenant
       }
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

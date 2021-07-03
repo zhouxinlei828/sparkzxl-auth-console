@@ -9,7 +9,6 @@ import {
   buildRouterJson,
   filterAsyncRoutes,
 } from '@/utils/handleRoutes'
-import { getTenantInfo } from '@/utils/storageUtils'
 const state = () => ({
   routes: [],
   partialRoutes: [],
@@ -41,19 +40,7 @@ const actions = {
   },
   async setAllRoutes({ commit }) {
     const routeData = []
-    let parameter = {}
-    const tenantInfo = getTenantInfo()
-    if (tenantInfo !== null && tenantInfo.tenant !== undefined) {
-      if (
-        tenantInfo.tenantStatus !== undefined &&
-        tenantInfo.tenantStatus === true
-      ) {
-        parameter = {
-          tenantId: tenantInfo.tenant,
-        }
-      }
-    }
-    let { data } = await userRouters(parameter)
+    let { data } = await userRouters()
     routeData.push({
       path: '/',
       component: 'Layout',
@@ -71,15 +58,6 @@ const actions = {
           },
         },
       ],
-    })
-    routeData.push({
-      path: '/tenant/pool',
-      name: 'TenantPool',
-      component: '@/views/tenant/pool',
-      meta: {
-        title: '租户池控制台',
-      },
-      hidden: true,
     })
     const routJsonData = buildRouterJson(data)
     routJsonData.forEach((routeJson) => {

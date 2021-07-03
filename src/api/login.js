@@ -49,11 +49,10 @@ export function getAuthorizeUrl(parameter) {
   })
 }
 
-export function userRouters(parameter) {
+export function userRouters() {
   return request({
     url: userApi.userRouters,
     method: 'get',
-    params: parameter,
   })
 }
 

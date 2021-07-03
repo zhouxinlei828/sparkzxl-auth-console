@@ -71,11 +71,6 @@
         type="selection"
         width="40"
       ></el-table-column>
-      <el-table-column
-        prop="tenantName"
-        label="租户池"
-        width="100"
-      ></el-table-column>
       <el-table-column prop="name" label="应用"></el-table-column>
       <el-table-column prop="appTypeName" label="应用类型"></el-table-column>
       <el-table-column

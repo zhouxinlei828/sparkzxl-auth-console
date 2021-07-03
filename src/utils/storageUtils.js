@@ -42,52 +42,34 @@ export function removeAccessToken() {
   }
 }
 
-export function setTenantInfo(tenantInfo) {
-  const jsonStrInfo = JSON.stringify(tenantInfo)
+export function setTenant(tenant) {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem('tenantInfo', jsonStrInfo)
+      return localStorage.setItem('tenant', tenant)
     } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('tenantInfo', jsonStrInfo)
+      return localStorage.setItem('tenant', tenant)
     } else {
-      return localStorage.setItem('tenantInfo', jsonStrInfo)
+      return localStorage.setItem('tenant', tenant)
     }
   } else {
-    return localStorage.setItem('tenantInfo', jsonStrInfo)
+    return localStorage.setItem('tenant', tenant)
   }
 }
 
-export function getTenantInfo() {
-  let jsonStrInfo
+export function getTenant() {
+  let tenant
   if (storage) {
     if ('localStorage' === storage) {
-      jsonStrInfo = localStorage.getItem('tenantInfo')
+      tenant = localStorage.getItem('tenant')
     } else if ('sessionStorage' === storage) {
-      jsonStrInfo = sessionStorage.getItem('tenantInfo')
+      tenant = sessionStorage.getItem('tenant')
     } else {
-      jsonStrInfo = localStorage.getItem('tenantInfo')
+      tenant = localStorage.getItem('tenant')
     }
   } else {
-    jsonStrInfo = localStorage.getItem('tenantInfo')
+    tenant = localStorage.getItem('tenant')
   }
-  if (jsonStrInfo !== null) {
-    return JSON.parse(jsonStrInfo)
-  }
-  return null
-}
-
-export function removeTenantInfo() {
-  if (storage) {
-    if ('localStorage' === storage) {
-      return localStorage.removeItem('tenantInfo')
-    } else if ('sessionStorage' === storage) {
-      return sessionStorage.removeItem('tenantInfo')
-    } else {
-      return localStorage.removeItem('tenantInfo')
-    }
-  } else {
-    return localStorage.removeItem('tenantInfo')
-  }
+  return tenant
 }
 
 export function setUserInfo(userInfo) {

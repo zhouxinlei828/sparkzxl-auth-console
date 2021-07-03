@@ -95,6 +95,7 @@
 <script>
   import { userRegister } from '@/api/login'
   import { getParameter } from '@/api/parameter'
+  import { setTenant } from '../../utils/storageUtils'
   export default {
     data() {
       return {
@@ -132,12 +133,14 @@
       $route: {
         handler(route) {
           this.redirect = (route.query && route.query.redirect) || '/'
+          this.tenant = (route.query && route.query.tenant) || ''
         },
         immediate: true,
       },
     },
     created() {
       this.getParameter('system_name')
+      setTenant(this.tenant)
     },
     methods: {
       getParameter(data) {
@@ -158,17 +161,10 @@
               .dispatch('user/login', this.form)
               .then((result) => {
                 if (result.loginStatus) {
-                  let routerPath
-                  if (result.tenantStatus) {
-                    routerPath = '/tenant/pool'
-                  } else {
-                    routerPath =
-                      this.redirect === '/404' ||
-                      this.redirect === '/401' ||
-                      this.redirect === '/tenant/pool'
-                        ? '/index'
-                        : this.redirect
-                  }
+                  let routerPath =
+                    this.redirect === '/404' || this.redirect === '/401'
+                      ? '/'
+                      : this.redirect
                   this.$router.push(routerPath).catch(() => {})
                 }
               })

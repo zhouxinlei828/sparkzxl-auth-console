@@ -3,8 +3,6 @@ import { userInfo, login, logout } from '@/api/login'
 import {
   removeAccessToken,
   setAccessToken,
-  setTenantInfo,
-  removeTenantInfo,
   setUserInfo,
   removeUserInfo,
 } from '@/utils/storageUtils'
@@ -42,22 +40,12 @@ const actions = {
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo)
     const accessToken = data['accessToken']
-    const tenant = data['tenant']
-    const tenantStatus = data['tenantStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      const tenantInfo = {
-        tenantStatus: tenantStatus,
-      }
-      if (tenant !== null) {
-        tenantInfo.tenant = tenant
-      }
-      setTenantInfo(tenantInfo)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return {
         loginStatus: true,
-        tenantStatus: tenantStatus,
       }
     } else {
       Vue.prototype.$baseMessage(`登录接口异常，未正确返回token...`, 'error')
@@ -68,17 +56,8 @@ const actions = {
   },
   async authLogin({ commit }, tokenData) {
     const accessToken = tokenData['accessToken']
-    const tenant = tokenData['tenant']
-    const tenantStatus = data['tenantStatus']
     if (accessToken) {
       setAccessToken(accessToken)
-      const tenantInfo = {
-        tenantStatus: tenantStatus,
-      }
-      if (tenant !== null) {
-        tenantInfo.tenant = tenant
-      }
-      setTenantInfo(tenantInfo)
       const thisTime = timeFix()
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
       return true
@@ -107,7 +86,6 @@ const actions = {
   async resetAccessToken({ dispatch }) {
     await dispatch('clearUserInfo')
     removeAccessToken()
-    removeTenantInfo()
     removeUserInfo()
   },
   async clearUserInfo({ commit }) {

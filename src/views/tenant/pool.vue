@@ -188,11 +188,7 @@
   import PoolAvatar from '@/views/tenant/modules/PoolAvatar'
   import { deleteTenant, getTenantPageList } from '@/api/tenant'
   import TenantEditForm from './modules/TenantEditForm'
-  import {
-    getTenantInfo,
-    getUserInfo,
-    setTenantInfo,
-  } from '@/utils/storageUtils'
+  import { getUserInfo } from '@/utils/storageUtils'
   import store from '@/store'
   import { resetRouter } from '@/router'
   import Vue from 'vue'
@@ -251,43 +247,22 @@
       async comeInConsole(item) {
         await store.dispatch('user/clearUserInfo')
         await resetRouter()
-        const tenantInfo = {
-          tenantName: item.name,
-          tenantStatus: true,
-          tenant: item.code,
-        }
-        setTenantInfo(tenantInfo)
         await this.$router.push('/index')
       },
       async getTenantList() {
-        const tenantInfo = getTenantInfo()
-        if (
-          tenantInfo !== null &&
-          tenantInfo.tenantStatus !== undefined &&
-          tenantInfo.tenantStatus === true
-        ) {
-          const userInfo = getUserInfo()
-          const queryParam = {
-            pageNum: this.queryParam.pageNum,
-            pageSize: this.queryParam.pageSize,
-            model: {
-              code: this.queryParam.code,
-              name: this.queryParam.name,
-              tenantUserId: userInfo.id,
-            },
-          }
-          getTenantPageList(queryParam).then((response) => {
-            const result = response.data
-            this.total = parseInt(result.total)
-            this.tenantPoolData = result.list
-          })
-        } else {
-          Vue.prototype.$baseNotify(
-            '您的角色不是租户管理员，无法访问...',
-            '错误',
-            'error'
-          )
+        const queryParam = {
+          pageNum: this.queryParam.pageNum,
+          pageSize: this.queryParam.pageSize,
+          model: {
+            code: this.queryParam.code,
+            name: this.queryParam.name,
+          },
         }
+        getTenantPageList(queryParam).then((response) => {
+          const result = response.data
+          this.total = parseInt(result.total)
+          this.tenantPoolData = result.list
+        })
       },
       handleDelete(item) {
         deleteTenant({ ids: [item.id] }).then((response) => {
