@@ -12,7 +12,7 @@
     },
     data() {
       return {
-        url: '/xxl-job-admin/jobinfo',
+        url: `${process.env.VUE_APP_JOB_IFRAME_URL}/xxl-job-admin/jobinfo`,
       }
     },
     methods: {},
