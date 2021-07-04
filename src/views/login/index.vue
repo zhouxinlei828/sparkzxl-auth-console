@@ -10,22 +10,22 @@
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/logo.png" />
           <span class="title">
-            {{ systemName }}
+            {{ loginTitle }}
           </span>
           <br />
           <span>填写注册人信息</span>
         </div>
+        <el-form-item prop="tenant" required>
+          <el-input
+            v-model="registerForm.tenant"
+            placeholder="请输入租户"
+            class="edit-form-item"
+          />
+        </el-form-item>
         <el-form-item prop="account" required>
           <el-input
             v-model="registerForm.account"
             placeholder="请输入账户或者手机号"
-            class="edit-form-item"
-          />
-        </el-form-item>
-        <el-form-item prop="email" required>
-          <el-input
-            v-model="registerForm.email"
-            placeholder="请输入邮箱"
             class="edit-form-item"
           />
         </el-form-item>
@@ -49,7 +49,7 @@
         <div style="line-height: 40px">
           <img style="height: 40px" src="@/assets/logo.png" />
           <span class="title">
-            {{ systemName }}
+            {{ loginTitle }}
           </span>
           <br />
           <span>使用帐号登录</span>
@@ -101,20 +101,20 @@
 </template>
 <script>
   import { userRegister } from '@/api/login'
-  import { getParameter } from '@/api/parameter'
-  import { setTenant } from '../../utils/storageUtils'
+  import { loginTitle } from '@/config'
+  import { setTenant } from '@/utils/storageUtils'
   export default {
     data() {
       return {
+        loginTitle,
         form: {
           username: null,
           password: null,
           tenant: '',
         },
-        systemName: null,
         registerForm: {
+          tenant: '',
           username: null,
-          email: null,
           password: null,
         },
         activeLogin: true,
@@ -150,15 +150,9 @@
       },
     },
     created() {
-      this.getParameter('system_name')
       setTenant(this.form.tenant)
     },
     methods: {
-      getParameter(data) {
-        getParameter({ code: data }).then((response) => {
-          this.systemName = response.data.value
-        })
-      },
       changeRegister() {
         this.activeLogin = false
       },
@@ -189,6 +183,7 @@
       handleRegister() {
         this.$refs.registerForm.validate((valid) => {
           if (valid) {
+            setTenant(this.registerForm.tenant)
             this.loading = true
             userRegister(this.registerForm).then((response) => {
               const responseData = response.data
