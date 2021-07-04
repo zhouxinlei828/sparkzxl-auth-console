@@ -13,7 +13,7 @@ import VueDragFormdesign from 'vue-drag-formdesign'
 import 'vue-drag-formdesign/lib/vue-drag-formdesign.css'
 
 const iconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_946821_x3edyjj0q7b.js',
+  scriptUrl: '//at.alicdn.com/t/font_946821_36qni1fedbh.js',
 })
 Vue.config.productionTip = false
 Vue.component('TreeSelect', Treeselect)

@@ -53,7 +53,7 @@ export const asyncRoutes = [
         component: () => import('@/views/index/index'),
         meta: {
           title: '首页',
-          icon: 'home',
+          icon: 'icon-shouye-01',
           affix: true,
         },
       },
