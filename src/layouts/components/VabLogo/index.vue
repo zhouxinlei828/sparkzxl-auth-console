@@ -59,6 +59,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+    font-family: 'Comic Sans MS', serif;
   }
 
   .logo-container-horizontal {

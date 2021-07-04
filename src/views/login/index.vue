@@ -54,6 +54,13 @@
           <br />
           <span>使用帐号登录</span>
         </div>
+        <el-form-item prop="tenant" required>
+          <el-input
+            v-model="form.tenant"
+            placeholder="请输入租户"
+            class="edit-form-item"
+          />
+        </el-form-item>
         <el-form-item prop="username" required>
           <el-input
             v-model="form.username"
@@ -102,6 +109,7 @@
         form: {
           username: null,
           password: null,
+          tenant: '',
         },
         systemName: null,
         registerForm: {
@@ -113,6 +121,9 @@
         rules: {
           username: [
             { required: true, message: '账户不能为空', trigger: 'blur' },
+          ],
+          tenant: [
+            { required: true, message: '租户不能为空', trigger: 'blur' },
           ],
           password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
@@ -133,14 +144,14 @@
       $route: {
         handler(route) {
           this.redirect = (route.query && route.query.redirect) || '/'
-          this.tenant = (route.query && route.query.tenant) || ''
+          this.form.tenant = (route.query && route.query.tenant) || ''
         },
         immediate: true,
       },
     },
     created() {
       this.getParameter('system_name')
-      setTenant(this.tenant)
+      setTenant(this.form.tenant)
     },
     methods: {
       getParameter(data) {
@@ -157,6 +168,7 @@
       handleLogin() {
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
+            setTenant(this.form.tenant)
             this.$store
               .dispatch('user/login', this.form)
               .then((result) => {
@@ -237,7 +249,7 @@
     overflow: hidden;
     font-size: 20px;
     line-height: 55px;
-    color: $base-title-color;
+    color: $base-color-black;
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
@@ -247,14 +259,15 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    position: relative;
+    position: absolute;
     overflow: hidden;
     width: 768px;
     max-width: 100%;
     min-height: calc(100vh - 50vh);
-    top: calc(100vh - 80vh);
-    left: calc(100vh - 57vh);
-    height: calc(100vh - 40vh);
+    top: 50%;
+    left: 50%;
+    height: calc(100vh - 70vh);
+    transform: translate(-50%, -50%);
   }
 
   .form-container form {
