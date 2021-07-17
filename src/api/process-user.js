@@ -1,16 +1,13 @@
 import request from '@/utils/request'
 
 const api = {
-  userPage: '/auth/user/page',
-  userList: '/auth/user/list',
-  exportExcelUser: '/auth/user/export',
-  saveUser: '/auth/user/save',
-  updateUser: '/auth/user/update',
-  deleteUser: '/auth/user/delete',
+  userPage: '/workflow/process/user/page',
+  userList: '/workflow/process/user/list',
+  exportExcelUser: '/workflow/process/user/export',
+  saveUser: '/workflow/process/user/save',
+  updateUser: '/workflow/process/user/update',
+  deleteUser: '/workflow/process/user/delete',
 }
-
-export default api
-
 export function getUserPage(parameter) {
   return request({
     url: api.userPage,

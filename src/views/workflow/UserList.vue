@@ -10,15 +10,6 @@
       class="filter-item search-item"
       placeholder="姓名"
     />
-    <TreeSelect
-      v-model="queryParam.org"
-      class="filter-item search-item"
-      :load-options="loadListOptions"
-      :multiple="false"
-      :searchable="true"
-      placeholder="组织"
-      :options="orgData"
-    />
     <el-button
       size="small"
       class="filter-item button-item"
@@ -70,10 +61,10 @@
         :headers="headers"
         :before-upload="beforeUpload"
         :accept="uploadAccept"
-        action="/api/auth/user/import"
+        action="/api/workflow/process/user/import"
         :limit="1"
         :show-file-list="false"
-        :on-success="uploadUserDataSuccess"
+        :on-success="uploadProcessUserSuccess"
       >
         <el-button size="small">
           <IconFont type="icon-daoru" />
@@ -106,39 +97,6 @@
       ></el-table-column>
       <el-table-column prop="account" label="账号"></el-table-column>
       <el-table-column prop="name" label="姓名"></el-table-column>
-      <el-table-column prop="sex" label="性别" align="center" width="60">
-        <template #default="{ row }">
-          <el-tag
-            v-if="row.sex !== null"
-            :type="row.sex.code === 1 ? 'primary' : 'success'"
-            disable-transitions
-          >
-            {{ row.sex.desc }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="email" width="200" label="邮箱"></el-table-column>
-      <el-table-column
-        prop="positionStatus"
-        width="80"
-        align="center"
-        label="职位状态"
-      >
-        <template #default="{ row }">
-          <span v-if="row.positionStatus.data != null">
-            {{
-              row.positionStatus.data != null ? row.positionStatus.data : '暂无'
-            }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="org" label="组织">
-        <template #default="{ row }">
-          <span v-if="row.org.data != null">
-            {{ row.org.data.label }}
-          </span>
-        </template>
-      </el-table-column>
       <el-table-column prop="status" label="状态" align="center" width="80">
         <template #default="{ row }">
           <el-tag
@@ -184,10 +142,11 @@
 </template>
 <script>
   import moment from 'moment'
-
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-  import { deleteUser, exportExcelUserData, getUserPage } from '@/api/user'
-  import { getOrgList } from '@/api/org'
+  import {
+    deleteUser,
+    exportExcelUserData,
+    getUserPage,
+  } from '@/api/process-user'
 
   import UserEditForm from './modules/UserEditForm'
   import { downloadFile } from '@/utils/util'
@@ -210,22 +169,18 @@
           pageSize: 10,
           account: null,
           name: null,
-          org: null,
         },
         layout: 'total, sizes, prev, pager, next, jumper',
         userTableData: [],
-        educationData: [],
-        positionStatusData: [],
         uploadAccept: '.xls,.xlsx',
-        orgData: [],
         tableLoading: false,
-        excelTemplate: 'https://oss.sparksys.top/template/用户导入模板.xlsx',
+        excelTemplate:
+          'https://oss.sparksys.top/template/流程用户导入模板.xlsx',
         selectedRows: [],
       }
     },
     created() {
       this.getUserPage()
-      this.getOrgList()
     },
     methods: {
       handleSelectionChange(val) {
@@ -247,7 +202,6 @@
           model: {
             account: this.queryParam.account,
             name: this.queryParam.name,
-            orgId: this.queryParam.org,
           },
         }
         getUserPage(params).then((response) => {
@@ -262,17 +216,6 @@
           this.tableLoading = false
         })
       },
-      getOrgList() {
-        if (this.orgData.length === 0) {
-          const parameter = {
-            name: '',
-            status: true,
-          }
-          getOrgList(parameter).then((response) => {
-            this.orgData = response.data
-          })
-        }
-      },
       loadListOptions({ callback }) {
         callback()
       },
@@ -280,19 +223,7 @@
         const createData = {
           account: null,
           name: null,
-          password: null,
-          orgId: null,
-          stationId: null,
-          email: null,
-          mobile: null,
-          sex: '1',
-          nation: null,
-          education: null,
-          positionStatus: null,
           status: '1',
-          workDescribe: null,
-          orgData: this.orgData,
-          attribute: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -301,19 +232,7 @@
           id: record.id,
           account: record.account,
           name: record.name,
-          orgId: record.org === null ? '' : record.org.key,
-          stationId: record.station === null ? '' : record.station.key,
-          email: record.email,
-          mobile: record.mobile,
-          sex: record.sex === null ? '' : record.sex.code + '',
-          nation: record.nation === null ? '' : record.nation.key,
-          education: record.education === null ? '' : record.education.key,
-          positionStatus:
-            record.positionStatus === null ? '' : record.positionStatus.key,
           status: record.status === true ? '1' : '2',
-          workDescribe: record.workDescribe,
-          orgData: this.orgData,
-          attribute: record.attribute,
         }
         this.$refs['editForm'].showDialog(data)
       },
@@ -360,7 +279,7 @@
         this.headers['tenant'] = getTenant()
         this.headers[tokenHeaderKey] = 'Bearer ' + getAccessToken()
       },
-      uploadUserDataSuccess(response, file, fileList) {
+      uploadProcessUserSuccess(response, file, fileList) {
         console.log(response)
         if (response.success) {
           const responseData = response.data
@@ -374,7 +293,6 @@
         const params = {
           account: this.queryParam.account,
           name: this.queryParam.name,
-          orgId: this.queryParam.org,
         }
         exportExcelUserData(params).then((response) => {
           downloadFile(response)

@@ -6,7 +6,6 @@ const api = {
   saveStation: '/auth/station/save',
   updateStation: '/auth/station/update',
   deleteStation: '/auth/station/delete',
-  importStationData: '/auth/station/import',
   exportStationData: '/auth/station/export',
 }
 
@@ -48,14 +47,6 @@ export function deleteStation(parameter) {
   return request({
     url: api.deleteStation,
     method: 'delete',
-    data: parameter,
-  })
-}
-
-export function importStationData(parameter) {
-  return request({
-    url: api.importStationData,
-    method: 'post',
     data: parameter,
   })
 }

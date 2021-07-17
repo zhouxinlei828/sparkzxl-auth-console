@@ -64,11 +64,13 @@
       <el-upload
         ref="upload"
         class="filter-item button-item"
+        :headers="headers"
+        :before-upload="beforeUpload"
         :accept="uploadAccept"
-        action=""
-        :http-request="handleImportData"
+        action="/api/auth/user/import"
         :limit="1"
         :show-file-list="false"
+        :on-success="uploadStationDataSuccess"
       >
         <el-button size="small">
           <IconFont type="icon-daoru" />
@@ -162,13 +164,13 @@
   import {
     getStationPageList,
     deleteStation,
-    importStationData,
     exportStationExcelData,
   } from '@/api/station'
 
   import StationEditForm from './modules/StationEditForm'
   import { downloadFile } from '@/utils/util'
-
+  import { getAccessToken, getTenant } from '@/utils/storageUtils'
+  import { tokenHeaderKey } from '@/config'
   export default {
     components: {
       StationEditForm,
@@ -185,6 +187,7 @@
           name: '',
           orgId: null,
         },
+        headers: {},
         layout: 'total, sizes, prev, pager, next, jumper',
         orgData: [],
         stationData: [],
@@ -317,18 +320,19 @@
           this.$message.error('未选中任何行')
         }
       },
-      handleImportData(data) {
-        const formData = new FormData()
-        formData.append('file', data.file)
-        importStationData(formData).then((response) => {
+      beforeUpload(file) {
+        this.headers['tenant'] = getTenant()
+        this.headers[tokenHeaderKey] = 'Bearer ' + getAccessToken()
+      },
+      uploadStationDataSuccess(response, file, fileList) {
+        console.log(response)
+        if (response.success) {
           const responseData = response.data
-          if (responseData > 0) {
-            this.$message.success('导入岗位' + responseData + '条记录')
-            this.getUserPage()
-          } else {
-            this.$message.error('导入岗位失败')
-          }
-        })
+          this.$message.success('导入岗位' + responseData + '条记录')
+          this.getUserPage()
+        } else {
+          this.$message.error('导入岗位失败')
+        }
       },
       async handleExportExcelData() {
         const params = {
