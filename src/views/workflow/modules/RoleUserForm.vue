@@ -67,7 +67,6 @@
       },
       onSubmit() {
         const submitData = this.form
-        debugger
         saveAuthRoleUser(submitData).then((response) => {
           const responseData = response.data
           if (responseData) {

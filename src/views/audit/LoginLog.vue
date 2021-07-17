@@ -184,7 +184,6 @@
             const parameter = {
               ids: ids,
             }
-            debugger
             deleteLoginLog(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {

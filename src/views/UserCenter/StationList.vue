@@ -305,7 +305,6 @@
             const parameter = {
               ids: ids,
             }
-            debugger
             deleteStation(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {

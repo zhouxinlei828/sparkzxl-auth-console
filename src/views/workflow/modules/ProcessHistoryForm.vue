@@ -14,21 +14,21 @@
     >
       <el-divider content-position="left">流程实例基本信息</el-divider>
       <el-row>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="流程定义key:" prop="processKey">
             <el-tag type="success" disable-transitions>
               {{ form.processKey }}
             </el-tag>
           </el-form-item>
         </el-col>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="流程名称:" prop="processName">
             <el-tag type="success" disable-transitions>
               {{ form.processName }}
             </el-tag>
           </el-form-item>
         </el-col>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="流程运行状态:" prop="status">
             <el-tag type="success" disable-transitions>
               {{ form.status }}
@@ -37,7 +37,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="是否挂起:" prop="suspensionState">
             <el-tag
               :type="form.suspensionState.id === 2 ? 'danger' : 'primary'"
@@ -47,32 +47,32 @@
             </el-tag>
           </el-form-item>
         </el-col>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="开始时间:" prop="suspensionState">
             <el-tag type="success" disable-transitions>
               {{ form.startTime }}
             </el-tag>
           </el-form-item>
         </el-col>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="完成时间:" prop="finishTime">
-            <el-tag type="success" disable-transitions>
+            <el-tag v-show="form.finishTime" type="success" disable-transitions>
               {{ form.finishTime }}
             </el-tag>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col span="8">
-          <el-form-item label="发起人:" prop="originator">
+        <el-col :span="8">
+          <el-form-item label="发起人:" prop="originatorName">
             <el-tag type="success" disable-transitions>
-              {{ form.originator }}
+              {{ form.originatorName }}
             </el-tag>
           </el-form-item>
         </el-col>
-        <el-col span="8">
+        <el-col :span="8">
           <el-form-item label="流程耗时:" prop="originator">
-            <el-tag type="success" disable-transitions>
+            <el-tag v-show="form.dueTime" type="success" disable-transitions>
               {{ form.dueTime }}
             </el-tag>
           </el-form-item>
@@ -95,9 +95,9 @@
         width="80"
       ></el-table-column>
       <el-table-column prop="candidate" label="候选人"></el-table-column>
-      <el-table-column prop="assignee" label="处理人"></el-table-column>
+      <el-table-column prop="assigneeName" label="处理人"></el-table-column>
       <el-table-column prop="dueDate" label="到期时间"></el-table-column>
-      <el-table-column prop="taskStatus" label="任务状态">
+      <el-table-column prop="taskStatus" align="center" label="任务状态">
         <template #default="{ row }">
           <el-tag
             :type="row.taskStatus === '待处理' ? 'success' : 'primary'"

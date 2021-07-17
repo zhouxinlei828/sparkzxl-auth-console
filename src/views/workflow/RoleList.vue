@@ -226,7 +226,6 @@
             const parameter = {
               ids: ids,
             }
-            debugger
             deleteRole(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {

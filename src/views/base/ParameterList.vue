@@ -218,7 +218,6 @@
             const parameter = {
               ids: ids,
             }
-            debugger
             deleteParameter(parameter).then((response) => {
               const responseData = response.data
               if (responseData) {

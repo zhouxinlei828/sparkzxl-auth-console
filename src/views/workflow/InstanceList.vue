@@ -72,7 +72,7 @@
         width="160"
       ></el-table-column>
       <el-table-column
-        prop="originator"
+        prop="originatorName"
         align="center"
         label="发起人"
       ></el-table-column>
@@ -281,7 +281,7 @@
           suspensionState: row.suspensionState,
           startTime: row.startTime,
           finishTime: row.finishTime,
-          originator: row.originator,
+          originatorName: row.originatorName,
           dueTime: row.dueTime,
         }
         this.$refs['processHistoryForm'].showDialog(row)
