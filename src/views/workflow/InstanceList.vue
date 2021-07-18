@@ -62,11 +62,16 @@
         label="实例id"
       ></el-table-column>
       <el-table-column prop="businessKey" label="业务主键"></el-table-column>
-      <el-table-column prop="processName" label="流程名称"></el-table-column>
+      <el-table-column
+        prop="processName"
+        label="流程名称"
+        align="center"
+      ></el-table-column>
       <el-table-column
         prop="startTime"
         label="创建时间"
-        width="160"
+        align="center"
+        width="155"
       ></el-table-column>
       <el-table-column
         prop="originatorName"
@@ -83,7 +88,7 @@
           {{ row.taskName }}
         </template>
       </el-table-column>
-      <el-table-column prop="key" label="任务审批人" width="150">
+      <el-table-column prop="key" label="任务状态" width="150">
         <template #default="{ row }">
           <div v-if="row.candidateUserNames">
             <el-tag
