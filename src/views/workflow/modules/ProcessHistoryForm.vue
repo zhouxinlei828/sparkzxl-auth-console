@@ -30,23 +30,16 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="流程运行状态:" prop="status">
-            <el-tag type="success" disable-transitions>
+            <el-tag
+              :type="form.suspensionState.id === 2 ? 'danger' : 'primary'"
+              disable-transitions
+            >
               {{ form.status }}
             </el-tag>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
-          <el-form-item label="是否挂起:" prop="suspensionState">
-            <el-tag
-              :type="form.suspensionState.id === 2 ? 'danger' : 'primary'"
-              disable-transitions
-            >
-              {{ form.suspensionState.name }}
-            </el-tag>
-          </el-form-item>
-        </el-col>
         <el-col :span="8">
           <el-form-item label="开始时间:" prop="suspensionState">
             <el-tag type="success" disable-transitions>
@@ -61,8 +54,6 @@
             </el-tag>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="8">
           <el-form-item label="发起人:" prop="originatorName">
             <el-tag type="success" disable-transitions>
@@ -70,6 +61,8 @@
             </el-tag>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
           <el-form-item label="流程耗时:" prop="originator">
             <el-tag v-show="form.dueTime" type="success" disable-transitions>
@@ -84,6 +77,7 @@
       :data="tableData"
       border
       style="width: 100%"
+      max-height="350"
       :row-class-name="tableRowClassName"
     >
       <el-table-column prop="taskName" label="任务名称"></el-table-column>

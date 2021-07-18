@@ -1,8 +1,11 @@
 <template>
   <div class="filter-container" style="padding-bottom: 0">
     <el-form :inline="true" :model="queryParam" size="small">
-      <el-form-item label="流程名称:">
-        <el-input v-model="queryParam.name" placeholder="请输入流程流程名称" />
+      <el-form-item label="流程实例id:">
+        <el-input
+          v-model="queryParam.processInstanceId"
+          placeholder="请输入流程实例id"
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -60,12 +63,6 @@
       ></el-table-column>
       <el-table-column prop="businessKey" label="业务主键"></el-table-column>
       <el-table-column prop="processName" label="流程名称"></el-table-column>
-      <el-table-column prop="processKey" label="流程key"></el-table-column>
-      <el-table-column
-        prop="status"
-        align="center"
-        label="流程状态"
-      ></el-table-column>
       <el-table-column
         prop="startTime"
         label="创建时间"
@@ -76,6 +73,29 @@
         align="center"
         label="发起人"
       ></el-table-column>
+      <el-table-column
+        prop="status"
+        align="center"
+        label="流程状态"
+      ></el-table-column>
+      <el-table-column prop="key" label="任务节点" align="center" width="150">
+        <template #default="{ row }">
+          {{ row.taskName }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="key" label="任务审批人" width="150">
+        <template #default="{ row }">
+          <div v-if="row.candidateUserNames">
+            <el-tag
+              v-if="row.candidateUserNames"
+              type="success"
+              disable-transitions
+            >
+              等待【{{ row.candidateUserNames }}】审批
+            </el-tag>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
           <el-link type="primary">
@@ -100,6 +120,17 @@
                 @click="handlerSuspendProcess(row.processInstanceId)"
               >
                 挂起
+              </el-button>
+            </el-link>
+            <el-divider direction="vertical" />
+          </span>
+          <span v-show="row.status !== '结束' && row.suspensionState.id === 2">
+            <el-link type="primary">
+              <el-button
+                type="text"
+                @click="handlerActivateProcess(row.processInstanceId)"
+              >
+                激活
               </el-button>
             </el-link>
             <el-divider direction="vertical" />
@@ -136,12 +167,12 @@
     getProcessInstanceList,
     deleteProcessInstance,
     suspendProcess,
+    activateProcess,
     showFlowChart,
   } from '@/api/instance'
 
   import ViewFlowChartForm from './modules/ViewFlowChartForm'
   import ProcessHistoryForm from './modules/ProcessHistoryForm'
-  import { deleteModel } from '@/api/model'
 
   export default {
     components: {
@@ -154,7 +185,7 @@
         queryParam: {
           pageNum: 1,
           pageSize: 10,
-          name: '',
+          processInstanceId: '',
         },
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
@@ -225,10 +256,25 @@
         suspendProcess(parameter).then((response) => {
           const responseData = response.data
           if (responseData) {
-            this.$message.success('挂起流程实例成功')
+            this.$message.success('挂起流程成功')
             this.getProcessInstanceList()
           } else {
-            this.$message.error('挂起流程实例失败')
+            this.$message.error('挂起流程失败')
+          }
+        })
+      },
+      handlerActivateProcess(processInstanceId) {
+        const parameter = {
+          processInstanceId: processInstanceId,
+          type: 2,
+        }
+        activateProcess(parameter).then((response) => {
+          const responseData = response.data
+          if (responseData) {
+            this.$message.success('激活流程成功')
+            this.getProcessInstanceList()
+          } else {
+            this.$message.error('激活流程失败')
           }
         })
       },

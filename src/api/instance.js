@@ -4,7 +4,8 @@ const api = {
   processInstanceList: '/workflow/instance/page',
   instanceOverview: '/workflow/instance/overview',
   historyList: '/workflow/instance/historyList',
-  suspendProcess: '/workflow/drive/suspend',
+  suspendProcess: '/workflow/drive//process/suspend',
+  activateProcess: '/workflow/drive//process/activate',
   deleteProcessInstance: '/workflow/drive/process/delete',
   showFlowChart: '/workflow/instance/flowChart',
 }
@@ -37,6 +38,14 @@ export function historyList(parameter) {
 export function suspendProcess(parameter) {
   return request({
     url: api.suspendProcess,
+    method: 'post',
+    data: parameter,
+  })
+}
+
+export function activateProcess(parameter) {
+  return request({
+    url: api.activateProcess,
     method: 'post',
     data: parameter,
   })
