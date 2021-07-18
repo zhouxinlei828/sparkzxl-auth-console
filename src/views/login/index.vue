@@ -110,7 +110,7 @@
         form: {
           username: null,
           password: null,
-          tenant: '',
+          tenant: 'hz',
         },
         registerForm: {
           tenant: '',
@@ -144,7 +144,7 @@
       $route: {
         handler(route) {
           this.redirect = (route.query && route.query.redirect) || '/'
-          this.form.tenant = (route.query && route.query.tenant) || ''
+          this.form.tenant = (route.query && route.query.tenant) || 'hz'
         },
         immediate: true,
       },
