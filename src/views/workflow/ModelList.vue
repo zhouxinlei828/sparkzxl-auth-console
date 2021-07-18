@@ -135,7 +135,6 @@
 </template>
 
 <script>
-  import moment from 'moment'
   import {
     getModelList,
     deleteModel,
@@ -145,7 +144,6 @@
   import EditFlowChartForm from './modules/EditFlowChartForm'
   import CreateModelForm from './modules/CreateModelForm'
   import CreateRuleForm from './modules/CreateRuleForm'
-  import { deleteApplication } from '@/api/client'
 
   export default {
     name: 'TableList',
@@ -198,8 +196,15 @@
         this.$refs['createModelForm'].showDialog()
       },
       handleEdit(id) {
+        let flowChartSrc = ''
+        console.log(process.env.NODE_ENV)
+        if (process.env.NODE_ENV === 'development') {
+          flowChartSrc = `${process.env.VUE_APP_ACT_BASE_URL}`.concat(id)
+        } else {
+          flowChartSrc = '/flowChart/editor?modelId='.concat(id)
+        }
         const data = {
-          flowChartSrc: '/flowChart/editor?modelId='.concat(id),
+          flowChartSrc: flowChartSrc,
         }
         this.$refs['flowChartForm'].showDialog(data)
       },
