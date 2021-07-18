@@ -71,7 +71,7 @@
       <el-table-column prop="key" label="流程key" width="180"></el-table-column>
       <el-table-column prop="description" label="描述" width="210">
         <template #default="{ row }">
-          {{ row.metaInfo.description }}
+          <span v-show="row.metaInfo">{{ row.metaInfo.description }}</span>
         </template>
       </el-table-column>
       <el-table-column
