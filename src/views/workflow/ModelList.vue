@@ -109,8 +109,8 @@
               发布流程
             </el-button>
           </el-link>
-          <el-divider direction="vertical" />
-          <el-link type="primary">
+          <el-divider v-if="row.deploymentId" direction="vertical" />
+          <el-link v-if="row.deploymentId" type="primary">
             <el-button type="text" @click="revokePublish(row.id)">
               撤销
             </el-button>
@@ -213,7 +213,7 @@
           const responseData = response.data
           if (responseData) {
             this.$message.success('撤销流程成功')
-            this.$refs.table.refresh()
+            this.getModelList()
           } else {
             this.$message.error('撤销流程失败')
           }
@@ -224,7 +224,7 @@
           const responseData = response.data
           if (responseData) {
             this.$message.success('发布流程成功')
-            this.$refs.table.refresh()
+            this.getModelList()
           } else {
             this.$message.error('发布流程失败')
           }
