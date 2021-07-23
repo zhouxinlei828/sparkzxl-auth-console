@@ -117,8 +117,8 @@
               删除
             </el-button>
           </el-link>
-          <el-divider direction="vertical"></el-divider>
           <span v-show="row.status !== '结束' && row.suspensionState.id !== 2">
+            <el-divider direction="vertical"></el-divider>
             <el-link type="primary">
               <el-button
                 type="text"
@@ -127,9 +127,9 @@
                 挂起
               </el-button>
             </el-link>
-            <el-divider direction="vertical" />
           </span>
           <span v-show="row.status !== '结束' && row.suspensionState.id === 2">
+            <el-divider direction="vertical" />
             <el-link type="primary">
               <el-button
                 type="text"
@@ -138,16 +138,7 @@
                 激活
               </el-button>
             </el-link>
-            <el-divider direction="vertical" />
           </span>
-          <el-link type="primary">
-            <el-button
-              type="text"
-              @click="handleShowFlowChart(row.processInstanceId)"
-            >
-              流程图
-            </el-button>
-          </el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -161,8 +152,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
-    <view-flow-chart-form ref="flowChartForm" />
-    <process-history-form ref="processHistoryForm" />
+    <process-instance-form ref="processInstanceForm" />
   </div>
 </template>
 
@@ -173,16 +163,13 @@
     deleteProcessInstance,
     suspendProcess,
     activateProcess,
-    showFlowChart,
   } from '@/api/instance'
 
-  import ViewFlowChartForm from './modules/ViewFlowChartForm'
-  import ProcessHistoryForm from './modules/ProcessHistoryForm'
+  import ProcessInstanceForm from './modules/ProcessInstanceForm'
 
   export default {
     components: {
-      ViewFlowChartForm,
-      ProcessHistoryForm,
+      ProcessInstanceForm,
     },
     data() {
       return {
@@ -243,14 +230,6 @@
           }
           this.modelData = responseData.list
           this.tableLoading = false
-        })
-      },
-      handleShowFlowChart(processInstanceId) {
-        const requestData = {
-          processInstanceId: processInstanceId,
-        }
-        showFlowChart(requestData).then((response) => {
-          this.$refs['flowChartForm'].showDialog(response.data)
         })
       },
       handlerSuspendProcess(processInstanceId) {
@@ -335,7 +314,7 @@
           originatorName: row.originatorName,
           dueTime: row.dueTime,
         }
-        this.$refs['processHistoryForm'].showDialog(row)
+        this.$refs['processInstanceForm'].showDialog(row)
       },
     },
   }
