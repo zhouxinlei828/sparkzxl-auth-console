@@ -83,36 +83,22 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="流转信息" name="processHistory">
-        <el-table
-          :data="tableData"
-          border
-          style="width: 100%"
-          max-height="350"
-          :row-class-name="tableRowClassName"
-        >
-          <el-table-column prop="taskName" label="任务名称"></el-table-column>
-          <el-table-column prop="startTime" label="开始时间"></el-table-column>
-          <el-table-column prop="endTime" label="处理时间"></el-table-column>
-          <el-table-column
-            prop="durationTime"
-            label="耗时"
-            width="80"
-          ></el-table-column>
-          <el-table-column prop="candidate" label="候选人"></el-table-column>
-          <el-table-column prop="assigneeName" label="处理人"></el-table-column>
-          <el-table-column prop="dueDate" label="到期时间"></el-table-column>
-          <el-table-column prop="taskStatus" align="center" label="任务状态">
-            <template #default="{ row }">
-              <el-tag
-                :type="row.taskStatus === '待处理' ? 'success' : 'primary'"
-                disable-transitions
-              >
-                {{ row.taskStatus }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="comment" label="备注/意见"></el-table-column>
-        </el-table>
+        <div class="block">
+          <el-timeline>
+            <el-timeline-item
+              v-for="(activity, index) in processHistoryTimeline"
+              :key="index"
+              :icon="activity.icon"
+              :type="activity.type"
+              :color="activity.color"
+              :size="activity.size"
+              :timestamp="activity.startTime"
+              placement="top"
+            >
+              <process-history-form :data="activity" />
+            </el-timeline-item>
+          </el-timeline>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="流程跟踪" name="processImage">
         <img style="display: table-cell; margin: 0 auto" :src="flowChartSrc" />
@@ -130,16 +116,15 @@
     </div>
   </el-dialog>
 </template>
-<style>
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-</style>
 <script>
   import { historyList, showFlowChart } from '@/api/instance'
   import moment from 'moment'
+  import ProcessHistoryForm from './ProcessHistoryForm'
 
   export default {
+    components: {
+      ProcessHistoryForm,
+    },
     data() {
       return {
         dialogFormVisible: false,
@@ -159,6 +144,7 @@
         },
         flowChartSrc: '',
         tableData: [],
+        processHistoryTimeline: [],
         activeName: 'processApply',
       }
     },
@@ -180,40 +166,41 @@
       handleClick(tab, event) {
         console.log(tab, event)
       },
-      tableRowClassName({ row, rowIndex }) {
-        if (rowIndex === this.tableData.length - 1) {
-          return 'success-row'
-        }
-        return ''
-      },
       loadData(processInstanceId) {
         return historyList({
           processInstanceId: processInstanceId,
           type: 2,
         }).then((response) => {
-          this.tableData = response.data
-          for (let i = 0; i < this.tableData.length; i++) {
-            this.tableData[i].number = i
-            if (this.tableData[i].startTime !== null) {
-              this.tableData[i].startTime = moment(
-                this.tableData[i].startTime
-              ).format('YYYY-MM-DD HH:mm:ss')
+          const tableData = response.data
+          for (const data of tableData) {
+            data.size = 'large'
+            data.type = 'primary'
+            data.icon = 'el-icon-success'
+            if (data.taskStatus === 3) {
+              data.color = '#1890ff'
+            } else if (data.taskStatus === -1) {
+              data.color = '#ff4d4f'
+            } else if (data.taskStatus === -2) {
+              data.color = '#ff6700'
+            } else {
+              data.color = '#0bbd87'
             }
-            if (this.tableData[i].endTime !== null) {
-              this.tableData[i].endTime = moment(
-                this.tableData[i].endTime
-              ).format('YYYY-MM-DD HH:mm:ss')
+            if (data.startTime !== null) {
+              data.startTime = moment(data.startTime).format(
+                'YYYY-MM-DD HH:mm:ss'
+              )
             }
-            if (this.tableData[i].dueDate !== null) {
-              this.tableData[i].dueDate = moment(
-                this.tableData[i].dueDate
-              ).format('YYYY-MM-DD HH:mm:ss')
+            if (data.endTime !== null) {
+              data.endTime = moment(data.endTime).format('YYYY-MM-DD HH:mm:ss')
             }
+            this.processHistoryTimeline.push(data)
           }
+          console.log(this.processHistoryTimeline)
         })
       },
       closeDialog() {
         this.tableData = []
+        this.processHistoryTimeline = []
         this.dialogFormVisible = false
       },
     },
