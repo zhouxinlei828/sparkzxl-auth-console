@@ -1,18 +1,22 @@
 <template>
   <el-menu-item :index="handlePath(routeChildren.path)" @click="handleLink">
-    <IconFont
-      v-if="routeChildren.meta.icon"
-      :type="routeChildren.meta.icon"
-      class="vab-fas-icon"
-    />
-    <span style="padding-left: 5px">{{ routeChildren.meta.title }}</span>
-    <el-tag
-      v-if="routeChildren.meta && routeChildren.meta.badge"
-      type="danger"
-      effect="dark"
-    >
-      {{ routeChildren.meta.badge }}
-    </el-tag>
+    <div style="font-size: 15px">
+      <IconFont
+        v-if="routeChildren.meta.icon"
+        :type="routeChildren.meta.icon"
+        class="vab-fas-icon"
+      />
+      <span style="padding-left: 5px">
+        {{ routeChildren.meta.title }}
+      </span>
+      <el-tag
+        v-if="routeChildren.meta && routeChildren.meta.badge"
+        type="danger"
+        effect="dark"
+      >
+        {{ routeChildren.meta.badge }}
+      </el-tag>
+    </div>
   </el-menu-item>
 </template>
 

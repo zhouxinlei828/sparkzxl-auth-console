@@ -5,12 +5,16 @@
     :popper-append-to-body="false"
   >
     <template slot="title">
-      <IconFont
-        v-if="item.meta && item.meta.icon"
-        :type="item.meta.icon"
-        class="vab-fas-icon"
-      />
-      <span style="padding-left: 5px">{{ item.meta.title }}</span>
+      <div style="font-size: 15px">
+        <IconFont
+          v-if="item.meta && item.meta.icon"
+          :type="item.meta.icon"
+          class="vab-fas-icon"
+        />
+        <span style="padding-left: 5px; font-size: 15px">
+          {{ item.meta.title }}
+        </span>
+      </div>
     </template>
     <slot />
   </el-submenu>
