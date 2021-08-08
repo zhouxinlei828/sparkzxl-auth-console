@@ -5,6 +5,7 @@ const api = {
   saveOrg: '/auth/org/save',
   updateOrg: '/auth/org/update',
   deleteOrg: '/auth/org/delete',
+  saveOrgUser: '/auth/org/users',
 }
 
 export default api
@@ -36,6 +37,14 @@ export function deleteOrg(parameter) {
   return request({
     url: api.deleteOrg,
     method: 'delete',
+    data: parameter,
+  })
+}
+
+export function saveOrgUser(parameter) {
+  return request({
+    url: api.saveOrgUser,
+    method: 'post',
     data: parameter,
   })
 }

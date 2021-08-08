@@ -8,9 +8,7 @@
           </div>
           <el-form :inline="true" size="small">
             <el-form-item>
-              <el-input v-model="filterText" placeholder="输入关键字进行过滤">
-                >
-              </el-input>
+              <el-input v-model="filterText" placeholder="输入关键字进行过滤" />
             </el-form-item>
             <el-form-item>
               <el-button

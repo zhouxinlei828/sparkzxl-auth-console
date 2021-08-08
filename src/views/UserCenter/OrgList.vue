@@ -77,19 +77,26 @@
           <el-link type="primary">
             <IconFont type="icon-edit" @click="handleEdit(row)" />
           </el-link>
+          <el-divider direction="vertical"></el-divider>
+          <el-link type="primary">
+            <el-button type="text" @click="handleOrgUser(row)">用户</el-button>
+          </el-link>
         </template>
       </el-table-column>
     </el-table>
     <org-edit-form ref="editForm" @fetch-data="getOrgList" />
+    <org-user-form ref="orgUserForm" @fetch-data="getOrgList" />
   </div>
 </template>
 
 <script>
   import { deleteOrg, getOrgList } from '@/api/org'
   import OrgEditForm from './modules/OrgEditForm'
+  import OrgUserForm from './modules/OrgUserForm'
   export default {
     components: {
       OrgEditForm,
+      OrgUserForm,
     },
     data() {
       return {
@@ -123,7 +130,7 @@
           describe: null,
           status: '1',
           sortValue: 1,
-          attribute: null,
+          extendInfo: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -136,9 +143,15 @@
           status: record.status === true ? '1' : '2',
           describe: record.describe,
           sortValue: record.sortValue,
-          attribute: record.attribute,
+          extendInfo: record.extendInfo,
         }
         this.$refs['editForm'].showDialog(data)
+      },
+      handleOrgUser(record) {
+        const data = {
+          id: record.id,
+        }
+        this.$refs['orgUserForm'].showDialog(data)
       },
       handleDelete(id) {
         deleteOrg({ ids: [id] }).then((response) => {

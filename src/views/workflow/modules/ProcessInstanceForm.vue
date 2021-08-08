@@ -195,7 +195,6 @@
             }
             this.processHistoryTimeline.push(data)
           }
-          console.log(this.processHistoryTimeline)
         })
       },
       closeDialog() {

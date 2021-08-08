@@ -30,7 +30,7 @@
         />
       </el-form-item>
     </el-form>
-    <el-divider content-position="left">角色自定义属性</el-divider>
+    <el-divider content-position="left">角色扩展信息</el-divider>
     <div class="filter-container">
       <el-button
         size="small"
@@ -94,8 +94,6 @@
           code: null,
           name: null,
           status: '1',
-          describe: null,
-          attribute: null,
         },
         attributes: [],
         rules: {
@@ -114,14 +112,13 @@
       showDialog(data) {
         if (data.id !== undefined) {
           this.title = '修改角色'
-          this.attributes = objToArray(data.attribute)
+          this.attributes = objToArray(data.extendInfo)
         } else {
           this.title = '新增角色'
           this.attributes = []
         }
         this.dialogFormVisible = true
         this.form = data
-        console.log(this.attributes)
       },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {
@@ -129,15 +126,15 @@
             const status = parseInt(this.form.status) === 1
             const submitData = this.form
             submitData.status = status
-            const attribute = {}
+            const extendInfo = {}
             const attributes = this.attributes
             if (attributes.length > 0) {
               for (const data of attributes) {
-                attribute[data.attributeKey] = data.attributeValue
+                extendInfo[data.attributeKey] = data.attributeValue
               }
-              submitData.attribute = attribute
+              submitData.extendInfo = extendInfo
             } else {
-              submitData.attribute = null
+              submitData.extendInfo = null
             }
             if (submitData.id !== undefined) {
               updateRole(submitData).then((response) => {
@@ -182,7 +179,6 @@
       },
       handleDeleteRoleAttribute(index) {
         this.attributes.splice(index, 1)
-        console.log(this.attributes)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()

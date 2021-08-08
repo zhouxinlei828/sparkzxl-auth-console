@@ -317,7 +317,6 @@
           iconData.push(icon)
         }
         this.iconData = iconData
-        console.log(iconData)
       },
       handleIconSelect(key) {
         this.iconVisible = !this.iconVisible

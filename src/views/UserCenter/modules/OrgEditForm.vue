@@ -41,7 +41,7 @@
         <el-input-number v-model="form.sortValue" :min="1" :max="100" />
       </el-form-item>
     </el-form>
-    <el-divider content-position="left">组织自定义属性</el-divider>
+    <el-divider content-position="left">组织扩展信息</el-divider>
     <div class="filter-container">
       <el-button
         size="small"
@@ -109,7 +109,6 @@
           describe: null,
           status: '1',
           sortValue: 1,
-          attribute: null,
         },
         orgTreeData: [],
         attributes: [],
@@ -140,14 +139,13 @@
         this.getOrgTreeList()
         if (data.id !== undefined) {
           this.title = '修改组织'
-          this.attributes = objToArray(data.attribute)
+          this.attributes = objToArray(data.extendInfo)
         } else {
           this.title = '新增组织'
           this.attributes = []
         }
         this.dialogFormVisible = true
         this.form = data
-        console.log(this.attributes)
       },
       loadListOptions({ callback }) {
         callback()
@@ -169,15 +167,15 @@
           if (valid) {
             const submitData = this.form
             submitData.status = this.form.status === 1
-            const attribute = {}
+            const extendInfo = {}
             const attributes = this.attributes
             if (attributes.length > 0) {
               for (const data of attributes) {
-                attribute[data.attributeKey] = data.attributeValue
+                extendInfo[data.attributeKey] = data.attributeValue
               }
-              submitData.attribute = attribute
+              submitData.extendInfo = extendInfo
             } else {
-              submitData.attribute = null
+              submitData.extendInfo = null
             }
             if (submitData.id != null) {
               updateOrg(submitData).then((response) => {
@@ -222,7 +220,6 @@
       },
       handleDeleteOrgAttributes(index) {
         this.attributes.splice(index, 1)
-        console.log(this.form.attribute)
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()

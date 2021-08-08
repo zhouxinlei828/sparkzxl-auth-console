@@ -196,7 +196,7 @@
           name: null,
           status: '1',
           describe: null,
-          attribute: null,
+          extendInfo: null,
         }
         this.$refs['editForm'].showDialog(createData)
       },
@@ -207,7 +207,7 @@
           name: record.name,
           status: record.status === true ? '1' : '2',
           describe: record.describe,
-          attribute: record.attribute,
+          extendInfo: record.extendInfo,
         }
         this.$refs['editForm'].showDialog(data)
       },

@@ -78,7 +78,6 @@
         }
         this.dialogFormVisible = true
         this.form = data
-        console.log(this.attributes)
       },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {

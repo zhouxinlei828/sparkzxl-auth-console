@@ -197,7 +197,6 @@
       },
       handleEdit(id) {
         let flowChartSrc = ''
-        console.log(process.env.NODE_ENV)
         if (process.env.NODE_ENV === 'development') {
           flowChartSrc = `${process.env.VUE_APP_ACT_BASE_URL}`.concat(id)
         } else {
