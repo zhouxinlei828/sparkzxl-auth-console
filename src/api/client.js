@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 const api = {
-  applicationList: '/auth/application/page',
-  saveApplication: '/auth/application/save',
-  updateApplication: '/auth/application/update',
-  deleteApplication: '/auth/application/delete',
+  applicationList: '/oauth/application/page',
+  saveApplication: '/oauth/application/save',
+  updateApplication: '/oauth/application/update',
+  deleteApplication: '/oauth/application/delete',
 }
 export function getApplicationPageList(parameter) {
   return request({
