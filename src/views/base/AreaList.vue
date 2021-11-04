@@ -93,7 +93,7 @@
                 <el-radio-button label="country">国家</el-radio-button>
                 <el-radio-button label="province">省份/直辖市</el-radio-button>
                 <el-radio-button label="city">地市</el-radio-button>
-                <el-radio-button label="county">区县</el-radio-button>
+                <el-radio-button label="district">区县</el-radio-button>
                 <el-radio-button label="towns">乡镇</el-radio-button>
               </el-radio-group>
             </el-form-item>
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-  import { getAreaTree, saveArea, updateArea, deleteArea } from '@/api/area'
+  import { deleteArea, getAreaTree, saveArea, updateArea } from '@/api/area'
 
   export default {
     data() {
@@ -130,6 +130,7 @@
         areaData: [],
         filterText: '',
         title: '新增地区',
+        flag: 0,
         buttonName: '新增',
         parentId: 0,
         form: {
@@ -182,12 +183,15 @@
           level: 'country',
           sortNumber: 1,
         }
+        console.log(this.form)
+        this.flag = 0
       },
       handleSave() {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             const submitData = this.form
-            if (submitData.id !== null) {
+            debugger
+            if (this.flag === 1) {
               updateArea(submitData).then((response) => {
                 const responseData = response.data
                 if (responseData) {
@@ -217,7 +221,10 @@
       },
       handleDelete() {
         const checkedKeys = this.$refs['area-tree'].getCheckedKeys()
-        deleteArea(checkedKeys).then((response) => {
+        const data = {
+          ids: checkedKeys,
+        }
+        deleteArea(data).then((response) => {
           const responseData = response.data
           if (responseData) {
             this.$message.success('删除地区成功')
@@ -249,6 +256,7 @@
           level: data.level == null ? 'country' : data.level,
           sortNumber: data.sortNumber,
         }
+        this.flag = 1
       },
       resetForm() {
         this.$refs['ruleForm'].resetFields()

@@ -32,7 +32,8 @@ export function updateArea(parameter) {
 
 export function deleteArea(parameter) {
   return request({
-    url: api.deleteArea.concat('?ids[]=').concat(parameter),
+    url: api.deleteArea,
     method: 'delete',
+    data: parameter,
   })
 }
