@@ -54,7 +54,7 @@
       ></el-table-column>
       <el-table-column prop="abbreviation" label="组织简称"></el-table-column>
       <el-table-column prop="describe" label="组织描述"></el-table-column>
-      <el-table-column prop="sortValue" label="排序"></el-table-column>
+      <el-table-column prop="sortNumber" label="排序"></el-table-column>
       <el-table-column prop="status" align="center" label="状态" width="80">
         <template #default="{ row }">
           <el-tag
@@ -129,7 +129,7 @@
           abbreviation: null,
           describe: null,
           status: '1',
-          sortValue: 1,
+          sortNumber: 1,
           extendInfo: null,
         }
         this.$refs['editForm'].showDialog(createData)
@@ -142,7 +142,7 @@
           abbreviation: record.abbreviation,
           status: record.status === true ? '1' : '2',
           describe: record.describe,
-          sortValue: record.sortValue,
+          sortNumber: record.sortNumber,
           extendInfo: record.extendInfo,
         }
         this.$refs['editForm'].showDialog(data)

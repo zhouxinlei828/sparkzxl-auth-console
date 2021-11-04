@@ -70,10 +70,10 @@ const actions = {
       Vue.prototype.$baseMessage('获取用户信息失败，请重新登录...', 'error')
       return false
     }
-    let { name, avatar, roleBasicInfos } = data
+    let { name, avatar, roleList } = data
     commit('setUsername', name)
     commit('setAvatar', avatar)
-    commit('setRoles', roleBasicInfos)
+    commit('setRoles', roleList)
     setUserInfo(data)
     return true
   },

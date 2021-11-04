@@ -164,9 +164,9 @@
           <el-radio v-model="form.isEnable" label="2">禁用</el-radio>
         </div>
       </el-form-item>
-      <el-form-item label="菜单排序:" prop="sortValue">
+      <el-form-item label="菜单排序:" prop="sortNumber">
         <el-input-number
-          v-model="form.sortValue"
+          v-model="form.sortNumber"
           class="edit-form-item"
           controls-position="right"
           :min="1"
@@ -209,7 +209,7 @@
           label: '顶级菜单',
           icon: 'icon-home1',
           parentId: null,
-          sortValue: 1,
+          sortNumber: 1,
           children: null,
         },
         menuTree: [],
@@ -268,7 +268,7 @@
           component: null,
           componentName: null,
           isEnable: '1',
-          sortValue: 1,
+          sortNumber: 1,
           describe: null,
         },
         rules: {

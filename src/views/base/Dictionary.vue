@@ -236,7 +236,7 @@
           path: '',
           component: '',
           isEnable: '1',
-          sortValue: 1,
+          sortNumber: 1,
           describe: '',
         },
         queryForm: {

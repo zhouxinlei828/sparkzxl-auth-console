@@ -74,11 +74,11 @@ instance.interceptors.request.use(
         config.headers[tokenHeaderKey] = token
       }
     }
-    const tenantHeader = config.headers['tenant']
+    const tenantHeader = config.headers['tenantId']
     if (tenantHeader === undefined || tenantHeader === '') {
-      const tenant = getTenant()
-      if (tenant !== null && tenant !== undefined) {
-        config.headers['tenant'] = tenant
+      const tenantId = getTenant()
+      if (tenantId !== null && tenantId !== undefined) {
+        config.headers['tenantId'] = tenantId
       }
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

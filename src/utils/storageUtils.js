@@ -42,34 +42,34 @@ export function removeAccessToken() {
   }
 }
 
-export function setTenant(tenant) {
+export function setTenant(tenantId) {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('tenantId', tenantId)
     } else if ('sessionStorage' === storage) {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('tenantId', tenantId)
     } else {
-      return localStorage.setItem('tenant', tenant)
+      return localStorage.setItem('tenantId', tenantId)
     }
   } else {
-    return localStorage.setItem('tenant', tenant)
+    return localStorage.setItem('tenantId', tenantId)
   }
 }
 
 export function getTenant() {
-  let tenant
+  let tenantId
   if (storage) {
     if ('localStorage' === storage) {
-      tenant = localStorage.getItem('tenant')
+      tenantId = localStorage.getItem('tenantId')
     } else if ('sessionStorage' === storage) {
-      tenant = sessionStorage.getItem('tenant')
+      tenantId = sessionStorage.getItem('tenantId')
     } else {
-      tenant = localStorage.getItem('tenant')
+      tenantId = localStorage.getItem('tenantId')
     }
   } else {
-    tenant = localStorage.getItem('tenant')
+    tenantId = localStorage.getItem('tenantId')
   }
-  return tenant
+  return tenantId
 }
 
 export function setUserInfo(userInfo) {

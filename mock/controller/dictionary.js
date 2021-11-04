@@ -26,7 +26,7 @@ module.exports = [
             name: '汉族',
             status: true,
             describe: '',
-            sortValue: 0,
+            sortNumber: 0,
           },
           {
             id: '44',
@@ -40,7 +40,7 @@ module.exports = [
             name: '壮族',
             status: true,
             describe: '',
-            sortValue: 1,
+            sortNumber: 1,
           },
           {
             id: '45',
@@ -54,7 +54,7 @@ module.exports = [
             name: '满族',
             status: true,
             describe: '',
-            sortValue: 2,
+            sortNumber: 2,
           },
           {
             id: '46',
@@ -68,7 +68,7 @@ module.exports = [
             name: '回族',
             status: true,
             describe: '',
-            sortValue: 3,
+            sortNumber: 3,
           },
           {
             id: '47',
@@ -82,7 +82,7 @@ module.exports = [
             name: '苗族',
             status: true,
             describe: '',
-            sortValue: 4,
+            sortNumber: 4,
           },
           {
             id: '48',
@@ -96,7 +96,7 @@ module.exports = [
             name: '维吾尔族',
             status: true,
             describe: '',
-            sortValue: 5,
+            sortNumber: 5,
           },
           {
             id: '49',
@@ -110,7 +110,7 @@ module.exports = [
             name: '土家族',
             status: true,
             describe: '',
-            sortValue: 6,
+            sortNumber: 6,
           },
           {
             id: '50',
@@ -124,7 +124,7 @@ module.exports = [
             name: '彝族',
             status: true,
             describe: '',
-            sortValue: 7,
+            sortNumber: 7,
           },
           {
             id: '51',
@@ -138,7 +138,7 @@ module.exports = [
             name: '蒙古族',
             status: true,
             describe: '',
-            sortValue: 8,
+            sortNumber: 8,
           },
           {
             id: '52',
@@ -152,7 +152,7 @@ module.exports = [
             name: '藏族',
             status: true,
             describe: '',
-            sortValue: 9,
+            sortNumber: 9,
           },
           {
             id: '53',
@@ -166,7 +166,7 @@ module.exports = [
             name: '布依族',
             status: true,
             describe: '',
-            sortValue: 10,
+            sortNumber: 10,
           },
           {
             id: '54',
@@ -180,7 +180,7 @@ module.exports = [
             name: '侗族',
             status: true,
             describe: '',
-            sortValue: 11,
+            sortNumber: 11,
           },
           {
             id: '55',
@@ -194,7 +194,7 @@ module.exports = [
             name: '瑶族',
             status: true,
             describe: '',
-            sortValue: 12,
+            sortNumber: 12,
           },
           {
             id: '56',
@@ -208,7 +208,7 @@ module.exports = [
             name: '朝鲜族',
             status: true,
             describe: '',
-            sortValue: 13,
+            sortNumber: 13,
           },
           {
             id: '57',
@@ -222,7 +222,7 @@ module.exports = [
             name: '白族',
             status: true,
             describe: '',
-            sortValue: 14,
+            sortNumber: 14,
           },
           {
             id: '58',
@@ -236,7 +236,7 @@ module.exports = [
             name: '哈尼族',
             status: true,
             describe: '',
-            sortValue: 15,
+            sortNumber: 15,
           },
           {
             id: '59',
@@ -250,7 +250,7 @@ module.exports = [
             name: '哈萨克族',
             status: true,
             describe: '',
-            sortValue: 16,
+            sortNumber: 16,
           },
           {
             id: '60',
@@ -264,7 +264,7 @@ module.exports = [
             name: '黎族',
             status: true,
             describe: '',
-            sortValue: 17,
+            sortNumber: 17,
           },
           {
             id: '61',
@@ -278,7 +278,7 @@ module.exports = [
             name: '傣族',
             status: true,
             describe: '',
-            sortValue: 18,
+            sortNumber: 18,
           },
           {
             id: '62',
@@ -292,7 +292,7 @@ module.exports = [
             name: '畲族',
             status: true,
             describe: '',
-            sortValue: 19,
+            sortNumber: 19,
           },
           {
             id: '63',
@@ -306,7 +306,7 @@ module.exports = [
             name: '傈僳族',
             status: true,
             describe: '',
-            sortValue: 20,
+            sortNumber: 20,
           },
           {
             id: '64',
@@ -320,7 +320,7 @@ module.exports = [
             name: '仡佬族',
             status: true,
             describe: '',
-            sortValue: 21,
+            sortNumber: 21,
           },
           {
             id: '65',
@@ -334,7 +334,7 @@ module.exports = [
             name: '东乡族',
             status: true,
             describe: '',
-            sortValue: 22,
+            sortNumber: 22,
           },
           {
             id: '66',
@@ -348,7 +348,7 @@ module.exports = [
             name: '高山族',
             status: true,
             describe: '',
-            sortValue: 23,
+            sortNumber: 23,
           },
           {
             id: '67',
@@ -362,7 +362,7 @@ module.exports = [
             name: '拉祜族',
             status: true,
             describe: '',
-            sortValue: 24,
+            sortNumber: 24,
           },
           {
             id: '68',
@@ -376,7 +376,7 @@ module.exports = [
             name: '水族',
             status: true,
             describe: '',
-            sortValue: 25,
+            sortNumber: 25,
           },
           {
             id: '69',
@@ -390,7 +390,7 @@ module.exports = [
             name: '佤族',
             status: true,
             describe: '',
-            sortValue: 26,
+            sortNumber: 26,
           },
           {
             id: '70',
@@ -404,7 +404,7 @@ module.exports = [
             name: '纳西族',
             status: true,
             describe: '',
-            sortValue: 27,
+            sortNumber: 27,
           },
           {
             id: '71',
@@ -418,7 +418,7 @@ module.exports = [
             name: '羌族',
             status: true,
             describe: '',
-            sortValue: 28,
+            sortNumber: 28,
           },
           {
             id: '72',
@@ -432,7 +432,7 @@ module.exports = [
             name: '土族',
             status: true,
             describe: '',
-            sortValue: 29,
+            sortNumber: 29,
           },
           {
             id: '73',
@@ -446,7 +446,7 @@ module.exports = [
             name: '仫佬族',
             status: true,
             describe: '',
-            sortValue: 30,
+            sortNumber: 30,
           },
           {
             id: '74',
@@ -460,7 +460,7 @@ module.exports = [
             name: '锡伯族',
             status: true,
             describe: '',
-            sortValue: 31,
+            sortNumber: 31,
           },
           {
             id: '75',
@@ -474,7 +474,7 @@ module.exports = [
             name: '柯尔克孜族',
             status: true,
             describe: '',
-            sortValue: 32,
+            sortNumber: 32,
           },
           {
             id: '76',
@@ -488,7 +488,7 @@ module.exports = [
             name: '达斡尔族',
             status: true,
             describe: '',
-            sortValue: 33,
+            sortNumber: 33,
           },
           {
             id: '77',
@@ -502,7 +502,7 @@ module.exports = [
             name: '景颇族',
             status: true,
             describe: '',
-            sortValue: 34,
+            sortNumber: 34,
           },
           {
             id: '78',
@@ -516,7 +516,7 @@ module.exports = [
             name: '毛南族',
             status: true,
             describe: '',
-            sortValue: 35,
+            sortNumber: 35,
           },
           {
             id: '79',
@@ -530,7 +530,7 @@ module.exports = [
             name: '撒拉族',
             status: true,
             describe: '',
-            sortValue: 36,
+            sortNumber: 36,
           },
           {
             id: '80',
@@ -544,7 +544,7 @@ module.exports = [
             name: '塔吉克族',
             status: true,
             describe: '',
-            sortValue: 37,
+            sortNumber: 37,
           },
           {
             id: '81',
@@ -558,7 +558,7 @@ module.exports = [
             name: '阿昌族',
             status: true,
             describe: '',
-            sortValue: 38,
+            sortNumber: 38,
           },
           {
             id: '82',
@@ -572,7 +572,7 @@ module.exports = [
             name: '普米族',
             status: true,
             describe: '',
-            sortValue: 39,
+            sortNumber: 39,
           },
           {
             id: '83',
@@ -586,7 +586,7 @@ module.exports = [
             name: '鄂温克族',
             status: true,
             describe: '',
-            sortValue: 40,
+            sortNumber: 40,
           },
           {
             id: '84',
@@ -600,7 +600,7 @@ module.exports = [
             name: '怒族',
             status: true,
             describe: '',
-            sortValue: 41,
+            sortNumber: 41,
           },
           {
             id: '85',
@@ -614,7 +614,7 @@ module.exports = [
             name: '京族',
             status: true,
             describe: '',
-            sortValue: 42,
+            sortNumber: 42,
           },
           {
             id: '86',
@@ -628,7 +628,7 @@ module.exports = [
             name: '基诺族',
             status: true,
             describe: '',
-            sortValue: 43,
+            sortNumber: 43,
           },
           {
             id: '87',
@@ -642,7 +642,7 @@ module.exports = [
             name: '德昂族',
             status: true,
             describe: '',
-            sortValue: 44,
+            sortNumber: 44,
           },
           {
             id: '88',
@@ -656,7 +656,7 @@ module.exports = [
             name: '保安族',
             status: true,
             describe: '',
-            sortValue: 45,
+            sortNumber: 45,
           },
           {
             id: '89',
@@ -670,7 +670,7 @@ module.exports = [
             name: '俄罗斯族',
             status: true,
             describe: '',
-            sortValue: 46,
+            sortNumber: 46,
           },
           {
             id: '90',
@@ -684,7 +684,7 @@ module.exports = [
             name: '裕固族',
             status: true,
             describe: '',
-            sortValue: 47,
+            sortNumber: 47,
           },
           {
             id: '91',
@@ -698,7 +698,7 @@ module.exports = [
             name: '乌兹别克族',
             status: true,
             describe: '',
-            sortValue: 48,
+            sortNumber: 48,
           },
           {
             id: '92',
@@ -712,7 +712,7 @@ module.exports = [
             name: '门巴族',
             status: true,
             describe: '',
-            sortValue: 49,
+            sortNumber: 49,
           },
           {
             id: '93',
@@ -726,7 +726,7 @@ module.exports = [
             name: '鄂伦春族',
             status: true,
             describe: '',
-            sortValue: 50,
+            sortNumber: 50,
           },
           {
             id: '94',
@@ -740,7 +740,7 @@ module.exports = [
             name: '独龙族',
             status: true,
             describe: '',
-            sortValue: 51,
+            sortNumber: 51,
           },
           {
             id: '95',
@@ -754,7 +754,7 @@ module.exports = [
             name: '塔塔尔族',
             status: true,
             describe: '',
-            sortValue: 52,
+            sortNumber: 52,
           },
           {
             id: '96',
@@ -768,7 +768,7 @@ module.exports = [
             name: '赫哲族',
             status: true,
             describe: '',
-            sortValue: 53,
+            sortNumber: 53,
           },
           {
             id: '97',
@@ -782,7 +782,7 @@ module.exports = [
             name: '珞巴族',
             status: true,
             describe: '',
-            sortValue: 54,
+            sortNumber: 54,
           },
           {
             id: '98',
@@ -796,7 +796,7 @@ module.exports = [
             name: '布朗族',
             status: true,
             describe: '',
-            sortValue: 55,
+            sortNumber: 55,
           },
           {
             id: '1237040064488275968',
@@ -810,7 +810,7 @@ module.exports = [
             name: '其他',
             status: true,
             describe: '',
-            sortValue: 100,
+            sortNumber: 100,
           },
         ],
       }
@@ -833,7 +833,7 @@ module.exports = [
             updateTime: 1609594287000,
             label: '天宇科技有限公司',
             parentId: '0',
-            sortValue: 1,
+            sortNumber: 1,
             children: [
               {
                 id: '101',
@@ -843,7 +843,7 @@ module.exports = [
                 updateTime: 1609594407000,
                 label: '天宇科技有限公司杭州分公司',
                 parentId: '100',
-                sortValue: 1,
+                sortNumber: 1,
                 children: [
                   {
                     id: '643775612976106881',
@@ -853,7 +853,7 @@ module.exports = [
                     updateTime: 1603717734000,
                     label: '综合部',
                     parentId: '101',
-                    sortValue: 1,
+                    sortNumber: 1,
                     children: null,
                     abbreviation: '综合部',
                     treePath: ',100,101,',
@@ -868,7 +868,7 @@ module.exports = [
                     updateTime: 1602067802000,
                     label: '研发部',
                     parentId: '101',
-                    sortValue: 2,
+                    sortNumber: 2,
                     children: null,
                     abbreviation: '',
                     treePath: ',100,101,',
@@ -883,7 +883,7 @@ module.exports = [
                     updateTime: 1602067808000,
                     label: '产品部',
                     parentId: '101',
-                    sortValue: 3,
+                    sortNumber: 3,
                     children: null,
                     abbreviation: '',
                     treePath: ',100,101,',
@@ -898,7 +898,7 @@ module.exports = [
                     updateTime: 1602067815000,
                     label: '销售部',
                     parentId: '101',
-                    sortValue: 4,
+                    sortNumber: 4,
                     children: null,
                     abbreviation: '',
                     treePath: ',',
@@ -919,7 +919,7 @@ module.exports = [
                 updateTime: 1609594578000,
                 label: '天宇科技有限公司上海分公司',
                 parentId: '100',
-                sortValue: 2,
+                sortNumber: 2,
                 children: [
                   {
                     id: '643776668917305985',
@@ -929,7 +929,7 @@ module.exports = [
                     updateTime: 1573529919000,
                     label: '综合部',
                     parentId: '102',
-                    sortValue: 0,
+                    sortNumber: 0,
                     children: null,
                     abbreviation: '',
                     treePath: ',100,102,',
@@ -944,7 +944,7 @@ module.exports = [
                     updateTime: 1602067909000,
                     label: '研发部',
                     parentId: '102',
-                    sortValue: 2,
+                    sortNumber: 2,
                     children: null,
                     abbreviation: '',
                     treePath: ',100,102,',
@@ -959,7 +959,7 @@ module.exports = [
                     updateTime: 1602067911000,
                     label: '销售部',
                     parentId: '102',
-                    sortValue: 3,
+                    sortNumber: 3,
                     children: null,
                     abbreviation: '',
                     treePath: ',100,102,',
@@ -980,7 +980,7 @@ module.exports = [
                 updateTime: 1573529776000,
                 label: '管理层',
                 parentId: '100',
-                sortValue: 3,
+                sortNumber: 3,
                 children: null,
                 abbreviation: '',
                 treePath: ',100,',
@@ -995,7 +995,7 @@ module.exports = [
                 updateTime: 1602067832000,
                 label: '总经办',
                 parentId: '100',
-                sortValue: 4,
+                sortNumber: 4,
                 children: null,
                 abbreviation: '',
                 treePath: ',100,',
@@ -1010,7 +1010,7 @@ module.exports = [
                 updateTime: 1602067839000,
                 label: '财务部',
                 parentId: '100',
-                sortValue: 5,
+                sortNumber: 5,
                 children: null,
                 abbreviation: '',
                 treePath: ',100,',
@@ -1025,7 +1025,7 @@ module.exports = [
                 updateTime: 1602067858000,
                 label: '市场部',
                 parentId: '100',
-                sortValue: 6,
+                sortNumber: 6,
                 children: null,
                 abbreviation: '',
                 treePath: ',100,',
@@ -1040,7 +1040,7 @@ module.exports = [
                 updateTime: 1602067847000,
                 label: '销售部',
                 parentId: '100',
-                sortValue: 7,
+                sortNumber: 7,
                 children: null,
                 abbreviation: '',
                 treePath: ',100,',

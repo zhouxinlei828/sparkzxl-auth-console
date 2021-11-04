@@ -37,8 +37,8 @@
         <el-radio v-model="form.status" label="2">禁用</el-radio>
       </el-form-item>
       <br />
-      <el-form-item label="排序值:" prop="sortValue">
-        <el-input-number v-model="form.sortValue" :min="1" :max="100" />
+      <el-form-item label="排序值:" prop="sortNumber">
+        <el-input-number v-model="form.sortNumber" :min="1" :max="100" />
       </el-form-item>
     </el-form>
     <el-divider content-position="left">组织扩展信息</el-divider>
@@ -108,7 +108,7 @@
           abbreviation: null,
           describe: null,
           status: '1',
-          sortValue: 1,
+          sortNumber: 1,
         },
         orgTreeData: [],
         attributes: [],
@@ -116,7 +116,7 @@
           id: '0',
           label: '顶级组织',
           parentId: null,
-          sortValue: 1,
+          sortNumber: 1,
           children: null,
         },
         rules: {

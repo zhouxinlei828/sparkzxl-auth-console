@@ -74,15 +74,15 @@
             >
               <el-input v-model="form.parentId" style="width: 320px" />
             </el-form-item>
-            <el-form-item label="编码:" prop="code">
-              <el-input v-model="form.code" style="width: 320px" />
+            <el-form-item label="行政编码:" prop="code">
+              <el-input v-model="form.id" style="width: 320px" />
             </el-form-item>
-            <el-form-item label="名称:" prop="label" required>
+            <el-form-item label="地区名称:" prop="label" required>
               <el-input v-model="form.label" style="width: 320px" />
             </el-form-item>
-            <el-form-item label="排序值:" prop="sortValue">
+            <el-form-item label="排序值:" prop="sortNumber">
               <el-input-number
-                v-model="form.sortValue"
+                v-model="form.sortNumber"
                 :min="1"
                 :max="100"
                 style="width: 320px"
@@ -90,11 +90,11 @@
             </el-form-item>
             <el-form-item label="行政区级:" prop="level">
               <el-radio-group v-model="form.level" size="small">
-                <el-radio-button label="COUNTRY">国家</el-radio-button>
-                <el-radio-button label="PROVINCE">省份/直辖市</el-radio-button>
-                <el-radio-button label="CITY">地市</el-radio-button>
-                <el-radio-button label="COUNTY">区县</el-radio-button>
-                <el-radio-button label="TOWNS">乡镇</el-radio-button>
+                <el-radio-button label="country">国家</el-radio-button>
+                <el-radio-button label="province">省份/直辖市</el-radio-button>
+                <el-radio-button label="city">地市</el-radio-button>
+                <el-radio-button label="county">区县</el-radio-button>
+                <el-radio-button label="towns">乡镇</el-radio-button>
               </el-radio-group>
             </el-form-item>
             <el-form-item>
@@ -136,7 +136,7 @@
           id: null,
           parentId: 0,
           label: '',
-          sortValue: 1,
+          sortNumber: 1,
           level: 'COUNTRY',
         },
         areaId: 0,
@@ -179,8 +179,8 @@
           id: null,
           parentId: this.parentId,
           label: '',
-          level: 'COUNTRY',
-          sortValue: 1,
+          level: 'country',
+          sortNumber: 1,
         }
       },
       handleSave() {
@@ -246,8 +246,8 @@
           id: data.id,
           parentId: data.parentId,
           label: data.label,
-          level: data.level == null ? 'COUNTRY' : data.level,
-          sortValue: data.sortValue,
+          level: data.level == null ? 'country' : data.level,
+          sortNumber: data.sortNumber,
         }
       },
       resetForm() {

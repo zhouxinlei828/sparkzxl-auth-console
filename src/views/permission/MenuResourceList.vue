@@ -57,7 +57,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="sortValue" label="排序" />
+      <el-table-column prop="sortNumber" label="排序" />
       <el-table-column prop="resourceList" label="资源">
         <template #default="{ row }">
           <div v-if="row.resourceList !== null">
@@ -145,7 +145,7 @@
           component: null,
           componentName: null,
           isEnable: '1',
-          sortValue: 1,
+          sortNumber: 1,
           describe: null,
           menuTree: this.menuData,
         }
@@ -164,7 +164,7 @@
           component: row.component,
           componentName: row.componentName,
           isEnable: row.isEnable === true ? '1' : '2',
-          sortValue: row.sortValue,
+          sortNumber: row.sortNumber,
           describe: row.describe,
           menuTree: this.menuData,
         }

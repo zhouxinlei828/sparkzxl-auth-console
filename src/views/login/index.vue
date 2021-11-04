@@ -15,9 +15,9 @@
           <br />
           <span>填写注册人信息</span>
         </div>
-        <el-form-item prop="tenant" required>
+        <el-form-item prop="tenantId" required>
           <el-input
-            v-model="registerForm.tenant"
+            v-model="registerForm.tenantId"
             placeholder="请输入租户"
             class="edit-form-item"
           />
@@ -54,9 +54,9 @@
           <br />
           <span>使用帐号登录</span>
         </div>
-        <el-form-item prop="tenant" required>
+        <el-form-item prop="tenantId" required>
           <el-input
-            v-model="form.tenant"
+            v-model="form.tenantId"
             placeholder="请输入租户"
             class="edit-form-item"
           />
@@ -110,10 +110,10 @@
         form: {
           username: null,
           password: null,
-          tenant: 'hz',
+          tenantId: 'hz',
         },
         registerForm: {
-          tenant: '',
+          tenantId: '',
           username: null,
           password: null,
         },
@@ -122,7 +122,7 @@
           username: [
             { required: true, message: '账户不能为空', trigger: 'blur' },
           ],
-          tenant: [
+          tenantId: [
             { required: true, message: '租户不能为空', trigger: 'blur' },
           ],
           password: [
@@ -144,13 +144,13 @@
       $route: {
         handler(route) {
           this.redirect = (route.query && route.query.redirect) || '/'
-          this.form.tenant = (route.query && route.query.tenant) || 'hz'
+          this.form.tenantId = (route.query && route.query.tenantId) || 'hz'
         },
         immediate: true,
       },
     },
     created() {
-      setTenant(this.form.tenant)
+      setTenant(this.form.tenantId)
     },
     methods: {
       changeRegister() {
@@ -162,7 +162,7 @@
       handleLogin() {
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
-            setTenant(this.form.tenant)
+            setTenant(this.form.tenantId)
             this.$store
               .dispatch('user/login', this.form)
               .then((result) => {
@@ -183,7 +183,7 @@
       handleRegister() {
         this.$refs.registerForm.validate((valid) => {
           if (valid) {
-            setTenant(this.registerForm.tenant)
+            setTenant(this.registerForm.tenantId)
             this.loading = true
             userRegister(this.registerForm).then((response) => {
               const responseData = response.data
