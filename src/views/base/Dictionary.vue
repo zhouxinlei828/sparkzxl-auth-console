@@ -394,7 +394,7 @@
           const responseData = response.data
           if (responseData) {
             this.$message.success('删除字典项成功')
-            this.getDictionaryPage()
+            this.getDictionaryItemList()
           } else {
             this.$message.error('删除字典项成功')
           }
