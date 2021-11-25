@@ -38,7 +38,7 @@
                 style="margin-left: 12px"
                 icon="search"
                 type="primary"
-                @click="getDictionaryPage(1, 10)"
+                @click="getDictionaryPage()"
               >
                 搜索
               </el-button>
@@ -307,7 +307,6 @@
           if (this.dictionaryData.length > 0) {
             const dictionaryId = this.activeData.dictionaryId
             this.currentRow = this.dictionaryData[0]
-            this.$refs.dictionaryTable.setCurrentRow(this.currentRow)
             this.activeData = {
               dictionaryId:
                 dictionaryId === null
@@ -319,8 +318,9 @@
                 .concat('）'),
               activeDictionary: this.dictionaryData[0].name,
             }
+            this.$refs.dictionaryTable.setCurrentRow(this.currentRow)
           }
-          this.getDictionaryItemList()
+          // this.getDictionaryItemList()
         })
       },
       handleAddDictionary() {
