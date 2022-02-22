@@ -182,3 +182,9 @@ export function objToArray(obj) {
   }
   return arr
 }
+export function isNumber(val) {
+  const regPos = /^\d+(\.\d+)?$/ //非负浮点数
+  const regNeg =
+    /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/ //负浮点数
+  return regPos.test(val) || regNeg.test(val)
+}

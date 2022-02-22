@@ -9,7 +9,7 @@ const network = {
   //最长请求时间
   requestTimeout: 15000,
   //操作正常code，支持String、Array、int多种类型
-  successCode: [200, 0],
+  successCode: [200],
   //token过期
   tokenExpiredCode: 2001,
   //无权限code
