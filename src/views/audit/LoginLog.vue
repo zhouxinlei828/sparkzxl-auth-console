@@ -153,7 +153,7 @@
         loginLogPage(params).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
-          this.stationData = result.list
+          this.stationData = result.records
           for (const station of this.stationData) {
             station.loginDate = moment(station.loginDate).format(
               'YYYY-MM-DD HH:mm:ss'

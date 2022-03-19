@@ -179,7 +179,7 @@
         getApplicationPageList(queryModel).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
-          this.stationData = result.list
+          this.stationData = result.records
           for (const station of this.stationData) {
             station.createTime = moment(station.createTime).format(
               'YYYY-MM-DD HH:mm:ss'

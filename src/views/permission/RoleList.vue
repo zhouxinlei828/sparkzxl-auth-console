@@ -181,7 +181,7 @@
         getRoleList(params).then((response) => {
           const responseData = response.data
           this.total = parseInt(responseData.total)
-          this.roleData = responseData.list
+          this.roleData = responseData.records
           for (const model of this.roleData) {
             model.createTime = moment(model.createTime).format(
               'YYYY-MM-DD HH:mm:ss'

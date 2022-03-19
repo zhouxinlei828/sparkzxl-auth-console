@@ -261,7 +261,7 @@
         getTenantPageList(queryParam).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
-          this.tenantPoolData = result.list
+          this.tenantPoolData = result.records
         })
       },
       handleDelete(item) {

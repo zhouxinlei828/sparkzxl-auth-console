@@ -207,7 +207,7 @@
         getUserPage(params).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
-          this.userTableData = result.list
+          this.userTableData = result.records
           for (const model of this.userTableData) {
             model.createTime = moment(model.createTime).format(
               'YYYY-MM-DD HH:mm:ss'

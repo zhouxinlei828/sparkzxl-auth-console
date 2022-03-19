@@ -188,7 +188,7 @@
         getModelList(this.queryParam).then((response) => {
           const responseData = response.data
           this.total = parseInt(responseData.total)
-          this.modelData = responseData.list
+          this.modelData = responseData.records
           this.tableLoading = false
         })
       },

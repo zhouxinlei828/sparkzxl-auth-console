@@ -110,10 +110,10 @@
         <template #default="{ row }">
           <el-tag
             v-if="row.sex !== null"
-            :type="row.sex.code === 1 ? 'primary' : 'success'"
+            :type="row.sex === 1 ? 'primary' : 'success'"
             disable-transitions
           >
-            {{ row.sex.desc }}
+            {{ row.sexDesc }}
           </el-tag>
         </template>
       </el-table-column>
@@ -253,7 +253,7 @@
         getUserPage(params).then((response) => {
           const result = response.data
           this.total = parseInt(result.total)
-          this.userTableData = result.list
+          this.userTableData = result.records
           for (const model of this.userTableData) {
             model.createTime = moment(model.createTime).format(
               'YYYY-MM-DD HH:mm:ss'

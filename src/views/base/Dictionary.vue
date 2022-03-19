@@ -303,7 +303,7 @@
         getDictionaryPage(params).then((response) => {
           const responseData = response.data
           this.total = parseInt(responseData.total)
-          this.dictionaryData = responseData.list
+          this.dictionaryData = responseData.records
           if (this.dictionaryData.length > 0) {
             const dictionaryId = this.activeData.dictionaryId
             this.currentRow = this.dictionaryData[0]

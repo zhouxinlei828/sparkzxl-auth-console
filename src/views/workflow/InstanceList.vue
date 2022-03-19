@@ -214,7 +214,7 @@
             id: 1,
             name: '正常',
           }
-          for (const data of responseData.list) {
+          for (const data of responseData.records) {
             data.suspensionState =
               data.suspensionState === 1 ? suspensionState : suspensionStateStop
             if (data.startTime !== null) {
@@ -228,7 +228,7 @@
               )
             }
           }
-          this.modelData = responseData.list
+          this.modelData = responseData.records
           this.tableLoading = false
         })
       },
